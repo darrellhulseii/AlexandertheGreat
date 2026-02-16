@@ -558,16 +558,35 @@
         
         // Generate church organ background music (uncopyrighted procedural music)
         function createChurchMusic() {
-            const duration = 16; // 16 second loop for longer, more varied music
+            const duration = 60; // 60 seconds - full beautiful composition
             const sampleRate = audioContext.sampleRate;
             const buffer = audioContext.createBuffer(2, duration * sampleRate, sampleRate);
             
-            // Extended chord progression for longer piece
-            const chordProgression = [
-                [261.63, 329.63, 392.00, 523.25], // C major (0-4s)
-                [293.66, 349.23, 440.00, 587.33], // D minor (4-8s)
-                [246.94, 329.63, 392.00, 493.88], // G major (8-12s)
-                [261.63, 329.63, 392.00, 523.25]  // C major (12-16s)
+            // Beautiful baroque-style chord progression inspired by Pachelbel's Canon
+            // Each measure is 4 seconds for slow, reverent pacing
+            const measures = [
+                // Opening (0-16s) - Classic I-V-vi-iii-IV-I-IV-V progression
+                { time: 0, chords: [261.63, 329.63, 392.00, 523.25] },    // C major - I
+                { time: 4, chords: [392.00, 493.88, 587.33, 783.99] },    // G major - V
+                { time: 8, chords: [220.00, 277.18, 329.63, 440.00] },    // A minor - vi
+                { time: 12, chords: [164.81, 207.65, 246.94, 329.63] },   // E minor - iii
+                
+                // Development (16-32s)
+                { time: 16, chords: [174.61, 220.00, 261.63, 349.23] },   // F major - IV
+                { time: 20, chords: [261.63, 329.63, 392.00, 523.25] },   // C major - I
+                { time: 24, chords: [174.61, 220.00, 261.63, 349.23] },   // F major - IV
+                { time: 28, chords: [392.00, 493.88, 587.33, 783.99] },   // G major - V
+                
+                // Middle section (32-48s) - Rich modulation
+                { time: 32, chords: [220.00, 277.18, 329.63, 440.00] },   // A minor - vi
+                { time: 36, chords: [174.61, 220.00, 261.63, 349.23] },   // F major - IV
+                { time: 40, chords: [261.63, 329.63, 392.00, 523.25] },   // C major - I
+                { time: 44, chords: [392.00, 493.88, 587.33, 783.99] },   // G major - V
+                
+                // Grand finale (48-60s) - Return home with suspension
+                { time: 48, chords: [220.00, 277.18, 329.63, 440.00] },   // A minor - vi
+                { time: 52, chords: [196.00, 246.94, 293.66, 392.00] },   // G major sus - V
+                { time: 56, chords: [261.63, 329.63, 392.00, 523.25] }    // C major - I (final)
             ];
             
             for (let channel = 0; channel < 2; channel++) {
@@ -575,32 +594,89 @@
                 
                 for (let i = 0; i < data.length; i++) {
                     const t = i / sampleRate;
-                    const chordIndex = Math.floor((t / duration) * 4);
-                    const frequencies = chordProgression[chordIndex];
                     let sample = 0;
                     
-                    // Organ-like harmonics
+                    // Find current measure
+                    let currentMeasure = measures[0];
+                    for (let m = 0; m < measures.length; m++) {
+                        if (t >= measures[m].time) {
+                            currentMeasure = measures[m];
+                        }
+                    }
+                    
+                    const frequencies = currentMeasure.chords;
+                    
+                    // Rich organ voicing with multiple ranks (inspired by Bach's registrations)
                     for (let f = 0; f < frequencies.length; f++) {
                         const freq = frequencies[f];
-                        sample += Math.sin(2 * Math.PI * freq * t) * 0.15;
-                        sample += Math.sin(2 * Math.PI * freq * 2 * t) * 0.08; // Octave
-                        sample += Math.sin(2 * Math.PI * freq * 3 * t) * 0.04; // Harmonics
                         
-                        // Add slow vibrato for organic feel
-                        const vibrato = Math.sin(2 * Math.PI * 4 * t) * 0.003;
-                        sample *= (1 + vibrato);
+                        // Principal 8' (fundamental)
+                        sample += Math.sin(2 * Math.PI * freq * t) * 0.20;
+                        
+                        // Octave 4' (first harmonic)
+                        sample += Math.sin(2 * Math.PI * freq * 2 * t) * 0.12;
+                        
+                        // Quint 2 2/3' (third harmonic)
+                        sample += Math.sin(2 * Math.PI * freq * 3 * t) * 0.08;
+                        
+                        // Super Octave 2' (fourth harmonic)
+                        sample += Math.sin(2 * Math.PI * freq * 4 * t) * 0.05;
+                        
+                        // Sub Bass 16' (pedal tone)
+                        if (f === 0) { // Only on bass note
+                            sample += Math.sin(2 * Math.PI * freq * 0.5 * t) * 0.15;
+                        }
+                        
+                        // Tierce 1 3/5' (fifth harmonic - adds brilliance)
+                        sample += Math.sin(2 * Math.PI * freq * 5 * t) * 0.03;
                     }
                     
-                    // Smooth fade in/out for seamless loop
-                    const fadeTime = 1.0; // 1 second fade
-                    let envelope = 1.0;
+                    // Baroque-style ornamentation (inspired by Bach's preludes)
+                    const ornamentFreq = 4; // Slow trill/vibrato
+                    const ornament = Math.sin(2 * Math.PI * ornamentFreq * t) * 0.004;
+                    sample *= (1 + ornament);
+                    
+                    // Dynamic expression (crescendo and diminuendo like a real organist)
+                    let expression = 1.0;
+                    const measureProgress = (t % 4) / 4; // Position within measure
+                    
+                    // Slight swell at measure midpoint
+                    expression = 0.85 + Math.sin(measureProgress * Math.PI) * 0.15;
+                    
+                    // Overall dynamics (forte -> piano -> forte)
+                    let overallDynamics = 1.0;
+                    if (t < 16) {
+                        overallDynamics = 0.9; // Opening - moderately loud
+                    } else if (t < 32) {
+                        overallDynamics = 1.0; // Development - full
+                    } else if (t < 48) {
+                        overallDynamics = 0.85; // Middle - softer
+                    } else {
+                        overallDynamics = 1.0; // Finale - full again
+                    }
+                    
+                    // Smooth transitions between chords (legato style)
+                    let transitionEnvelope = 1.0;
+                    const timeInMeasure = t % 4;
+                    if (timeInMeasure < 0.1) {
+                        transitionEnvelope = timeInMeasure / 0.1; // Quick attack
+                    } else if (timeInMeasure > 3.8) {
+                        transitionEnvelope = (4 - timeInMeasure) / 0.2; // Smooth release
+                    }
+                    
+                    // Grand loop envelope
+                    let loopEnvelope = 1.0;
+                    const fadeTime = 2.0;
                     if (t < fadeTime) {
-                        envelope = t / fadeTime;
+                        loopEnvelope = Math.pow(t / fadeTime, 0.5); // Smooth fade in
                     } else if (t > duration - fadeTime) {
-                        envelope = (duration - t) / fadeTime;
+                        loopEnvelope = Math.pow((duration - t) / fadeTime, 0.5); // Smooth fade out
                     }
                     
-                    data[i] = sample * envelope * 0.25;
+                    // Final mix with stereo width (slight delay for cathedral ambience)
+                    const stereoDelay = (channel === 1) ? Math.sin(2 * Math.PI * 0.5 * t) * 0.02 : 0;
+                    
+                    data[i] = sample * expression * overallDynamics * transitionEnvelope * loopEnvelope * 0.28 * (1 + stereoDelay);
                 }
             }
             
@@ -653,9 +729,9 @@
             
             // Sharp attack, quick decay for "shing" effect
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01); // 5% volume
-            gainNode.gain.exponentialRampToValueAtTime(0.02, audioContext.currentTime + 0.08);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.22);
+            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 0.01); // 1% volume - very quiet
+            gainNode.gain.exponentialRampToValueAtTime(0.005, audioContext.currentTime + 0.08);
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.22);
             
             // Add slight distortion for metallic texture
             const filter = audioContext.createBiquadFilter();
@@ -688,8 +764,8 @@
             oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.3);
             
-            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime); // 1% volume - very quiet
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.3);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
@@ -708,8 +784,8 @@
             oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E note
             oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G note
             
-            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime); // 1% volume - very quiet
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.5);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
@@ -727,8 +803,8 @@
             oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.1);
             
-            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime); // 1% volume - very quiet
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.1);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
