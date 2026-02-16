@@ -701,58 +701,10 @@
             backgroundMusic = source;
         }
         
-        // Sword unsheathing/slash sound effect - realistic metallic "shing"
+        // Sword slash sound - DISABLED (silent)
         function playSwordSlashSound() {
-            // Create multiple oscillators for complex metallic sound
-            const oscillator1 = audioContext.createOscillator();
-            const oscillator2 = audioContext.createOscillator();
-            const oscillator3 = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            // High-pitched metallic ringing
-            oscillator1.type = 'triangle';
-            oscillator1.frequency.setValueAtTime(2800, audioContext.currentTime);
-            oscillator1.frequency.exponentialRampToValueAtTime(4200, audioContext.currentTime + 0.08);
-            oscillator1.frequency.exponentialRampToValueAtTime(3000, audioContext.currentTime + 0.2);
-            
-            // Mid-range metallic component
-            oscillator2.type = 'sine';
-            oscillator2.frequency.setValueAtTime(1800, audioContext.currentTime);
-            oscillator2.frequency.exponentialRampToValueAtTime(2400, audioContext.currentTime + 0.06);
-            oscillator2.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.18);
-            
-            // Low metallic scrape
-            oscillator3.type = 'sawtooth';
-            oscillator3.frequency.setValueAtTime(800, audioContext.currentTime);
-            oscillator3.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.05);
-            oscillator3.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.15);
-            
-            // Sharp attack, quick decay for "shing" effect
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 0.01); // 1% volume - very quiet
-            gainNode.gain.exponentialRampToValueAtTime(0.005, audioContext.currentTime + 0.08);
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.22);
-            
-            // Add slight distortion for metallic texture
-            const filter = audioContext.createBiquadFilter();
-            filter.type = 'bandpass';
-            filter.frequency.setValueAtTime(2500, audioContext.currentTime);
-            filter.Q.setValueAtTime(0.8, audioContext.currentTime);
-            
-            oscillator1.connect(gainNode);
-            oscillator2.connect(gainNode);
-            oscillator3.connect(gainNode);
-            gainNode.connect(filter);
-            filter.connect(audioContext.destination);
-            
-            const startTime = audioContext.currentTime;
-            oscillator1.start(startTime);
-            oscillator2.start(startTime);
-            oscillator3.start(startTime + 0.005); // Slight delay for scrape effect
-            
-            oscillator1.stop(startTime + 0.22);
-            oscillator2.stop(startTime + 0.22);
-            oscillator3.stop(startTime + 0.22);
+            // Sound effect disabled per user request
+            return;
         }
         
         // Divine special attack sound
@@ -845,7 +797,7 @@
 
         // Three.js Setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x87CEEB); // Bright sky blue
+        scene.background = new THREE.Color(0xA8D8A8); // Light green sky for grass field ambiance
         scene.fog = new THREE.Fog(0xB8E6B8, 60, 280); // Light green fog for grass fields
 
         const canvas = document.getElementById('gameCanvas');
@@ -864,10 +816,10 @@
         camera.lookAt(0, 0, 0);
 
         // Lighting
-        const ambientLight = new THREE.AmbientLight(0x9AB8D3, 0.7);
+        const ambientLight = new THREE.AmbientLight(0xB8E6B8, 0.75); // Light green ambient
         scene.add(ambientLight);
 
-        const sunLight = new THREE.DirectionalLight(0xFFF8E7, 1.2);
+        const sunLight = new THREE.DirectionalLight(0xFFFAE6, 1.2); // Warm sunlight
         sunLight.position.set(70, 60, 50);
         sunLight.castShadow = true;
         sunLight.shadow.mapSize.width = 2048;
@@ -878,11 +830,11 @@
         sunLight.shadow.camera.bottom = -100;
         scene.add(sunLight);
 
-        const fillLight = new THREE.DirectionalLight(0xB0C4DE, 0.5);
+        const fillLight = new THREE.DirectionalLight(0xD4EED4, 0.5); // Green fill light
         fillLight.position.set(-50, 40, -40);
         scene.add(fillLight);
 
-        const hemiLight = new THREE.HemisphereLight(0x87CEEB, 0x4a7d35, 0.8);
+        const hemiLight = new THREE.HemisphereLight(0xA8D8A8, 0x4a7d35, 0.85); // Green sky, green ground
         scene.add(hemiLight);
 
         // Green Grassy Ground
@@ -892,30 +844,34 @@
             canvas.height = 512;
             const ctx = canvas.getContext('2d');
             
-            ctx.fillStyle = '#4a7d35';
+            // Brighter base green
+            ctx.fillStyle = '#5a9d45';
             ctx.fillRect(0, 0, 512, 512);
             
             for (let i = 0; i < 12000; i++) {
                 const x = Math.random() * 512;
                 const y = Math.random() * 512;
-                const greenShade = 70 + Math.random() * 50;
+                const greenShade = 90 + Math.random() * 60; // Brighter greens
                 const grassType = Math.random();
                 
                 if (grassType < 0.7) {
-                    ctx.fillStyle = `rgba(${greenShade * 0.5}, ${greenShade}, ${greenShade * 0.4}, ${0.4 + Math.random() * 0.3})`;
+                    // Vibrant light green
+                    ctx.fillStyle = `rgba(${greenShade * 0.6}, ${greenShade * 1.1}, ${greenShade * 0.5}, ${0.5 + Math.random() * 0.3})`;
                 } else {
-                    ctx.fillStyle = `rgba(${greenShade * 0.3}, ${greenShade * 0.8}, ${greenShade * 0.3}, ${0.5 + Math.random() * 0.3})`;
+                    // Rich medium green
+                    ctx.fillStyle = `rgba(${greenShade * 0.4}, ${greenShade * 0.9}, ${greenShade * 0.4}, ${0.6 + Math.random() * 0.3})`;
                 }
                 
                 const size = Math.random() * 3;
                 ctx.fillRect(x, y, size, size);
             }
             
-            for (let i = 0; i < 400; i++) {
+            // Fewer dirt patches for greener appearance
+            for (let i = 0; i < 200; i++) {
                 const x = Math.random() * 512;
                 const y = Math.random() * 512;
                 const brownShade = 80 + Math.random() * 40;
-                ctx.fillStyle = `rgba(${brownShade}, ${brownShade * 0.7}, ${brownShade * 0.5}, 0.2)`;
+                ctx.fillStyle = `rgba(${brownShade}, ${brownShade * 0.7}, ${brownShade * 0.5}, 0.15)`;
                 ctx.beginPath();
                 ctx.arc(x, y, 3 + Math.random() * 5, 0, Math.PI * 2);
                 ctx.fill();
@@ -932,7 +888,7 @@
         const grassTexture = createGrassTexture();
         const groundMaterial = new THREE.MeshPhongMaterial({ 
             map: grassTexture,
-            color: 0x4a7d35,
+            color: 0x5a9d45, // Brighter, more vibrant green
             shininess: 3
         });
         const ground = new THREE.Mesh(groundGeometry, groundMaterial);
