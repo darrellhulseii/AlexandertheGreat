@@ -552,6 +552,191 @@
             objective: { type: "both", kills: 50, leaders: 8 }
         };
         
+        // Audio Setup
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let backgroundMusic = null;
+        
+        // Generate church organ background music (uncopyrighted procedural music)
+        function createChurchMusic() {
+            const duration = 16; // 16 second loop for longer, more varied music
+            const sampleRate = audioContext.sampleRate;
+            const buffer = audioContext.createBuffer(2, duration * sampleRate, sampleRate);
+            
+            // Extended chord progression for longer piece
+            const chordProgression = [
+                [261.63, 329.63, 392.00, 523.25], // C major (0-4s)
+                [293.66, 349.23, 440.00, 587.33], // D minor (4-8s)
+                [246.94, 329.63, 392.00, 493.88], // G major (8-12s)
+                [261.63, 329.63, 392.00, 523.25]  // C major (12-16s)
+            ];
+            
+            for (let channel = 0; channel < 2; channel++) {
+                const data = buffer.getChannelData(channel);
+                
+                for (let i = 0; i < data.length; i++) {
+                    const t = i / sampleRate;
+                    const chordIndex = Math.floor((t / duration) * 4);
+                    const frequencies = chordProgression[chordIndex];
+                    let sample = 0;
+                    
+                    // Organ-like harmonics
+                    for (let f = 0; f < frequencies.length; f++) {
+                        const freq = frequencies[f];
+                        sample += Math.sin(2 * Math.PI * freq * t) * 0.15;
+                        sample += Math.sin(2 * Math.PI * freq * 2 * t) * 0.08; // Octave
+                        sample += Math.sin(2 * Math.PI * freq * 3 * t) * 0.04; // Harmonics
+                        
+                        // Add slow vibrato for organic feel
+                        const vibrato = Math.sin(2 * Math.PI * 4 * t) * 0.003;
+                        sample *= (1 + vibrato);
+                    }
+                    
+                    // Smooth fade in/out for seamless loop
+                    const fadeTime = 1.0; // 1 second fade
+                    let envelope = 1.0;
+                    if (t < fadeTime) {
+                        envelope = t / fadeTime;
+                    } else if (t > duration - fadeTime) {
+                        envelope = (duration - t) / fadeTime;
+                    }
+                    
+                    data[i] = sample * envelope * 0.25;
+                }
+            }
+            
+            return buffer;
+        }
+        
+        function playBackgroundMusic() {
+            if (backgroundMusic) return;
+            
+            const buffer = createChurchMusic();
+            const source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.loop = true;
+            
+            const gainNode = audioContext.createGain();
+            gainNode.gain.value = 0.30; // 30% volume for background music
+            
+            source.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            source.start(0);
+            
+            backgroundMusic = source;
+        }
+        
+        // Sword unsheathing/slash sound effect - realistic metallic "shing"
+        function playSwordSlashSound() {
+            // Create multiple oscillators for complex metallic sound
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const oscillator3 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            // High-pitched metallic ringing
+            oscillator1.type = 'triangle';
+            oscillator1.frequency.setValueAtTime(2800, audioContext.currentTime);
+            oscillator1.frequency.exponentialRampToValueAtTime(4200, audioContext.currentTime + 0.08);
+            oscillator1.frequency.exponentialRampToValueAtTime(3000, audioContext.currentTime + 0.2);
+            
+            // Mid-range metallic component
+            oscillator2.type = 'sine';
+            oscillator2.frequency.setValueAtTime(1800, audioContext.currentTime);
+            oscillator2.frequency.exponentialRampToValueAtTime(2400, audioContext.currentTime + 0.06);
+            oscillator2.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.18);
+            
+            // Low metallic scrape
+            oscillator3.type = 'sawtooth';
+            oscillator3.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator3.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.05);
+            oscillator3.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.15);
+            
+            // Sharp attack, quick decay for "shing" effect
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.02, audioContext.currentTime + 0.08);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.22);
+            
+            // Add slight distortion for metallic texture
+            const filter = audioContext.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(2500, audioContext.currentTime);
+            filter.Q.setValueAtTime(0.8, audioContext.currentTime);
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            oscillator3.connect(gainNode);
+            gainNode.connect(filter);
+            filter.connect(audioContext.destination);
+            
+            const startTime = audioContext.currentTime;
+            oscillator1.start(startTime);
+            oscillator2.start(startTime);
+            oscillator3.start(startTime + 0.005); // Slight delay for scrape effect
+            
+            oscillator1.stop(startTime + 0.22);
+            oscillator2.stop(startTime + 0.22);
+            oscillator3.stop(startTime + 0.22);
+        }
+        
+        // Divine special attack sound
+        function playDivineSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.3);
+            
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+        
+        // Healing prayer sound
+        function playHealSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C note
+            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E note
+            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G note
+            
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
+        // Hit impact sound
+        function playHitSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
         // Game State
         const gameState = {
             mode: null,
@@ -584,8 +769,8 @@
 
         // Three.js Setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x87CEEB);
-        scene.fog = new THREE.Fog(0x87CEEB, 60, 280);
+        scene.background = new THREE.Color(0x87CEEB); // Bright sky blue
+        scene.fog = new THREE.Fog(0xB8E6B8, 60, 280); // Light green fog for grass fields
 
         const canvas = document.getElementById('gameCanvas');
         const renderer = new THREE.WebGLRenderer({ 
@@ -1031,14 +1216,7 @@
             ally.add(swordGroup);
             ally.sword = swordGroup;
             
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 5 + Math.random() * 3;
-            ally.position.set(
-                Math.cos(angle) * distance,
-                0,
-                Math.sin(angle) * distance
-            );
-            
+            // Position will be set by calling function
             ally.targetEnemy = null;
             ally.attackCooldown = 0;
             ally.isAlly = true;
@@ -1046,6 +1224,31 @@
             ally.health = 80;
             
             return ally;
+        }
+
+        function positionAlliesInFormation(allies) {
+            // Position 10 allies in formation around player
+            const rows = 2;
+            const soldiersPerRow = 5;
+            const rowSpacing = 4;
+            const colSpacing = 3.5;
+            
+            let allyIndex = 0;
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < soldiersPerRow; col++) {
+                    if (allyIndex < allies.length) {
+                        const angle = (col / soldiersPerRow) * Math.PI * 2;
+                        const distance = 8 + (row * rowSpacing);
+                        
+                        allies[allyIndex].position.set(
+                            Math.cos(angle) * distance + (Math.random() - 0.5) * 2,
+                            0,
+                            Math.sin(angle) * distance + (Math.random() - 0.5) * 2
+                        );
+                        allyIndex++;
+                    }
+                }
+            }
         }
 
         function createEnemy() {
@@ -1176,24 +1379,35 @@
                 player = createAlexander();
                 scene.add(player);
                 
-                for (let i = 0; i < 5; i++) {
+                // Create 10 allied soldiers in formation
+                for (let i = 0; i < 10; i++) {
                     const ally = createAlly();
                     gameState.allies.push(ally);
                     scene.add(ally);
                 }
+                positionAlliesInFormation(gameState.allies);
                 
                 gameState.totalLeaders = 8;
                 document.getElementById('totalLeaders').textContent = '8';
                 showAlexanderIntro();
             } else {
+                // Arcade mode
                 player = createJoan();
                 scene.add(player);
                 
-                for (let i = 0; i < 5; i++) {
+                // Create 10 allied soldiers in formation
+                for (let i = 0; i < 10; i++) {
                     const ally = createAlly();
                     gameState.allies.push(ally);
                     scene.add(ally);
                 }
+                positionAlliesInFormation(gameState.allies);
+                
+                // Start background music
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                playBackgroundMusic();
                 
                 gameState.gameStarted = true;
                 animate();
@@ -1215,6 +1429,12 @@
 
         function endCutscene() {
             document.getElementById('cutsceneScreen').classList.add('hidden');
+            
+            // Start background music
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            playBackgroundMusic();
             
             if (gameState.mode === 'story') {
                 showDialogue(gameState.currentChapter);
@@ -1261,11 +1481,13 @@
                 player = createJoan();
                 scene.add(player);
                 
-                for (let i = 0; i < 5; i++) {
+                // Create 10 allied soldiers in formation
+                for (let i = 0; i < 10; i++) {
                     const ally = createAlly();
                     gameState.allies.push(ally);
                     scene.add(ally);
                 }
+                positionAlliesInFormation(gameState.allies);
             }
             
             gameState.questActive = true;
@@ -1280,6 +1502,12 @@
             
             document.getElementById('questLog').classList.remove('hidden');
             document.getElementById('questObjective').textContent = chapter.quest;
+            
+            // Start background music
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            playBackgroundMusic();
             
             gameState.gameStarted = true;
             animate();
@@ -1388,9 +1616,63 @@
                 specialAttack();
             }
         }, { passive: false });
+        
+        document.getElementById('prayButton').addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            if (gameState.gameStarted) {
+                prayForLeader();
+            }
+        }, { passive: false });
+        
+        function prayForLeader() {
+            // Heal player by 15 HP
+            gameState.health = Math.min(gameState.maxHealth, gameState.health + 15);
+            updateUI();
+            
+            // Play healing sound
+            playHealSound();
+            
+            // Create healing effect
+            createHealingEffect(player.position);
+            
+            // Flash effect
+            const flashDiv = document.createElement('div');
+            flashDiv.style.position = 'fixed';
+            flashDiv.style.top = '0';
+            flashDiv.style.left = '0';
+            flashDiv.style.width = '100%';
+            flashDiv.style.height = '100%';
+            flashDiv.style.background = 'rgba(255, 215, 0, 0.3)';
+            flashDiv.style.pointerEvents = 'none';
+            flashDiv.style.zIndex = '50';
+            document.body.appendChild(flashDiv);
+            
+            setTimeout(function() {
+                document.body.removeChild(flashDiv);
+            }, 500);
+            
+            // Find and mark nearest leader (if any)
+            if (gameState.leaders.length > 0) {
+                let nearestLeader = null;
+                let nearestDistance = Infinity;
+                
+                gameState.leaders.forEach(function(leader) {
+                    const distance = player.position.distanceTo(leader.position);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearestLeader = leader;
+                    }
+                });
+                
+                gameState.prayTarget = nearestLeader;
+            }
+        }
 
         function playerAttack() {
             gameState.isAttacking = true;
+            
+            // Play sword slash sound
+            playSwordSlashSound();
             
             const sword = player.sword;
             const originalRotation = sword.rotation.z;
@@ -1416,10 +1698,17 @@
                     enemy.health -= damage;
                     hitSomething = true;
                     
+                    // Play hit sound
+                    playHitSound();
+                    
+                    // Create slash effect
+                    createSlashEffect(enemy.position, new THREE.Vector3());
+                    
+                    // Knockback
                     const direction = new THREE.Vector3()
                         .subVectors(enemy.position, player.position)
                         .normalize();
-                    enemy.position.add(direction.multiplyScalar(2));
+                    enemy.position.add(direction.multiplyScalar(3.5));
                     
                     if (enemy.health <= 0) {
                         killEnemy(enemy);
@@ -1436,15 +1725,25 @@
             gameState.special -= 50;
             updateUI();
             
+            // Play divine sound
+            playDivineSound();
+            
+            // Create divine explosion effect at player position
+            createDivineExplosion(player.position);
+            
             gameState.enemies.forEach(function(enemy) {
                 const distance = player.position.distanceTo(enemy.position);
                 if (distance < 15) {
                     enemy.health -= 50;
                     
+                    // Knockback enemies away from player
                     const direction = new THREE.Vector3()
                         .subVectors(enemy.position, player.position)
                         .normalize();
-                    enemy.position.add(direction.multiplyScalar(5));
+                    enemy.position.add(direction.multiplyScalar(6));
+                    
+                    // Create impact effect on each enemy
+                    createSlashEffect(enemy.position, direction);
                     
                     if (enemy.health <= 0) {
                         killEnemy(enemy);
@@ -1494,6 +1793,192 @@
             document.getElementById('comboHits').textContent = gameState.comboHits;
         }
 
+        // Visual Effects
+        function createSlashEffect(position, direction) {
+            const particles = new THREE.Group();
+            
+            for (let i = 0; i < 8; i++) {
+                const geometry = new THREE.BoxGeometry(0.15, 0.15, 0.15);
+                const material = new THREE.MeshBasicMaterial({ 
+                    color: 0xFFFFFF,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const particle = new THREE.Mesh(geometry, material);
+                
+                const angle = (i / 8) * Math.PI * 2;
+                particle.position.copy(position);
+                particle.position.x += Math.cos(angle) * 0.5;
+                particle.position.z += Math.sin(angle) * 0.5;
+                particle.position.y += 2;
+                
+                particle.velocity = {
+                    x: Math.cos(angle) * 0.2,
+                    y: 0.1,
+                    z: Math.sin(angle) * 0.2
+                };
+                
+                particles.add(particle);
+            }
+            
+            scene.add(particles);
+            
+            let life = 0;
+            const animateParticles = function() {
+                life++;
+                if (life > 15) {
+                    scene.remove(particles);
+                    return;
+                }
+                
+                particles.children.forEach(function(particle) {
+                    particle.position.x += particle.velocity.x;
+                    particle.position.y += particle.velocity.y;
+                    particle.position.z += particle.velocity.z;
+                    particle.velocity.y -= 0.02;
+                    particle.material.opacity -= 0.05;
+                });
+                
+                requestAnimationFrame(animateParticles);
+            };
+            animateParticles();
+        }
+        
+        function createDivineExplosion(position) {
+            const geometry = new THREE.SphereGeometry(1, 16, 16);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0xFFD700,
+                transparent: true,
+                opacity: 0.8
+            });
+            const explosion = new THREE.Mesh(geometry, material);
+            explosion.position.copy(position);
+            explosion.position.y = 2;
+            scene.add(explosion);
+            
+            let scale = 1;
+            const animateExplosion = function() {
+                scale += 0.8;
+                explosion.scale.set(scale, scale, scale);
+                explosion.material.opacity -= 0.08;
+                
+                if (explosion.material.opacity <= 0) {
+                    scene.remove(explosion);
+                } else {
+                    requestAnimationFrame(animateExplosion);
+                }
+            };
+            animateExplosion();
+        }
+        
+        function createHealingEffect(position) {
+            const particles = new THREE.Group();
+            
+            for (let i = 0; i < 12; i++) {
+                const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+                const material = new THREE.MeshBasicMaterial({ 
+                    color: 0x00FF00,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const particle = new THREE.Mesh(geometry, material);
+                
+                const angle = (i / 12) * Math.PI * 2;
+                particle.position.copy(position);
+                particle.position.x += Math.cos(angle) * 1.5;
+                particle.position.z += Math.sin(angle) * 1.5;
+                particle.position.y += 0.5;
+                
+                particle.targetY = position.y + 3;
+                
+                particles.add(particle);
+            }
+            
+            scene.add(particles);
+            
+            let life = 0;
+            const animateHealing = function() {
+                life++;
+                if (life > 30) {
+                    scene.remove(particles);
+                    return;
+                }
+                
+                particles.children.forEach(function(particle) {
+                    particle.position.y += 0.1;
+                    particle.material.opacity -= 0.03;
+                });
+                
+                requestAnimationFrame(animateHealing);
+            };
+            animateHealing();
+        }
+
+        function checkCollision(character, newX, newZ) {
+            const collisionRadius = 2.5; // Minimum distance between characters
+            const testPosition = new THREE.Vector3(newX, character.position.y, newZ);
+            
+            // Check collision with player
+            if (character !== player) {
+                const distToPlayer = testPosition.distanceTo(player.position);
+                if (distToPlayer < collisionRadius) {
+                    return true;
+                }
+            }
+            
+            // Check collision with allies
+            for (let i = 0; i < gameState.allies.length; i++) {
+                const ally = gameState.allies[i];
+                if (character !== ally) {
+                    const distToAlly = testPosition.distanceTo(ally.position);
+                    if (distToAlly < collisionRadius) {
+                        return true;
+                    }
+                }
+            }
+            
+            // Check collision with enemies
+            for (let i = 0; i < gameState.enemies.length; i++) {
+                const enemy = gameState.enemies[i];
+                if (character !== enemy) {
+                    const distToEnemy = testPosition.distanceTo(enemy.position);
+                    if (distToEnemy < collisionRadius) {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+
+        function applyCollisionAvoidance(character, direction, speed) {
+            const newX = character.position.x + direction.x * speed;
+            const newZ = character.position.z + direction.z * speed;
+            
+            // Check if new position would collide
+            if (!checkCollision(character, newX, newZ)) {
+                // No collision, move normally
+                character.position.x = newX;
+                character.position.z = newZ;
+                return true;
+            } else {
+                // Try moving just in X direction
+                if (!checkCollision(character, newX, character.position.z)) {
+                    character.position.x = newX;
+                    return true;
+                }
+                
+                // Try moving just in Z direction
+                if (!checkCollision(character, character.position.x, newZ)) {
+                    character.position.z = newZ;
+                    return true;
+                }
+                
+                // Can't move, blocked
+                return false;
+            }
+        }
+
         function updateEnemy(enemy) {
             const playerDistance = enemy.position.distanceTo(player.position);
             
@@ -1501,13 +1986,18 @@
                 const direction = new THREE.Vector3()
                     .subVectors(player.position, enemy.position)
                     .normalize();
-                enemy.position.add(direction.multiplyScalar(enemy.speed));
-                enemy.lookAt(player.position);
                 
-                enemy.walkCycle += 0.14;
-                const legSwing = Math.sin(enemy.walkCycle) * 0.5;
-                enemy.leftLeg.rotation.x = legSwing;
-                enemy.rightLeg.rotation.x = -legSwing;
+                // Apply collision-aware movement
+                const moved = applyCollisionAvoidance(enemy, direction, enemy.speed);
+                
+                if (moved) {
+                    enemy.lookAt(player.position);
+                    
+                    enemy.walkCycle += 0.14;
+                    const legSwing = Math.sin(enemy.walkCycle) * 0.5;
+                    enemy.leftLeg.rotation.x = legSwing;
+                    enemy.rightLeg.rotation.x = -legSwing;
+                }
             } else {
                 enemy.lookAt(player.position);
                 
@@ -1551,14 +2041,19 @@
                 
                 if (distance > 3.5) {
                     direction.normalize();
-                    ally.position.add(direction.multiplyScalar(0.11));
-                    ally.lookAt(ally.targetEnemy.position);
                     
-                    ally.walkCycle += 0.16;
-                    const legSwing = Math.sin(ally.walkCycle) * 0.52;
-                    ally.leftLeg.rotation.x = legSwing;
-                    ally.rightLeg.rotation.x = -legSwing;
-                    ally.rightArm.rotation.x = Math.sin(ally.walkCycle) * 0.33;
+                    // Apply collision-aware movement
+                    const moved = applyCollisionAvoidance(ally, direction, 0.11);
+                    
+                    if (moved) {
+                        ally.lookAt(ally.targetEnemy.position);
+                        
+                        ally.walkCycle += 0.16;
+                        const legSwing = Math.sin(ally.walkCycle) * 0.52;
+                        ally.leftLeg.rotation.x = legSwing;
+                        ally.rightLeg.rotation.x = -legSwing;
+                        ally.rightArm.rotation.x = Math.sin(ally.walkCycle) * 0.33;
+                    }
                 } else {
                     ally.lookAt(ally.targetEnemy.position);
                     
@@ -1645,11 +2140,22 @@
                     
                     const magnitude = Math.min(Math.sqrt(joyX * joyX + joyZ * joyZ), 1);
                     
-                    player.position.x += Math.sin(angle) * moveSpeed * magnitude;
-                    player.position.z += Math.cos(angle) * moveSpeed * magnitude;
+                    // Calculate movement direction
+                    const moveDir = {
+                        x: Math.sin(angle) * magnitude,
+                        z: Math.cos(angle) * magnitude
+                    };
                     
-                    player.rotation.y = angle;
-                    player.direction = direction;
+                    // Apply collision-aware movement
+                    const moved = applyCollisionAvoidance(player, moveDir, moveSpeed);
+                    
+                    if (moved) {
+                        player.rotation.y = angle;
+                        player.direction = direction;
+                    } else {
+                        // If blocked, stop walking animation
+                        isMoving = false;
+                    }
                 }
             }
 
