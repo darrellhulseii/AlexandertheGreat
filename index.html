@@ -47,7 +47,7 @@
             padding: 12px 18px;
             border: 3px solid #FFD700;
             border-radius: 8px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
             color: #FFD700;
             text-shadow: 2px 2px 4px #000;
             font-size: 13px;
@@ -58,7 +58,6 @@
             font-size: 22px;
             margin-bottom: 8px;
             text-align: center;
-            letter-spacing: 1px;
         }
         
         .stat {
@@ -112,7 +111,7 @@
             border: 4px solid rgba(255, 215, 0, 0.7);
             border-radius: 50%;
             position: relative;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.9);
         }
         
         #joystickStick {
@@ -125,7 +124,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
             transition: all 0.08s ease;
         }
         
@@ -147,7 +146,7 @@
             font-weight: bold;
             color: #FFD700;
             text-shadow: 2px 2px 4px #000;
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -174,7 +173,6 @@
         
         .attack-button:active {
             transform: scale(0.92);
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.9), 0 0 18px rgba(255, 215, 0, 0.7);
         }
         
         #comboCounter {
@@ -197,7 +195,7 @@
             transform: translate(-50%, -50%) scale(1.15);
         }
         
-        #startScreen, #victoryScreen {
+        #modeSelection, #startScreen, #cutsceneScreen, #dialogueScreen, #victoryScreen {
             position: fixed;
             top: 0;
             left: 0;
@@ -212,37 +210,20 @@
             pointer-events: all;
         }
         
-        #startScreen h1 {
+        #modeSelection h1 {
             font-family: 'UnifrakturCook', cursive;
             font-size: 52px;
             color: #FFD700;
             text-shadow: 4px 4px 0 #8B0000, -2px -2px 0 #000;
-            margin-bottom: 25px;
+            margin-bottom: 50px;
             animation: glow 2s ease-in-out infinite;
-        }
-        
-        #startButton {
-            font-family: 'MedievalSharp', cursive;
-            font-size: 26px;
-            padding: 18px 50px;
-            background: linear-gradient(135deg, #8B0000, #DC143C);
-            color: #FFD700;
-            border: 4px solid #FFD700;
-            border-radius: 12px;
-            cursor: pointer;
-            text-shadow: 2px 2px 4px #000;
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.6);
-            transition: all 0.3s;
-        }
-        
-        #startButton:active {
-            transform: scale(1.08);
         }
         
         .mode-button {
             font-family: 'MedievalSharp', cursive;
-            font-size: 20px;
-            padding: 15px 40px;
+            font-size: 24px;
+            padding: 18px 50px;
+            margin: 15px;
             background: linear-gradient(135deg, #8B0000, #DC143C);
             color: #FFD700;
             border: 4px solid #FFD700;
@@ -251,17 +232,102 @@
             text-shadow: 2px 2px 4px #000;
             box-shadow: 0 0 35px rgba(255, 215, 0, 0.6);
             transition: all 0.3s;
-            width: 400px;
-            line-height: 1.6;
         }
         
         .mode-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 45px rgba(255, 215, 0, 0.8);
+            background: linear-gradient(135deg, #DC143C, #8B0000);
         }
         
         .mode-button:active {
-            transform: scale(1.08);
+            transform: scale(0.98);
+        }
+        
+        #cutsceneScreen {
+            background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
+        }
+        
+        #cutsceneContent {
+            max-width: 900px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        #cutsceneTitle {
+            font-family: 'UnifrakturCook', cursive;
+            font-size: 42px;
+            color: #FFD700;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 0 #8B0000;
+        }
+        
+        #cutsceneText {
+            font-size: 20px;
+            color: #E8E8E8;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        #continueButton {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 22px;
+            padding: 15px 45px;
+            background: linear-gradient(135deg, #8B0000, #DC143C);
+            color: #FFD700;
+            border: 4px solid #FFD700;
+            border-radius: 10px;
+            cursor: pointer;
+            text-shadow: 2px 2px 4px #000;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        #dialogueScreen {
+            background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+        }
+        
+        #dialogueBox {
+            max-width: 800px;
+            padding: 35px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 4px solid #FFD700;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
+        }
+        
+        #speakerName {
+            font-family: 'UnifrakturCook', cursive;
+            font-size: 32px;
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0 #8B0000;
+        }
+        
+        #dialogueText {
+            font-size: 19px;
+            color: #E8E8E8;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        .dialogue-option {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 17px;
+            padding: 12px 30px;
+            margin: 10px;
+            background: linear-gradient(135deg, #4a4a5e, #2a2a3e);
+            color: #FFD700;
+            border: 3px solid #FFD700;
+            border-radius: 8px;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px #000;
+            transition: all 0.2s;
+        }
+        
+        .dialogue-option:hover {
+            background: linear-gradient(135deg, #8B0000, #DC143C);
+            transform: translateX(10px);
         }
         
         @keyframes glow {
@@ -286,38 +352,63 @@
             font-weight: bold;
         }
         
-        #victoryMessage {
-            font-family: 'UnifrakturCook', cursive;
-            font-size: 48px;
+        #questLog {
+            position: absolute;
+            top: 200px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px 20px;
+            border: 3px solid #FFD700;
+            border-radius: 8px;
+            max-width: 320px;
             color: #FFD700;
-            text-shadow: 4px 4px 0 #8B0000, -2px -2px 0 #000;
-            text-align: center;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        #questLog h3 {
+            font-family: 'UnifrakturCook', cursive;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        #questObjective {
+            font-size: 14px;
             line-height: 1.5;
-            animation: glow 2s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
-    <div id="startScreen">
+    <div id="modeSelection">
         <h1>JOAN OF ARC</h1>
-        <h3 style="color: #FFD700; font-size: 28px; margin-bottom: 20px;">⚔️ Divine Warriors ⚔️</h3>
-        
-        <div style="margin-bottom: 35px;">
-            <h4 style="color: #FFD700; font-size: 22px; margin-bottom: 15px;">SELECT MODE:</h4>
-            <button id="joanModeButton" class="mode-button" style="margin-bottom: 15px;">
-                JOAN OF ARC MODE<br>
-                <span style="font-size: 14px; font-family: Arial;">Lead Christian forces against invaders</span>
-            </button>
-            <button id="alexanderModeButton" class="mode-button">
-                ALEXANDER THE GREAT MODE<br>
-                <span style="font-size: 14px; font-family: Arial;">Conquer with the legendary Macedonian king</span>
-            </button>
+        <h3 style="color: #FFD700; font-size: 28px; margin-bottom: 35px;">⚔️ Divine Warriors ⚔️</h3>
+        <button class="mode-button" onclick="selectMode('story')">STORY MODE</button>
+        <button class="mode-button" onclick="selectMode('alexander')">ALEXANDER THE GREAT</button>
+        <button class="mode-button" onclick="selectMode('arcade')">ARCADE MODE</button>
+    </div>
+    
+    <div id="cutsceneScreen" class="hidden">
+        <div id="cutsceneContent">
+            <h2 id="cutsceneTitle"></h2>
+            <p id="cutsceneText"></p>
+            <button id="continueButton" onclick="endCutscene()">CONTINUE</button>
+        </div>
+    </div>
+    
+    <div id="dialogueScreen" class="hidden">
+        <div id="dialogueBox">
+            <h2 id="speakerName"></h2>
+            <p id="dialogueText"></p>
+            <div id="dialogueOptions"></div>
         </div>
     </div>
     
     <div id="victoryScreen" class="hidden">
-        <div id="victoryMessage">
-            ALL PRAISE AND<br>ALL GLORY TO<br>JESUS CHRIST
+        <div style="text-align: center;">
+            <h1 style="font-family: 'UnifrakturCook', cursive; font-size: 48px; color: #FFD700; text-shadow: 4px 4px 0 #8B0000; margin-bottom: 30px;">
+                VICTORY!
+            </h1>
+            <p id="victoryMessage" style="font-size: 24px; color: #E8E8E8; margin-bottom: 30px;"></p>
+            <button class="mode-button" onclick="location.reload()">RETURN TO MENU</button>
         </div>
     </div>
     
@@ -325,7 +416,7 @@
     
     <div id="ui">
         <div id="hud">
-            <h2>⚜️ JOAN OF ARC ⚜️</h2>
+            <h2 id="characterName">⚜️ JOAN OF ARC ⚜️</h2>
             <div class="stat">
                 Health
                 <div class="bar-container">
@@ -339,8 +430,13 @@
                 </div>
             </div>
             <div class="stat">Kills: <span id="killCount">0</span></div>
-            <div class="stat">Leaders: <span id="leaderCount">0</span>/5</div>
+            <div class="stat">Leaders: <span id="leaderCount">0</span>/<span id="totalLeaders">5</span></div>
             <div class="stat">Combo: <span id="comboHits">0</span></div>
+        </div>
+        
+        <div id="questLog" class="hidden">
+            <h3>📜 Quest</h3>
+            <p id="questObjective"></p>
         </div>
         
         <div id="fpsCounter">FPS: <span id="fpsValue">0</span></div>
@@ -364,8 +460,101 @@
     <script>
         'use strict';
         
+        // Story Data
+        const storyChapters = [
+            {
+                title: "Chapter 1: The Calling - 1428",
+                text: "At the age of 16, Joan of Arc hears divine voices calling her to save France from English invasion. She must convince the local garrison commander, Robert de Baudricourt, to grant her an escort to meet the Dauphin Charles.",
+                location: "Vaucouleurs",
+                dialogue: {
+                    speaker: "Robert de Baudricourt",
+                    text: "A peasant girl claiming to hear voices from God? This is madness! Why should I send you to the Dauphin?",
+                    options: [
+                        { text: "God has chosen me to save France from the English.", response: "quest" },
+                        { text: "I can prove my divine mission through victory.", response: "quest" }
+                    ]
+                },
+                quest: "Defeat 20 English soldiers to prove your divine calling",
+                objective: { type: "kills", count: 20 },
+                nextChapter: 1
+            },
+            {
+                title: "Chapter 2: Journey to Chinon - 1429",
+                text: "After proving herself, Joan travels 11 days through enemy territory to reach the Dauphin at Chinon. She must protect her small escort from English patrols and Burgundian raiders.",
+                location: "Road to Chinon",
+                dialogue: {
+                    speaker: "Jean de Metz (Escort Knight)",
+                    text: "The route ahead is dangerous. English patrols control this region. Are you certain God protects us?",
+                    options: [
+                        { text: "I have faith. We will reach Chinon safely.", response: "quest" },
+                        { text: "Prepare for battle. We fight through if necessary.", response: "quest" }
+                    ]
+                },
+                quest: "Defeat 3 English patrol leaders without losing any allies",
+                objective: { type: "leaders", count: 3, protectAllies: true },
+                nextChapter: 2
+            },
+            {
+                title: "Chapter 3: The Siege of Orléans - May 1429",
+                text: "Joan arrives at Orléans, which has been besieged by English forces for months. She must break the siege and liberate the city, turning the tide of the Hundred Years' War.",
+                location: "Orléans",
+                dialogue: {
+                    speaker: "Jean d'Orléans (Duke Commander)",
+                    text: "The English have held us for seven months. Their fortifications are strong. How can one girl change our fate?",
+                    options: [
+                        { text: "God is with us. We attack at dawn!", response: "quest" },
+                        { text: "Faith and courage will break their siege.", response: "quest" }
+                    ]
+                },
+                quest: "Defeat 5 English commanders and break the siege",
+                objective: { type: "leaders", count: 5 },
+                nextChapter: 3
+            },
+            {
+                title: "Chapter 4: The March to Reims - Summer 1429",
+                text: "After the victory at Orléans, Joan leads the French army on a daring campaign to capture Reims, where French kings are traditionally crowned. Several cities must be liberated along the way.",
+                location: "Loire Valley",
+                dialogue: {
+                    speaker: "The Dauphin Charles",
+                    text: "Joan, you have brought us victory at Orléans. Now we must secure Reims for my coronation. Can you clear the path?",
+                    options: [
+                        { text: "We march for Reims! No force can stop us!", response: "quest" },
+                        { text: "Your Highness, God wills your coronation.", response: "quest" }
+                    ]
+                },
+                quest: "Clear the route to Reims - Defeat 40 enemy soldiers",
+                objective: { type: "kills", count: 40 },
+                nextChapter: 4
+            },
+            {
+                title: "Chapter 5: The Coronation - July 17, 1429",
+                text: "Joan stands beside Charles VII as he is crowned King of France in Reims Cathedral. But the English still threaten Paris, and her mission is not yet complete.",
+                location: "Reims Cathedral",
+                dialogue: {
+                    speaker: "King Charles VII",
+                    text: "Joan, you have fulfilled your divine mission. France is reborn through your faith and courage. Will you continue to fight for us?",
+                    options: [
+                        { text: "I will fight until France is free, Your Majesty.", response: "quest" },
+                        { text: "My sword is yours until victory is complete.", response: "quest" }
+                    ]
+                },
+                quest: "Final battle - Defeat the English commanders at Paris",
+                objective: { type: "leaders", count: 5 },
+                nextChapter: -1
+            }
+        ];
+        
+        // Alexander the Great story
+        const alexanderStory = {
+            title: "Alexander the Great - 334 BC",
+            text: "You are Alexander III of Macedon, known to history as Alexander the Great. Having inherited a powerful army from your father Philip II, you now embark on your legendary conquest of the Persian Empire. Lead your Macedonian phalanx to glory!",
+            quest: "Conquer and defeat 50 Persian warriors and 8 commanders",
+            objective: { type: "both", kills: 50, leaders: 8 }
+        };
+        
         // Game State
         const gameState = {
+            mode: null,
             health: 100,
             maxHealth: 100,
             special: 100,
@@ -383,10 +572,11 @@
             leadersDefeated: 0,
             totalLeaders: 5,
             gameWon: false,
-            gameMode: 'joan' // 'joan' or 'alexander'
+            currentChapter: 0,
+            questActive: false,
+            questComplete: false
         };
 
-        // Mobile Controls State
         const mobileControls = {
             joystick: { active: false, x: 0, y: 0 },
             moveVector: { x: 0, z: 0 }
@@ -394,8 +584,8 @@
 
         // Three.js Setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xb8c5d6);
-        scene.fog = new THREE.Fog(0xb8c5d6, 60, 280);
+        scene.background = new THREE.Color(0x87CEEB);
+        scene.fog = new THREE.Fog(0x87CEEB, 60, 280);
 
         const canvas = document.getElementById('gameCanvas');
         const renderer = new THREE.WebGLRenderer({ 
@@ -412,12 +602,12 @@
         camera.position.set(0, 18, 28);
         camera.lookAt(0, 0, 0);
 
-        // Lighting Setup
-        const ambientLight = new THREE.AmbientLight(0xb8c5d6, 0.65);
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x9AB8D3, 0.7);
         scene.add(ambientLight);
 
-        const sunLight = new THREE.DirectionalLight(0xfff5e6, 1.1);
-        sunLight.position.set(65, 55, 45);
+        const sunLight = new THREE.DirectionalLight(0xFFF8E7, 1.2);
+        sunLight.position.set(70, 60, 50);
         sunLight.castShadow = true;
         sunLight.shadow.mapSize.width = 2048;
         sunLight.shadow.mapSize.height = 2048;
@@ -427,25 +617,23 @@
         sunLight.shadow.camera.bottom = -100;
         scene.add(sunLight);
 
-        const fillLight = new THREE.DirectionalLight(0xb0c4de, 0.45);
-        fillLight.position.set(-45, 35, -35);
+        const fillLight = new THREE.DirectionalLight(0xB0C4DE, 0.5);
+        fillLight.position.set(-50, 40, -40);
         scene.add(fillLight);
 
-        const hemiLight = new THREE.HemisphereLight(0xb8c5d6, 0x5a7a4a, 0.75);
+        const hemiLight = new THREE.HemisphereLight(0x87CEEB, 0x4a7d35, 0.8);
         scene.add(hemiLight);
 
-        // Green Grassy Field
+        // Green Grassy Ground
         function createGrassTexture() {
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 512;
             const ctx = canvas.getContext('2d');
             
-            // Base grass color
             ctx.fillStyle = '#4a7d35';
             ctx.fillRect(0, 0, 512, 512);
             
-            // Add grass blade variations
             for (let i = 0; i < 12000; i++) {
                 const x = Math.random() * 512;
                 const y = Math.random() * 512;
@@ -453,10 +641,8 @@
                 const grassType = Math.random();
                 
                 if (grassType < 0.7) {
-                    // Light green grass
                     ctx.fillStyle = `rgba(${greenShade * 0.5}, ${greenShade}, ${greenShade * 0.4}, ${0.4 + Math.random() * 0.3})`;
                 } else {
-                    // Dark green grass
                     ctx.fillStyle = `rgba(${greenShade * 0.3}, ${greenShade * 0.8}, ${greenShade * 0.3}, ${0.5 + Math.random() * 0.3})`;
                 }
                 
@@ -464,7 +650,6 @@
                 ctx.fillRect(x, y, size, size);
             }
             
-            // Add some dirt patches for realism
             for (let i = 0; i < 400; i++) {
                 const x = Math.random() * 512;
                 const y = Math.random() * 512;
@@ -493,7 +678,6 @@
         ground.rotation.x = -Math.PI / 2;
         ground.receiveShadow = true;
         
-        // Create rolling hills
         const positions = ground.geometry.attributes.position;
         for (let i = 0; i < positions.count; i++) {
             const x = positions.getX(i);
@@ -507,7 +691,7 @@
         ground.geometry.computeVertexNormals();
         scene.add(ground);
 
-        // Add 3D grass tufts
+        // Grass tufts
         const grassTuftMaterial = new THREE.MeshPhongMaterial({ 
             color: 0x3a6b2a,
             side: THREE.DoubleSide,
@@ -526,7 +710,6 @@
                     (Math.random() - 0.5) * 0.4
                 );
                 blade.rotation.z = (Math.random() - 0.5) * 0.25;
-                blade.rotation.x = (Math.random() - 0.5) * 0.15;
                 tuft.add(blade);
             }
             
@@ -540,20 +723,17 @@
 
         // Distant Castle
         const castle = new THREE.Group();
-        
         const castleMaterial = new THREE.MeshPhongMaterial({ 
             color: 0x5a4a3a,
             flatShading: true
         });
         
-        // Main keep
         const keepGeometry = new THREE.BoxGeometry(18, 30, 18);
         const keep = new THREE.Mesh(keepGeometry, castleMaterial);
         keep.position.y = 15;
         keep.castShadow = true;
         castle.add(keep);
         
-        // Battlements
         for (let i = 0; i < 16; i++) {
             const merlonGeometry = new THREE.BoxGeometry(1.8, 2.5, 1.8);
             const merlon = new THREE.Mesh(merlonGeometry, castleMaterial);
@@ -567,13 +747,7 @@
             castle.add(merlon);
         }
         
-        // Corner towers
-        const towerPositions = [
-            [-12, 0, -12],
-            [12, 0, -12],
-            [-12, 0, 12],
-            [12, 0, 12]
-        ];
+        const towerPositions = [[-12, 0, -12], [12, 0, -12], [-12, 0, 12], [12, 0, 12]];
         
         towerPositions.forEach(function(pos) {
             const towerGeometry = new THREE.CylinderGeometry(3.5, 4, 24, 16);
@@ -588,46 +762,13 @@
             roof.position.set(pos[0], 27.5, pos[2]);
             roof.castShadow = true;
             castle.add(roof);
-            
-            const spireGeometry = new THREE.ConeGeometry(0.4, 4, 6);
-            const spireMaterial = new THREE.MeshPhongMaterial({ color: 0x8B7355 });
-            const spire = new THREE.Mesh(spireGeometry, spireMaterial);
-            spire.position.set(pos[0], 32, pos[2]);
-            castle.add(spire);
-            
-            const crossV = new THREE.Mesh(new THREE.BoxGeometry(0.15, 1.2, 0.15), spireMaterial);
-            crossV.position.set(pos[0], 34.5, pos[2]);
-            castle.add(crossV);
-            
-            const crossH = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.15, 0.15), spireMaterial);
-            crossH.position.set(pos[0], 34.9, pos[2]);
-            castle.add(crossH);
         });
         
-        // Castle walls
-        const wallGeometry = new THREE.BoxGeometry(30, 10, 2.5);
-        const walls = [
-            [0, 5, -15],
-            [0, 5, 15],
-            [-15, 5, 0],
-            [15, 5, 0]
-        ];
-        
-        walls.forEach(function(pos, idx) {
-            const wall = new THREE.Mesh(wallGeometry, castleMaterial);
-            wall.position.set(pos[0], pos[1], pos[2]);
-            if (idx >= 2) wall.rotation.y = Math.PI / 2;
-            wall.castShadow = true;
-            wall.receiveShadow = true;
-            castle.add(wall);
-        });
-        
-        // Position castle far in distance
         castle.position.set(-150, 0, -120);
         castle.scale.set(1.5, 1.5, 1.5);
         scene.add(castle);
 
-        // Create Joan of Arc
+        // Create Characters
         function createJoan() {
             const joan = new THREE.Group();
             
@@ -708,7 +849,6 @@
             hair.castShadow = true;
             joan.add(hair);
             
-            // Soft white glow around Joan (replacing halo)
             const glowGeometry = new THREE.SphereGeometry(1.8, 16, 16);
             const glowMaterial = new THREE.MeshBasicMaterial({
                 color: 0xffffff,
@@ -755,7 +895,7 @@
             joan.add(cape);
             joan.cape = cape;
             
-            const glowLight = new THREE.PointLight(0xFFD700, 0.5, 10);
+            const glowLight = new THREE.PointLight(0xFFFFFF, 0.5, 10);
             glowLight.position.y = 4;
             joan.add(glowLight);
             joan.glowLight = glowLight;
@@ -769,197 +909,143 @@
             return joan;
         }
 
-        // Create Alexander the Great
         function createAlexander() {
-            const alexander = new THREE.Group();
+            const alex = createJoan();
             
-            // Bronze/gold Macedonian armor
-            const torsoGeometry = new THREE.CylinderGeometry(0.65, 0.85, 2.1, 16);
-            const macedonianArmorMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xCD7F32, // Bronze
-                shininess: 110,
-                specular: 0xFFD700
+            // Modify colors for Alexander
+            alex.children.forEach(function(child) {
+                if (child.material && child.material.color) {
+                    if (child.material.color.getHex() === 0x4169E1) {
+                        child.material.color.setHex(0x8B4513); // Bronze armor
+                    }
+                    if (child.material.color.getHex() === 0xDC143C) {
+                        child.material.color.setHex(0x800020); // Burgundy cape
+                    }
+                }
             });
-            const torso = new THREE.Mesh(torsoGeometry, macedonianArmorMaterial);
-            torso.position.y = 2.55;
+            
+            return alex;
+        }
+
+        function createAlly() {
+            const ally = new THREE.Group();
+            
+            const torsoGeometry = new THREE.CylinderGeometry(0.58, 0.78, 1.9, 16);
+            const armorMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x8B8B8B,
+                shininess: 95,
+                specular: 0xCCCCCC
+            });
+            const torso = new THREE.Mesh(torsoGeometry, armorMaterial);
+            torso.position.y = 2.4;
             torso.castShadow = true;
-            alexander.add(torso);
+            ally.add(torso);
             
-            // Muscled cuirass (Greek breastplate)
-            const cuirassGeometry = new THREE.CylinderGeometry(0.75, 0.85, 1.3, 16);
-            const goldMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
-                shininess: 130,
-                specular: 0xFFFFFF,
-                emissive: 0x221100
+            const chestGeometry = new THREE.CylinderGeometry(0.68, 0.78, 1.1, 16);
+            const plateArmorMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xA9A9A9,
+                shininess: 110,
+                specular: 0xFFFFFF
             });
-            const cuirass = new THREE.Mesh(cuirassGeometry, goldMaterial);
-            cuirass.position.y = 2.95;
-            cuirass.castShadow = true;
-            alexander.add(cuirass);
+            const chest = new THREE.Mesh(chestGeometry, plateArmorMaterial);
+            chest.position.y = 2.7;
+            chest.castShadow = true;
+            ally.add(chest);
             
-            // Prominent Greek shoulder plates
-            const shoulderGeometry = new THREE.SphereGeometry(0.45, 16, 16);
-            const leftShoulder = new THREE.Mesh(shoulderGeometry, goldMaterial);
-            leftShoulder.position.set(-1, 3.5, 0);
+            const crossVGeometry = new THREE.BoxGeometry(0.08, 0.6, 0.12);
+            const crossMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xDC143C
+            });
+            const crossV = new THREE.Mesh(crossVGeometry, crossMaterial);
+            crossV.position.set(0, 2.7, 0.8);
+            ally.add(crossV);
+            
+            const shoulderGeometry = new THREE.SphereGeometry(0.35, 14, 14);
+            const leftShoulder = new THREE.Mesh(shoulderGeometry, plateArmorMaterial);
+            leftShoulder.position.set(-0.88, 3.25, 0);
             leftShoulder.castShadow = true;
-            alexander.add(leftShoulder);
+            ally.add(leftShoulder);
             
-            const rightShoulder = new THREE.Mesh(shoulderGeometry, goldMaterial);
-            rightShoulder.position.set(1, 3.5, 0);
+            const rightShoulder = new THREE.Mesh(shoulderGeometry, plateArmorMaterial);
+            rightShoulder.position.set(0.88, 3.25, 0);
             rightShoulder.castShadow = true;
-            alexander.add(rightShoulder);
+            ally.add(rightShoulder);
             
-            // Pteruges (leather strips)
-            const pterugesGeometry = new THREE.BoxGeometry(0.08, 0.6, 0.08);
-            const pterugesMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
-            for (let i = 0; i < 12; i++) {
-                const pteruge = new THREE.Mesh(pterugesGeometry, pterugesMaterial);
-                const angle = (i / 12) * Math.PI * 2;
-                pteruge.position.set(
-                    Math.sin(angle) * 0.7,
-                    1.8,
-                    Math.cos(angle) * 0.7
-                );
-                pteruge.castShadow = true;
-                alexander.add(pteruge);
-            }
-            
-            const legGeometry = new THREE.CylinderGeometry(0.28, 0.32, 1.7, 14);
-            const leftLeg = new THREE.Mesh(legGeometry, macedonianArmorMaterial);
-            leftLeg.position.set(-0.34, 0.52, 0);
+            const legGeometry = new THREE.CylinderGeometry(0.25, 0.28, 1.55, 14);
+            const leftLeg = new THREE.Mesh(legGeometry, armorMaterial);
+            leftLeg.position.set(-0.31, 0.48, 0);
             leftLeg.castShadow = true;
-            alexander.add(leftLeg);
-            alexander.leftLeg = leftLeg;
+            ally.add(leftLeg);
+            ally.leftLeg = leftLeg;
             
-            const rightLeg = new THREE.Mesh(legGeometry, macedonianArmorMaterial);
-            rightLeg.position.set(0.34, 0.52, 0);
+            const rightLeg = new THREE.Mesh(legGeometry, armorMaterial);
+            rightLeg.position.set(0.31, 0.48, 0);
             rightLeg.castShadow = true;
-            alexander.add(rightLeg);
-            alexander.rightLeg = rightLeg;
+            ally.add(rightLeg);
+            ally.rightLeg = rightLeg;
             
-            // Bronze greaves
-            const greaveGeometry = new THREE.CylinderGeometry(0.3, 0.28, 0.8, 14);
-            const leftGreave = new THREE.Mesh(greaveGeometry, goldMaterial);
-            leftGreave.position.set(-0.34, 0.4, 0.18);
-            leftGreave.castShadow = true;
-            alexander.add(leftGreave);
-            
-            const rightGreave = new THREE.Mesh(greaveGeometry, goldMaterial);
-            rightGreave.position.set(0.34, 0.4, 0.18);
-            rightGreave.castShadow = true;
-            alexander.add(rightGreave);
-            
-            const armGeometry = new THREE.CylinderGeometry(0.24, 0.27, 2, 14);
-            const leftArm = new THREE.Mesh(armGeometry, macedonianArmorMaterial);
-            leftArm.position.set(-1, 2.55, 0);
+            const armGeometry = new THREE.CylinderGeometry(0.21, 0.24, 1.75, 14);
+            const leftArm = new THREE.Mesh(armGeometry, armorMaterial);
+            leftArm.position.set(-0.88, 2.4, 0);
             leftArm.rotation.z = 0.3;
             leftArm.castShadow = true;
-            alexander.add(leftArm);
+            ally.add(leftArm);
             
-            const rightArm = new THREE.Mesh(armGeometry, macedonianArmorMaterial);
-            rightArm.position.set(1, 2.55, 0);
+            const rightArm = new THREE.Mesh(armGeometry, armorMaterial);
+            rightArm.position.set(0.88, 2.4, 0);
             rightArm.rotation.z = -0.3;
             rightArm.castShadow = true;
-            alexander.add(rightArm);
-            alexander.rightArm = rightArm;
+            ally.add(rightArm);
+            ally.rightArm = rightArm;
             
-            const headGeometry = new THREE.SphereGeometry(0.58, 20, 20);
-            const macedonianSkinMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD1A3,
-                shininess: 35
-            });
-            const head = new THREE.Mesh(headGeometry, macedonianSkinMaterial);
-            head.position.y = 4.2;
+            const headGeometry = new THREE.SphereGeometry(0.48, 16, 16);
+            const skinMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD1A3 });
+            const head = new THREE.Mesh(headGeometry, skinMaterial);
+            head.position.y = 3.72;
             head.castShadow = true;
-            alexander.add(head);
+            ally.add(head);
             
-            // Iconic lion helmet
-            const helmetGeometry = new THREE.SphereGeometry(0.62, 18, 16, 0, Math.PI * 2, 0, Math.PI * 0.65);
-            const lionHelmetMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
-                shininess: 130,
-                emissive: 0x332200
+            const helmetGeometry = new THREE.SphereGeometry(0.52, 16, 14, 0, Math.PI * 2, 0, Math.PI * 0.7);
+            const helmetMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xB0B0B0,
+                shininess: 105
             });
-            const helmet = new THREE.Mesh(helmetGeometry, lionHelmetMaterial);
-            helmet.position.y = 4.4;
+            const helmet = new THREE.Mesh(helmetGeometry, helmetMaterial);
+            helmet.position.y = 3.88;
             helmet.castShadow = true;
-            alexander.add(helmet);
+            ally.add(helmet);
             
-            // Helmet crest (plume)
-            const crestGeometry = new THREE.BoxGeometry(0.12, 1.2, 0.4);
-            const crestMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xDC143C,
-                shininess: 20
-            });
-            const crest = new THREE.Mesh(crestGeometry, crestMaterial);
-            crest.position.y = 5.2;
-            crest.castShadow = true;
-            alexander.add(crest);
-            
-            // Legendary xiphos (Greek sword)
             const swordGroup = new THREE.Group();
-            const bladeGeometry = new THREE.BoxGeometry(0.14, 2.4, 0.05);
-            const greekBladeMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFFFFF,
-                shininess: 160,
-                specular: 0xFFFFFF,
-                emissive: 0x444444,
-                emissiveIntensity: 0.2
+            const bladeGeometry = new THREE.BoxGeometry(0.11, 2.4, 0.04);
+            const bladeMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xE8E8E8,
+                shininess: 115
             });
-            const blade = new THREE.Mesh(bladeGeometry, greekBladeMaterial);
+            const blade = new THREE.Mesh(bladeGeometry, bladeMaterial);
             blade.position.y = 1.2;
             blade.castShadow = true;
             swordGroup.add(blade);
             
-            const guardGeometry = new THREE.BoxGeometry(0.85, 0.16, 0.16);
-            const guard = new THREE.Mesh(guardGeometry, goldMaterial);
-            guard.castShadow = true;
-            swordGroup.add(guard);
-            
-            swordGroup.position.set(1.05, 2.55, 0);
+            swordGroup.position.set(0.98, 2.4, 0);
             swordGroup.rotation.z = -0.3;
-            alexander.add(swordGroup);
-            alexander.sword = swordGroup;
+            ally.add(swordGroup);
+            ally.sword = swordGroup;
             
-            // Purple Macedonian cloak
-            const cloakGeometry = new THREE.BoxGeometry(1.6, 2.3, 0.1);
-            const cloakMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x800080, // Royal purple
-                shininess: 25,
-                side: THREE.DoubleSide
-            });
-            const cloak = new THREE.Mesh(cloakGeometry, cloakMaterial);
-            cloak.position.set(0, 2.3, -0.55);
-            cloak.castShadow = true;
-            alexander.add(cloak);
-            alexander.cape = cloak;
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 5 + Math.random() * 3;
+            ally.position.set(
+                Math.cos(angle) * distance,
+                0,
+                Math.sin(angle) * distance
+            );
             
-            // Golden conquerer's aura
-            const auraGeometry = new THREE.SphereGeometry(1.9, 16, 16);
-            const auraMaterial = new THREE.MeshBasicMaterial({
-                color: 0xFFD700,
-                transparent: true,
-                opacity: 0.18,
-                side: THREE.BackSide
-            });
-            const aura = new THREE.Mesh(auraGeometry, auraMaterial);
-            aura.position.y = 2.5;
-            alexander.add(aura);
-            alexander.glow = aura;
+            ally.targetEnemy = null;
+            ally.attackCooldown = 0;
+            ally.isAlly = true;
+            ally.walkCycle = 0;
+            ally.health = 80;
             
-            const glowLight = new THREE.PointLight(0xFFD700, 0.65, 12);
-            glowLight.position.y = 4.2;
-            alexander.add(glowLight);
-            alexander.glowLight = glowLight;
-            
-            alexander.position.set(0, 0, 0);
-            alexander.health = gameState.maxHealth;
-            alexander.isPlayer = true;
-            alexander.walkCycle = 0;
-            alexander.direction = 0;
-            
-            return alexander;
+            return ally;
         }
 
         function createEnemy() {
@@ -1037,126 +1123,27 @@
             enemy.speed = 0.08 + Math.random() * 0.04;
             enemy.attackCooldown = 0;
             enemy.isEnemy = true;
-            enemy.isLeader = false;
             enemy.walkCycle = 0;
             
             return enemy;
         }
 
         function createEnemyLeader() {
-            const leader = new THREE.Group();
+            const leader = createEnemy();
+            leader.scale.set(1.3, 1.3, 1.3);
             
-            // Larger imposing figure
-            const torsoGeometry = new THREE.CylinderGeometry(0.7, 0.9, 2.2, 16);
-            const leaderArmorMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x1a0000,
-                shininess: 80,
-                emissive: 0x330000,
-                emissiveIntensity: 0.3
-            });
-            const torso = new THREE.Mesh(torsoGeometry, leaderArmorMaterial);
-            torso.position.y = 2.6;
-            torso.castShadow = true;
-            leader.add(torso);
-            
-            // Gold chest plate
-            const chestGeometry = new THREE.CylinderGeometry(0.8, 0.9, 1.3, 16);
-            const goldArmorMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFD700,
-                shininess: 120,
-                specular: 0xFFFFFF,
-                emissive: 0x332200
-            });
-            const chest = new THREE.Mesh(chestGeometry, goldArmorMaterial);
-            chest.position.y = 3;
-            chest.castShadow = true;
-            leader.add(chest);
-            
-            const legGeometry = new THREE.CylinderGeometry(0.28, 0.32, 1.7, 14);
-            const leftLeg = new THREE.Mesh(legGeometry, leaderArmorMaterial);
-            leftLeg.position.set(-0.35, 0.55, 0);
-            leftLeg.castShadow = true;
-            leader.add(leftLeg);
-            leader.leftLeg = leftLeg;
-            
-            const rightLeg = new THREE.Mesh(legGeometry, leaderArmorMaterial);
-            rightLeg.position.set(0.35, 0.55, 0);
-            rightLeg.castShadow = true;
-            leader.add(rightLeg);
-            leader.rightLeg = rightLeg;
-            
-            const armGeometry = new THREE.CylinderGeometry(0.24, 0.27, 2, 14);
-            const leftArm = new THREE.Mesh(armGeometry, leaderArmorMaterial);
-            leftArm.position.set(-1, 2.6, 0);
-            leftArm.rotation.z = 0.3;
-            leftArm.castShadow = true;
-            leader.add(leftArm);
-            
-            const rightArm = new THREE.Mesh(armGeometry, leaderArmorMaterial);
-            rightArm.position.set(1, 2.6, 0);
-            rightArm.rotation.z = -0.3;
-            rightArm.castShadow = true;
-            leader.add(rightArm);
-            leader.rightArm = rightArm;
-            
-            const headGeometry = new THREE.SphereGeometry(0.55, 18, 18);
-            const leaderSkinMaterial = new THREE.MeshPhongMaterial({ color: 0x2a2a2a });
-            const head = new THREE.Mesh(headGeometry, leaderSkinMaterial);
-            head.position.y = 4.2;
-            head.castShadow = true;
-            leader.add(head);
-            
-            // Evil crown
-            const crownGeometry = new THREE.CylinderGeometry(0.58, 0.5, 0.6, 12);
+            const crownGeometry = new THREE.CylinderGeometry(0.45, 0.38, 0.5, 12);
             const crownMaterial = new THREE.MeshPhongMaterial({ 
                 color: 0xFFD700,
                 shininess: 130,
                 emissive: 0x332200
             });
             const crown = new THREE.Mesh(crownGeometry, crownMaterial);
-            crown.position.y = 4.75;
+            crown.position.y = 3.2;
             crown.castShadow = true;
             leader.add(crown);
             
-            // Crown spikes
-            for (let i = 0; i < 8; i++) {
-                const spikeGeometry = new THREE.ConeGeometry(0.08, 0.5, 6);
-                const spike = new THREE.Mesh(spikeGeometry, crownMaterial);
-                const angle = (i / 8) * Math.PI * 2;
-                spike.position.set(
-                    Math.cos(angle) * 0.48,
-                    5.15,
-                    Math.sin(angle) * 0.48
-                );
-                leader.add(spike);
-            }
-            
-            // Large menacing sword
-            const swordGroup = new THREE.Group();
-            const bladeGeometry = new THREE.BoxGeometry(0.18, 3.5, 0.06);
-            const leaderBladeMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFF0000,
-                shininess: 110,
-                emissive: 0x660000,
-                emissiveIntensity: 0.4
-            });
-            const blade = new THREE.Mesh(bladeGeometry, leaderBladeMaterial);
-            blade.position.y = 1.75;
-            blade.castShadow = true;
-            swordGroup.add(blade);
-            
-            const guardGeometry = new THREE.BoxGeometry(1, 0.18, 0.18);
-            const guard = new THREE.Mesh(guardGeometry, goldArmorMaterial);
-            guard.castShadow = true;
-            swordGroup.add(guard);
-            
-            swordGroup.position.set(1.1, 2.6, 0);
-            swordGroup.rotation.z = -0.3;
-            leader.add(swordGroup);
-            leader.sword = swordGroup;
-            
-            // Red menacing aura
-            const auraGeometry = new THREE.RingGeometry(2.5, 3.5, 32);
+            const auraGeometry = new THREE.RingGeometry(2, 3, 32);
             const auraMaterial = new THREE.MeshBasicMaterial({ 
                 color: 0xFF0000,
                 transparent: true,
@@ -1169,258 +1156,176 @@
             leader.add(aura);
             leader.aura = aura;
             
-            const spawnAngle = Math.random() * Math.PI * 2;
-            const spawnDistance = 40 + Math.random() * 30;
-            leader.position.set(
-                Math.cos(spawnAngle) * spawnDistance,
-                0,
-                Math.sin(spawnAngle) * spawnDistance
-            );
-            
             leader.health = 200;
             leader.maxHealth = 200;
-            leader.speed = 0.12;
-            leader.attackCooldown = 0;
-            leader.isEnemy = true;
             leader.isLeader = true;
-            leader.walkCycle = 0;
             
             return leader;
         }
 
-        function createAlly() {
-            const ally = new THREE.Group();
+        let player;
+        
+        function selectMode(mode) {
+            gameState.mode = mode;
+            document.getElementById('modeSelection').classList.add('hidden');
             
-            // Full plate armor torso
-            const torsoGeometry = new THREE.CylinderGeometry(0.58, 0.78, 1.9, 16);
-            const armorMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x8B8B8B,
-                shininess: 95,
-                specular: 0xCCCCCC
-            });
-            const torso = new THREE.Mesh(torsoGeometry, armorMaterial);
-            torso.position.y = 2.4;
-            torso.castShadow = true;
-            ally.add(torso);
-            
-            // Chest plate with cross emblem
-            const chestGeometry = new THREE.CylinderGeometry(0.68, 0.78, 1.1, 16);
-            const plateArmorMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xA9A9A9,
-                shininess: 110,
-                specular: 0xFFFFFF
-            });
-            const chest = new THREE.Mesh(chestGeometry, plateArmorMaterial);
-            chest.position.y = 2.7;
-            chest.castShadow = true;
-            ally.add(chest);
-            
-            // Red cross emblem on chest
-            const crossVGeometry = new THREE.BoxGeometry(0.08, 0.6, 0.12);
-            const crossMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xDC143C,
-                emissive: 0x330000
-            });
-            const crossV = new THREE.Mesh(crossVGeometry, crossMaterial);
-            crossV.position.set(0, 2.7, 0.8);
-            ally.add(crossV);
-            
-            const crossHGeometry = new THREE.BoxGeometry(0.08, 0.4, 0.12);
-            const crossH = new THREE.Mesh(crossHGeometry, crossMaterial);
-            crossH.position.set(0, 2.85, 0.8);
-            crossH.rotation.z = Math.PI / 2;
-            ally.add(crossH);
-            
-            // Shoulder pauldrons
-            const shoulderGeometry = new THREE.SphereGeometry(0.35, 14, 14);
-            const leftShoulder = new THREE.Mesh(shoulderGeometry, plateArmorMaterial);
-            leftShoulder.position.set(-0.88, 3.25, 0);
-            leftShoulder.castShadow = true;
-            ally.add(leftShoulder);
-            
-            const rightShoulder = new THREE.Mesh(shoulderGeometry, plateArmorMaterial);
-            rightShoulder.position.set(0.88, 3.25, 0);
-            rightShoulder.castShadow = true;
-            ally.add(rightShoulder);
-            
-            // Waist armor
-            const waistGeometry = new THREE.CylinderGeometry(0.48, 0.58, 0.45, 16);
-            const waist = new THREE.Mesh(waistGeometry, armorMaterial);
-            waist.position.y = 1.25;
-            waist.castShadow = true;
-            ally.add(waist);
-            
-            // Armored legs
-            const legGeometry = new THREE.CylinderGeometry(0.25, 0.28, 1.55, 14);
-            const leftLeg = new THREE.Mesh(legGeometry, armorMaterial);
-            leftLeg.position.set(-0.31, 0.48, 0);
-            leftLeg.castShadow = true;
-            ally.add(leftLeg);
-            ally.leftLeg = leftLeg;
-            
-            const rightLeg = new THREE.Mesh(legGeometry, armorMaterial);
-            rightLeg.position.set(0.31, 0.48, 0);
-            rightLeg.castShadow = true;
-            ally.add(rightLeg);
-            ally.rightLeg = rightLeg;
-            
-            // Knee guards
-            const kneeGeometry = new THREE.SphereGeometry(0.2, 12, 12);
-            const leftKnee = new THREE.Mesh(kneeGeometry, plateArmorMaterial);
-            leftKnee.position.set(-0.31, 0.85, 0.18);
-            leftKnee.castShadow = true;
-            ally.add(leftKnee);
-            
-            const rightKnee = new THREE.Mesh(kneeGeometry, plateArmorMaterial);
-            rightKnee.position.set(0.31, 0.85, 0.18);
-            rightKnee.castShadow = true;
-            ally.add(rightKnee);
-            
-            // Armored arms
-            const armGeometry = new THREE.CylinderGeometry(0.21, 0.24, 1.75, 14);
-            const leftArm = new THREE.Mesh(armGeometry, armorMaterial);
-            leftArm.position.set(-0.88, 2.4, 0);
-            leftArm.rotation.z = 0.3;
-            leftArm.castShadow = true;
-            ally.add(leftArm);
-            
-            const rightArm = new THREE.Mesh(armGeometry, armorMaterial);
-            rightArm.position.set(0.88, 2.4, 0);
-            rightArm.rotation.z = -0.3;
-            rightArm.castShadow = true;
-            ally.add(rightArm);
-            ally.rightArm = rightArm;
-            
-            // Gauntlets
-            const gauntletGeometry = new THREE.BoxGeometry(0.22, 0.38, 0.22);
-            const leftGauntlet = new THREE.Mesh(gauntletGeometry, plateArmorMaterial);
-            leftGauntlet.position.set(-1.08, 1.55, 0);
-            leftGauntlet.castShadow = true;
-            ally.add(leftGauntlet);
-            
-            const rightGauntlet = new THREE.Mesh(gauntletGeometry, plateArmorMaterial);
-            rightGauntlet.position.set(1.08, 1.55, 0);
-            rightGauntlet.castShadow = true;
-            ally.add(rightGauntlet);
-            
-            // Head with helmet
-            const headGeometry = new THREE.SphereGeometry(0.48, 16, 16);
-            const skinMaterial = new THREE.MeshPhongMaterial({ color: 0xFFD1A3 });
-            const head = new THREE.Mesh(headGeometry, skinMaterial);
-            head.position.y = 3.72;
-            head.castShadow = true;
-            ally.add(head);
-            
-            // Full helmet
-            const helmetGeometry = new THREE.SphereGeometry(0.52, 16, 14, 0, Math.PI * 2, 0, Math.PI * 0.7);
-            const helmetMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xB0B0B0,
-                shininess: 105
-            });
-            const helmet = new THREE.Mesh(helmetGeometry, helmetMaterial);
-            helmet.position.y = 3.88;
-            helmet.castShadow = true;
-            ally.add(helmet);
-            
-            // Visor slit
-            const visorGeometry = new THREE.BoxGeometry(0.55, 0.08, 0.08);
-            const visorMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
-            const visor = new THREE.Mesh(visorGeometry, visorMaterial);
-            visor.position.set(0, 3.72, 0.52);
-            ally.add(visor);
-            
-            // Chainmail coif visible at neck
-            const chainmailGeometry = new THREE.CylinderGeometry(0.35, 0.45, 0.35, 16);
-            const chainmailMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x707070,
-                shininess: 50
-            });
-            const chainmail = new THREE.Mesh(chainmailGeometry, chainmailMaterial);
-            chainmail.position.y = 3.35;
-            chainmail.castShadow = true;
-            ally.add(chainmail);
-            
-            // Sword
-            const swordGroup = new THREE.Group();
-            const bladeGeometry = new THREE.BoxGeometry(0.11, 2.4, 0.04);
-            const bladeMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xE8E8E8,
-                shininess: 115
-            });
-            const blade = new THREE.Mesh(bladeGeometry, bladeMaterial);
-            blade.position.y = 1.2;
-            blade.castShadow = true;
-            swordGroup.add(blade);
-            
-            const guardGeometry = new THREE.BoxGeometry(0.7, 0.11, 0.11);
-            const guard = new THREE.Mesh(guardGeometry, armorMaterial);
-            guard.castShadow = true;
-            swordGroup.add(guard);
-            
-            swordGroup.position.set(0.98, 2.4, 0);
-            swordGroup.rotation.z = -0.3;
-            ally.add(swordGroup);
-            ally.sword = swordGroup;
-            
-            // Tabard/surcoat over armor
-            const tabardGeometry = new THREE.BoxGeometry(0.85, 1.5, 0.08);
-            const tabardMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xFFFFFF,
-                side: THREE.DoubleSide
-            });
-            const tabard = new THREE.Mesh(tabardGeometry, tabardMaterial);
-            tabard.position.set(0, 2.3, 0.82);
-            tabard.castShadow = true;
-            ally.add(tabard);
-            
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 5 + Math.random() * 3;
-            ally.position.set(
-                Math.cos(angle) * distance,
-                0,
-                Math.sin(angle) * distance
-            );
-            
-            ally.targetEnemy = null;
-            ally.attackCooldown = 0;
-            ally.isAlly = true;
-            ally.walkCycle = 0;
-            ally.health = 80;
-            
-            return ally;
+            if (mode === 'story') {
+                showCutscene(0);
+            } else if (mode === 'alexander') {
+                document.getElementById('characterName').textContent = '⚔️ ALEXANDER THE GREAT ⚔️';
+                player = createAlexander();
+                scene.add(player);
+                
+                for (let i = 0; i < 5; i++) {
+                    const ally = createAlly();
+                    gameState.allies.push(ally);
+                    scene.add(ally);
+                }
+                
+                gameState.totalLeaders = 8;
+                document.getElementById('totalLeaders').textContent = '8';
+                showAlexanderIntro();
+            } else {
+                player = createJoan();
+                scene.add(player);
+                
+                for (let i = 0; i < 5; i++) {
+                    const ally = createAlly();
+                    gameState.allies.push(ally);
+                    scene.add(ally);
+                }
+                
+                gameState.gameStarted = true;
+                animate();
+            }
         }
 
-        let player = null; // Will be created based on mode selection
+        function showAlexanderIntro() {
+            document.getElementById('cutsceneTitle').textContent = alexanderStory.title;
+            document.getElementById('cutsceneText').textContent = alexanderStory.text;
+            document.getElementById('cutsceneScreen').classList.remove('hidden');
+        }
 
-        function initializePlayer(mode) {
-            if (player) {
-                scene.remove(player);
+        function showCutscene(chapterIndex) {
+            const chapter = storyChapters[chapterIndex];
+            document.getElementById('cutsceneTitle').textContent = chapter.title;
+            document.getElementById('cutsceneText').textContent = chapter.text;
+            document.getElementById('cutsceneScreen').classList.remove('hidden');
+        }
+
+        function endCutscene() {
+            document.getElementById('cutsceneScreen').classList.add('hidden');
+            
+            if (gameState.mode === 'story') {
+                showDialogue(gameState.currentChapter);
+            } else if (gameState.mode === 'alexander') {
+                gameState.gameStarted = true;
+                gameState.questActive = true;
+                document.getElementById('questLog').classList.remove('hidden');
+                document.getElementById('questObjective').textContent = alexanderStory.quest;
+                animate();
             }
+        }
+
+        function showDialogue(chapterIndex) {
+            const chapter = storyChapters[chapterIndex];
+            const dialogue = chapter.dialogue;
             
-            gameState.gameMode = mode;
+            document.getElementById('speakerName').textContent = dialogue.speaker;
+            document.getElementById('dialogueText').textContent = dialogue.text;
             
-            if (mode === 'joan') {
-                player = createJoan();
-                document.getElementById('hud').querySelector('h2').textContent = '⚜️ JOAN OF ARC ⚜️';
-            } else if (mode === 'alexander') {
-                player = createAlexander();
-                document.getElementById('hud').querySelector('h2').textContent = '⚔️ ALEXANDER THE GREAT ⚔️';
-            }
+            const optionsDiv = document.getElementById('dialogueOptions');
+            optionsDiv.innerHTML = '';
             
-            scene.add(player);
-            
-            // Clear and recreate allies
-            gameState.allies.forEach(function(ally) {
-                scene.remove(ally);
+            dialogue.options.forEach(function(option) {
+                const button = document.createElement('div');
+                button.className = 'dialogue-option';
+                button.textContent = option.text;
+                button.onclick = function() {
+                    if (option.response === 'quest') {
+                        startQuest(chapterIndex);
+                    }
+                };
+                optionsDiv.appendChild(button);
             });
-            gameState.allies = [];
             
-            // Create 5 allied forces
-            for (let i = 0; i < 5; i++) {
-                const ally = createAlly();
-                gameState.allies.push(ally);
-                scene.add(ally);
+            document.getElementById('dialogueScreen').classList.remove('hidden');
+        }
+
+        function startQuest(chapterIndex) {
+            document.getElementById('dialogueScreen').classList.add('hidden');
+            
+            const chapter = storyChapters[chapterIndex];
+            
+            if (!player) {
+                player = createJoan();
+                scene.add(player);
+                
+                for (let i = 0; i < 5; i++) {
+                    const ally = createAlly();
+                    gameState.allies.push(ally);
+                    scene.add(ally);
+                }
             }
+            
+            gameState.questActive = true;
+            gameState.questComplete = false;
+            gameState.kills = 0;
+            gameState.leadersDefeated = 0;
+            
+            if (chapter.objective.type === 'leaders') {
+                gameState.totalLeaders = chapter.objective.count;
+                document.getElementById('totalLeaders').textContent = chapter.objective.count;
+            }
+            
+            document.getElementById('questLog').classList.remove('hidden');
+            document.getElementById('questObjective').textContent = chapter.quest;
+            
+            gameState.gameStarted = true;
+            animate();
+        }
+
+        function checkQuestComplete() {
+            if (!gameState.questActive || gameState.questComplete) return;
+            
+            const chapter = storyChapters[gameState.currentChapter];
+            let complete = false;
+            
+            if (gameState.mode === 'alexander') {
+                if (gameState.kills >= 50 && gameState.leadersDefeated >= 8) {
+                    complete = true;
+                }
+            } else if (chapter.objective.type === 'kills') {
+                if (gameState.kills >= chapter.objective.count) {
+                    complete = true;
+                }
+            } else if (chapter.objective.type === 'leaders') {
+                if (gameState.leadersDefeated >= chapter.objective.count) {
+                    complete = true;
+                }
+            }
+            
+            if (complete) {
+                gameState.questComplete = true;
+                gameState.questActive = false;
+                
+                if (gameState.mode === 'alexander' || chapter.nextChapter === -1) {
+                    showVictory();
+                } else {
+                    gameState.currentChapter = chapter.nextChapter;
+                    setTimeout(function() {
+                        showCutscene(gameState.currentChapter);
+                    }, 1000);
+                }
+            }
+        }
+
+        function showVictory() {
+            document.getElementById('victoryMessage').textContent = 
+                gameState.mode === 'alexander' ? 
+                'You have conquered the Persian Empire! History remembers Alexander the Great!' :
+                'France is saved! Joan of Arc has fulfilled her divine mission!';
+            document.getElementById('victoryScreen').classList.remove('hidden');
         }
 
         // Joystick Controls
@@ -1483,13 +1388,6 @@
                 specialAttack();
             }
         }, { passive: false });
-        
-        document.getElementById('prayButton').addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            if (gameState.gameStarted) {
-                prayForLeader();
-            }
-        }, { passive: false });
 
         function playerAttack() {
             gameState.isAttacking = true;
@@ -1514,7 +1412,7 @@
             gameState.enemies.forEach(function(enemy) {
                 const distance = player.position.distanceTo(enemy.position);
                 if (distance < 5) {
-                    const damage = 25;
+                    const damage = enemy.isLeader ? 15 : 25;
                     enemy.health -= damage;
                     hitSomething = true;
                     
@@ -1555,23 +1453,6 @@
             });
         }
 
-        function prayForLeader() {
-            const flashDiv = document.createElement('div');
-            flashDiv.style.position = 'fixed';
-            flashDiv.style.top = '0';
-            flashDiv.style.left = '0';
-            flashDiv.style.width = '100%';
-            flashDiv.style.height = '100%';
-            flashDiv.style.background = 'rgba(255, 215, 0, 0.3)';
-            flashDiv.style.pointerEvents = 'none';
-            flashDiv.style.zIndex = '50';
-            document.body.appendChild(flashDiv);
-            
-            setTimeout(function() {
-                document.body.removeChild(flashDiv);
-            }, 500);
-        }
-
         function killEnemy(enemy) {
             scene.remove(enemy);
             gameState.enemies = gameState.enemies.filter(function(e) { return e !== enemy; });
@@ -1579,30 +1460,12 @@
             if (enemy.isLeader) {
                 gameState.leaders = gameState.leaders.filter(function(l) { return l !== enemy; });
                 gameState.leadersDefeated++;
-                gameState.prayTarget = null;
-                
-                if (gameState.leadersDefeated >= gameState.totalLeaders) {
-                    showVictory();
-                }
             }
             
             gameState.kills++;
             gameState.special = Math.min(gameState.maxSpecial, gameState.special + 10);
             updateUI();
-        }
-        
-        function showVictory() {
-            gameState.gameWon = true;
-            document.getElementById('gameCanvas').style.display = 'none';
-            document.getElementById('ui').style.display = 'none';
-            document.getElementById('victoryScreen').classList.remove('hidden');
-            
-            const victoryMessage = document.getElementById('victoryMessage');
-            if (gameState.gameMode === 'joan') {
-                victoryMessage.innerHTML = 'ALL PRAISE AND<br>ALL GLORY TO<br>JESUS CHRIST';
-            } else if (gameState.gameMode === 'alexander') {
-                victoryMessage.innerHTML = 'VICTORY!<br>THE WORLD<br>IS CONQUERED!';
-            }
+            checkQuestComplete();
         }
 
         function updateCombo() {
@@ -1699,10 +1562,6 @@
                 } else {
                     ally.lookAt(ally.targetEnemy.position);
                     
-                    ally.leftLeg.rotation.x *= 0.9;
-                    ally.rightLeg.rotation.x *= 0.9;
-                    ally.rightArm.rotation.x *= 0.9;
-                    
                     if (ally.attackCooldown <= 0) {
                         ally.attackCooldown = 65;
                         ally.targetEnemy.health -= 18;
@@ -1736,7 +1595,8 @@
         }
 
         function spawnLeader() {
-            if (gameState.leaders.length < 2 && gameState.leadersDefeated < gameState.totalLeaders) {
+            const maxLeaders = gameState.mode === 'alexander' ? 2 : 2;
+            if (gameState.leaders.length < maxLeaders && gameState.leadersDefeated < gameState.totalLeaders) {
                 const leader = createEnemyLeader();
                 gameState.leaders.push(leader);
                 gameState.enemies.push(leader);
@@ -1753,7 +1613,7 @@
         function animate() {
             requestAnimationFrame(animate);
             
-            if (!gameState.gameStarted) {
+            if (!gameState.gameStarted || !player) {
                 renderer.render(scene, camera);
                 return;
             }
@@ -1778,22 +1638,16 @@
                 if (Math.abs(joyX) > 0.1 || Math.abs(joyZ) > 0.1) {
                     isMoving = true;
                     
-                    // Calculate 8-directional movement
                     const angle = Math.atan2(joyX, joyZ);
-                    
-                    // Determine direction (0-7 for 8 directions)
                     let direction = Math.round(angle / (Math.PI / 4));
                     if (direction < 0) direction += 8;
                     if (direction >= 8) direction = 0;
                     
-                    // Calculate movement based on joystick input
                     const magnitude = Math.min(Math.sqrt(joyX * joyX + joyZ * joyZ), 1);
                     
-                    // Move in the direction
                     player.position.x += Math.sin(angle) * moveSpeed * magnitude;
                     player.position.z += Math.cos(angle) * moveSpeed * magnitude;
                     
-                    // Face the direction of movement
                     player.rotation.y = angle;
                     player.direction = direction;
                 }
@@ -1822,8 +1676,8 @@
                 player.position.y = breathe;
             }
 
-            player.position.x = Math.max(-90, Math.min(90, player.position.x));
-            player.position.z = Math.max(-90, Math.min(90, player.position.z));
+            player.position.x = Math.max(-110, Math.min(110, player.position.x));
+            player.position.z = Math.max(-110, Math.min(110, player.position.z));
 
             if (player.glow && player.glowLight) {
                 player.glow.material.opacity = 0.12 + Math.sin(currentTime * 0.002) * 0.08;
@@ -1834,29 +1688,16 @@
             gameState.allies.forEach(updateAlly);
 
             spawnTimer++;
-            if (spawnTimer > 30) {
+            if (spawnTimer > 120) {
                 spawnTimer = 0;
                 spawnEnemies();
             }
-
-            // Spawn leader every 30 seconds (5400 frames at 60fps)
+            
+            // Spawn leaders every 30 seconds (1800 frames at 60fps)
             leaderSpawnTimer++;
-            if (leaderSpawnTimer > 5400) {
+            if (leaderSpawnTimer > 1800) {
                 leaderSpawnTimer = 0;
                 spawnLeader();
-            }
-
-            // Update leader aura animation
-            gameState.leaders.forEach(function(leader) {
-                if (leader.aura) {
-                    leader.aura.rotation.z += 0.05;
-                    leader.aura.material.opacity = 0.35 + Math.sin(currentTime * 0.005) * 0.15;
-                }
-            });
-
-            // Update pray target indicator
-            if (gameState.prayTarget && gameState.prayTarget.aura) {
-                gameState.prayTarget.aura.material.opacity = 0.5 + Math.sin(currentTime * 0.008) * 0.2;
             }
 
             camera.position.x = player.position.x;
@@ -1870,28 +1711,6 @@
 
             renderer.render(scene, camera);
         }
-
-        document.getElementById('joanModeButton').addEventListener('click', function() {
-            initializePlayer('joan');
-            document.getElementById('startScreen').classList.add('hidden');
-            gameState.gameStarted = true;
-            animate();
-            
-            setTimeout(function() {
-                spawnLeader();
-            }, 3000);
-        });
-        
-        document.getElementById('alexanderModeButton').addEventListener('click', function() {
-            initializePlayer('alexander');
-            document.getElementById('startScreen').classList.add('hidden');
-            gameState.gameStarted = true;
-            animate();
-            
-            setTimeout(function() {
-                spawnLeader();
-            }, 3000);
-        });
 
         window.addEventListener('resize', function() {
             camera.aspect = window.innerWidth / window.innerHeight;
