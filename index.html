@@ -382,8 +382,8 @@
         <h1>JOAN OF ARC</h1>
         <h3 style="color: #FFD700; font-size: 28px; margin-bottom: 35px;">⚔️ Divine Warriors ⚔️</h3>
         <button class="mode-button" onclick="selectMode('story')">STORY MODE</button>
-        <button class="mode-button" onclick="selectMode('alexander')">ALEXANDER THE GREAT</button>
-        <button class="mode-button" onclick="selectMode('arcade')">ARCADE MODE</button>
+        <button class="mode-button" onclick="selectMode('alexander')">ALEXANDER THE GREAT STORY</button>
+        <button class="mode-button" onclick="selectMode('gun')">GUN MODE</button>
     </div>
     
     <div id="cutsceneScreen" class="hidden">
@@ -476,6 +476,7 @@
                 },
                 quest: "Defeat 20 English soldiers to prove your divine calling",
                 objective: { type: "kills", count: 20 },
+                quote: "I am not afraid... I was born to do this. From the age of thirteen, I have heard voices from God commanding me to drive the English from France and see the Dauphin crowned at Reims. I fear nothing, for God is with me. The soldiers will fight, and God will give the victory.",
                 nextChapter: 1
             },
             {
@@ -492,6 +493,7 @@
                 },
                 quest: "Defeat 3 English patrol leaders without losing any allies",
                 objective: { type: "leaders", count: 3, protectAllies: true },
+                quote: "I have come to the king to tell him that I am sent by God to bring him aid and help. The King of Heaven commands me to tell the Dauphin to hold his kingdom firmly, and I will lead him to be crowned at Reims. Act bravely and God will act bravely.",
                 nextChapter: 2
             },
             {
@@ -508,6 +510,7 @@
                 },
                 quest: "Defeat 5 English commanders and break the siege",
                 objective: { type: "leaders", count: 5 },
+                quote: "In God's name, the soldiers will fight and God will give the victory! You English who have no right in the Kingdom of France, the King of Heaven commands you through me, Joan the Maid, to abandon your fortresses and return to your own country. If you do not, I will make such war upon you as shall be remembered forever!",
                 nextChapter: 3
             },
             {
@@ -524,6 +527,7 @@
                 },
                 quest: "Clear the route to Reims - Defeat 40 enemy soldiers",
                 objective: { type: "kills", count: 40 },
+                quote: "Be of good cheer. Before mid-summer, the Dauphin shall be crowned at Reims, and the English shall be driven from France. I am sent by God to recover the kingdom of France from the English, and I shall lead the King to his coronation, for such is the will of Heaven.",
                 nextChapter: 4
             },
             {
@@ -540,17 +544,94 @@
                 },
                 quest: "Final battle - Defeat the English commanders at Paris",
                 objective: { type: "leaders", count: 5 },
+                quote: "Everything I have done, I have done by command of the Lord. I would rather die than do anything that I know to be a sin, or against God's will. If I am not in God's grace, may God place me there. If I am, may God keep me there. I shall last a year, and little longer.",
                 nextChapter: -1
             }
         ];
         
-        // Alexander the Great story
-        const alexanderStory = {
-            title: "Alexander the Great - 334 BC",
-            text: "You are Alexander III of Macedon, known to history as Alexander the Great. Having inherited a powerful army from your father Philip II, you now embark on your legendary conquest of the Persian Empire. Lead your Macedonian phalanx to glory!",
-            quest: "Conquer and defeat 50 Persian warriors and 8 commanders",
-            objective: { type: "both", kills: 50, leaders: 8 }
-        };
+        // Alexander the Great Story Mode - Major historical battles
+        const alexanderChapters = [
+            {
+                title: "Chapter 1: The Battle of Granicus - 334 BC",
+                text: "After crossing into Asia Minor, Alexander faces his first major test against the Persian forces at the Granicus River. The Persian cavalry and Greek mercenaries await on the opposite bank.",
+                location: "Granicus River, Asia Minor",
+                dialogue: {
+                    speaker: "Parmenion (Senior General)",
+                    text: "My King, the Persians hold the high ground. We should wait until morning and find a better crossing. This frontal assault is too dangerous!",
+                    options: [
+                        { text: "Fortune favors the bold! We attack now!", response: "quest" },
+                        { text: "Today we show the Persians the might of Macedonia!", response: "quest" }
+                    ]
+                },
+                quest: "Charge across the river - Defeat 30 Persian soldiers and 3 commanders",
+                objective: { type: "both", kills: 30, leaders: 3 },
+                nextChapter: 1
+            },
+            {
+                title: "Chapter 2: The Battle of Issus - 333 BC",
+                text: "King Darius III of Persia himself takes the field with a massive army. At the narrow coastal plain of Issus, Alexander must face the Great King in direct combat.",
+                location: "Issus, Cilicia",
+                dialogue: {
+                    speaker: "Darius III (Persian King)",
+                    text: "I offer you peace, Alexander. Take Syria and Egypt as your own, marry my daughter, and be content with what you have conquered!",
+                    options: [
+                        { text: "I am already lord of all you offer, Darius.", response: "quest" },
+                        { text: "There cannot be two suns in the sky, nor two kings on earth!", response: "quest" }
+                    ]
+                },
+                quest: "Break the Persian center - Defeat 40 Persian warriors and 4 commanders",
+                objective: { type: "both", kills: 40, leaders: 4 },
+                nextChapter: 2
+            },
+            {
+                title: "Chapter 3: The Siege of Tyre - 332 BC",
+                text: "The island city of Tyre, protected by its mighty walls and navy, refuses to submit. Alexander must accomplish what seems impossible - build a causeway across the sea.",
+                location: "Tyre, Phoenicia",
+                dialogue: {
+                    speaker: "Engineers Commander",
+                    text: "Sire, no army has ever taken Tyre by land. Their walls rise from the sea itself. How can we bridge half a mile of ocean?",
+                    options: [
+                        { text: "We shall make the sea our battlefield!", response: "quest" },
+                        { text: "What man has built, man can conquer!", response: "quest" }
+                    ]
+                },
+                quest: "Storm the walls of Tyre - Defeat 35 Tyrian defenders and 3 commanders",
+                objective: { type: "both", kills: 35, leaders: 3 },
+                nextChapter: 3
+            },
+            {
+                title: "Chapter 4: The Battle of Gaugamela - 331 BC",
+                text: "On the plains of Gaugamela, Darius assembles the greatest army ever seen - 250,000 men with war elephants and scythed chariots. This is the decisive battle for the Persian Empire.",
+                location: "Gaugamela, Mesopotamia",
+                dialogue: {
+                    speaker: "Parmenion (Senior General)",
+                    text: "My King, their numbers are overwhelming. They outnumber us five to one. We are surrounded!",
+                    options: [
+                        { text: "Better to fight surrounded - they cannot escape us!", response: "quest" },
+                        { text: "One Macedonian is worth ten Persians! We attack!", response: "quest" }
+                    ]
+                },
+                quest: "Shatter the Persian Empire - Defeat 50 Persian warriors and 5 commanders",
+                objective: { type: "both", kills: 50, leaders: 5 },
+                nextChapter: 4
+            },
+            {
+                title: "Chapter 5: The Battle of Hydaspes - 326 BC",
+                text: "In India, Alexander faces King Porus and his war elephants. Crossing the rain-swollen Hydaspes River in a monsoon, Alexander fights his hardest battle yet.",
+                location: "Hydaspes River, India",
+                dialogue: {
+                    speaker: "King Porus of India",
+                    text: "Alexander, I am a king, born of kings. How should I be treated?",
+                    options: [
+                        { text: "Like a king, for you fought like one!", response: "quest" },
+                        { text: "Today, two great warriors meet in honorable combat!", response: "quest" }
+                    ]
+                },
+                quest: "Final conquest - Defeat Porus's army - 45 warriors and 5 commanders",
+                objective: { type: "both", kills: 45, leaders: 5 },
+                nextChapter: -1
+            }
+        ];
         
         // Audio Setup
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -716,8 +797,8 @@
             oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.3);
             
-            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime); // 1% volume - very quiet
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.3);
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
@@ -736,8 +817,8 @@
             oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E note
             oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G note
             
-            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime); // 1% volume - very quiet
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.5);
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
@@ -755,14 +836,33 @@
             oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.1);
             
-            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime); // 1% volume - very quiet
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
             
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
             
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.1);
+        }
+        
+        // Gun shot sound
+        function playGunSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(120, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.05);
+            
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // 5% volume
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.05);
         }
 
         // Game State
@@ -986,6 +1086,175 @@
         scene.add(castle);
 
         // Create Characters
+        function createJoanWithGuns() {
+            const joan = new THREE.Group();
+            
+            // Black trenchcoat torso
+            const torsoGeometry = new THREE.CylinderGeometry(0.6, 0.85, 2.2, 16);
+            const blackCoatMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x0a0a0a, // Very dark black
+                shininess: 30,
+                specular: 0x222222
+            });
+            const torso = new THREE.Mesh(torsoGeometry, blackCoatMaterial);
+            torso.position.y = 2.5;
+            torso.castShadow = true;
+            joan.add(torso);
+            
+            // Black coat chest
+            const chestGeometry = new THREE.CylinderGeometry(0.7, 0.85, 1.4, 16);
+            const chest = new THREE.Mesh(chestGeometry, blackCoatMaterial);
+            chest.position.y = 2.9;
+            chest.castShadow = true;
+            joan.add(chest);
+            
+            // Black shoulders
+            const shoulderGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+            const leftShoulder = new THREE.Mesh(shoulderGeometry, blackCoatMaterial);
+            leftShoulder.position.set(-0.95, 3.4, 0);
+            leftShoulder.castShadow = true;
+            joan.add(leftShoulder);
+            
+            const rightShoulder = new THREE.Mesh(shoulderGeometry, blackCoatMaterial);
+            rightShoulder.position.set(0.95, 3.4, 0);
+            rightShoulder.castShadow = true;
+            joan.add(rightShoulder);
+            
+            // Black pants/legs
+            const legGeometry = new THREE.CylinderGeometry(0.28, 0.3, 1.6, 12);
+            const leftLeg = new THREE.Mesh(legGeometry, blackCoatMaterial);
+            leftLeg.position.set(-0.32, 0.5, 0);
+            leftLeg.castShadow = true;
+            joan.add(leftLeg);
+            joan.leftLeg = leftLeg;
+            
+            const rightLeg = new THREE.Mesh(legGeometry, blackCoatMaterial);
+            rightLeg.position.set(0.32, 0.5, 0);
+            rightLeg.castShadow = true;
+            joan.add(rightLeg);
+            joan.rightLeg = rightLeg;
+            
+            // Black coat sleeves
+            const armGeometry = new THREE.CylinderGeometry(0.24, 0.26, 1.9, 12);
+            const leftArm = new THREE.Mesh(armGeometry, blackCoatMaterial);
+            leftArm.position.set(-0.95, 2.5, 0);
+            leftArm.rotation.z = 0.3;
+            leftArm.castShadow = true;
+            joan.add(leftArm);
+            joan.leftArm = leftArm;
+            
+            const rightArm = new THREE.Mesh(armGeometry, blackCoatMaterial);
+            rightArm.position.set(0.95, 2.5, 0);
+            rightArm.rotation.z = -0.3;
+            rightArm.castShadow = true;
+            joan.add(rightArm);
+            joan.rightArm = rightArm;
+            
+            const headGeometry = new THREE.SphereGeometry(0.55, 20, 20);
+            const skinMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD1A3,
+                shininess: 30
+            });
+            const head = new THREE.Mesh(headGeometry, skinMaterial);
+            head.position.y = 4.1;
+            head.castShadow = true;
+            joan.add(head);
+            
+            const hairGeometry = new THREE.SphereGeometry(0.6, 18, 14, 0, Math.PI * 2, 0, Math.PI * 0.6);
+            const hairMaterial = new THREE.MeshPhongMaterial({ color: 0x654321 });
+            const hair = new THREE.Mesh(hairGeometry, hairMaterial);
+            hair.position.y = 4.3;
+            hair.castShadow = true;
+            joan.add(hair);
+            
+            const glowGeometry = new THREE.SphereGeometry(1.8, 16, 16);
+            const glowMaterial = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.15,
+                side: THREE.BackSide
+            });
+            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            glow.position.y = 2.5;
+            joan.add(glow);
+            joan.glow = glow;
+            
+            // LEFT PISTOL (Handgun)
+            const leftGunGroup = new THREE.Group();
+            
+            const leftBarrelGeometry = new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8);
+            const gunMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x2a2a2a,
+                shininess: 80,
+                specular: 0x666666
+            });
+            const leftBarrel = new THREE.Mesh(leftBarrelGeometry, gunMaterial);
+            leftBarrel.rotation.z = Math.PI / 2;
+            leftBarrel.position.x = 0.3;
+            leftBarrel.castShadow = true;
+            leftGunGroup.add(leftBarrel);
+            
+            const leftGripGeometry = new THREE.BoxGeometry(0.12, 0.35, 0.08);
+            const gripMaterial = new THREE.MeshPhongMaterial({ color: 0x4a3020 });
+            const leftGrip = new THREE.Mesh(leftGripGeometry, gripMaterial);
+            leftGrip.position.set(0, -0.2, 0);
+            leftGrip.rotation.z = -0.3;
+            leftGrip.castShadow = true;
+            leftGunGroup.add(leftGrip);
+            
+            leftGunGroup.position.set(-1.1, 2.3, 0.3);
+            leftGunGroup.rotation.z = 0.3;
+            joan.add(leftGunGroup);
+            joan.leftGun = leftGunGroup;
+            
+            // RIGHT PISTOL (Handgun)
+            const rightGunGroup = new THREE.Group();
+            
+            const rightBarrel = new THREE.Mesh(leftBarrelGeometry, gunMaterial);
+            rightBarrel.rotation.z = Math.PI / 2;
+            rightBarrel.position.x = 0.3;
+            rightBarrel.castShadow = true;
+            rightGunGroup.add(rightBarrel);
+            
+            const rightGrip = new THREE.Mesh(leftGripGeometry, gripMaterial);
+            rightGrip.position.set(0, -0.2, 0);
+            rightGrip.rotation.z = -0.3;
+            rightGrip.castShadow = true;
+            rightGunGroup.add(rightGrip);
+            
+            rightGunGroup.position.set(1.1, 2.3, 0.3);
+            rightGunGroup.rotation.z = -0.3;
+            joan.add(rightGunGroup);
+            joan.rightGun = rightGunGroup;
+            
+            // Long black trenchcoat cape
+            const capeGeometry = new THREE.BoxGeometry(1.8, 3.0, 0.1);
+            const blackCapeMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x0a0a0a,
+                shininess: 15,
+                side: THREE.DoubleSide
+            });
+            const cape = new THREE.Mesh(capeGeometry, blackCapeMaterial);
+            cape.position.set(0, 1.8, -0.5);
+            cape.castShadow = true;
+            joan.add(cape);
+            joan.cape = cape;
+            
+            const glowLight = new THREE.PointLight(0xFFFFFF, 0.5, 10);
+            glowLight.position.y = 4;
+            joan.add(glowLight);
+            joan.glowLight = glowLight;
+            
+            joan.position.set(0, 0, 0);
+            joan.health = gameState.maxHealth;
+            joan.isPlayer = true;
+            joan.walkCycle = 0;
+            joan.direction = 0;
+            joan.hasGuns = true;
+            
+            return joan;
+        }
+
         function createJoan() {
             const joan = new THREE.Group();
             
@@ -1422,9 +1691,10 @@
                 gameState.totalLeaders = 8;
                 document.getElementById('totalLeaders').textContent = '8';
                 showAlexanderIntro();
-            } else {
-                // Arcade mode
-                player = createJoan();
+            } else if (mode === 'gun') {
+                // GUN MODE - Joan with dual pistols
+                document.getElementById('characterName').textContent = '🔫 JOAN OF ARC: GUN MODE 🔫';
+                player = createJoanWithGuns();
                 scene.add(player);
                 
                 // Create 10 allied soldiers in formation
@@ -1703,6 +1973,39 @@
         function playerAttack() {
             gameState.isAttacking = true;
             
+            // GUN MODE - Fire bullets from dual pistols
+            if (player.hasGuns) {
+                // Play gunshot sound
+                playGunSound();
+                
+                // Fire from left gun
+                fireBullet(player.leftGun.position.clone().add(player.position), player.rotation.y);
+                
+                // Slight delay for right gun
+                setTimeout(function() {
+                    playGunSound();
+                    fireBullet(player.rightGun.position.clone().add(player.position), player.rotation.y);
+                }, 100);
+                
+                // Gun recoil animation
+                const leftGunOriginal = player.leftGun.rotation.z;
+                const rightGunOriginal = player.rightGun.rotation.z;
+                
+                player.leftGun.rotation.z = leftGunOriginal - 0.3;
+                player.rightGun.rotation.z = rightGunOriginal + 0.3;
+                
+                setTimeout(function() {
+                    if (player.leftGun && player.rightGun) {
+                        player.leftGun.rotation.z = leftGunOriginal;
+                        player.rightGun.rotation.z = rightGunOriginal;
+                    }
+                    gameState.isAttacking = false;
+                }, 200);
+                
+                return;
+            }
+            
+            // SWORD MODE (story/alexander)
             // Play sword slash sound
             playSwordSlashSound();
             
@@ -1751,6 +2054,75 @@
             if (hitSomething) {
                 updateCombo();
             }
+        }
+        
+        // Bullet projectile system for gun mode
+        function fireBullet(startPos, direction) {
+            const bulletGeometry = new THREE.SphereGeometry(0.3, 12, 12); // Much bigger bullets
+            const bulletMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xFFFF00,
+                emissive: 0xFFFF00,
+                emissiveIntensity: 1.0
+            });
+            const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+            bullet.position.copy(startPos);
+            bullet.position.y = 2.5;
+            
+            const speed = 1.5;
+            const velocity = {
+                x: Math.sin(direction) * speed,
+                z: Math.cos(direction) * speed
+            };
+            
+            bullet.velocity = velocity;
+            bullet.lifetime = 0;
+            bullet.hasHit = false;
+            scene.add(bullet);
+            
+            function updateBullet() {
+                if (!bullet || bullet.hasHit) return;
+                
+                bullet.lifetime++;
+                bullet.position.x += bullet.velocity.x;
+                bullet.position.z += bullet.velocity.z;
+                
+                // Check collision with all enemies
+                for (let i = 0; i < gameState.enemies.length; i++) {
+                    const enemy = gameState.enemies[i];
+                    const distance = bullet.position.distanceTo(enemy.position);
+                    
+                    if (distance < 3) { // Bigger collision radius
+                        bullet.hasHit = true;
+                        
+                        // Guaranteed damage
+                        const damage = enemy.isLeader ? 25 : 35;
+                        enemy.health -= damage;
+                        
+                        playHitSound();
+                        createSlashEffect(enemy.position, new THREE.Vector3());
+                        
+                        const knockbackDir = new THREE.Vector3()
+                            .subVectors(enemy.position, player.position)
+                            .normalize();
+                        enemy.position.add(knockbackDir.multiplyScalar(2.5));
+                        
+                        if (enemy.health <= 0) {
+                            killEnemy(enemy);
+                        }
+                        
+                        updateCombo();
+                        scene.remove(bullet);
+                        return;
+                    }
+                }
+                
+                if (bullet.lifetime > 80) {
+                    scene.remove(bullet);
+                } else {
+                    requestAnimationFrame(updateBullet);
+                }
+            }
+            updateBullet();
         }
 
         function specialAttack() {
@@ -2113,18 +2485,142 @@
             }
         }
 
+        function createVampire() {
+            const vampire = new THREE.Group();
+            
+            const torsoGeometry = new THREE.CylinderGeometry(0.55, 0.75, 1.8, 14);
+            const vampireMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x1a0a0a,
+                shininess: 60
+            });
+            const torso = new THREE.Mesh(torsoGeometry, vampireMaterial);
+            torso.position.y = 2.3;
+            torso.castShadow = true;
+            vampire.add(torso);
+            
+            const legGeometry = new THREE.CylinderGeometry(0.24, 0.27, 1.5, 12);
+            const leftLeg = new THREE.Mesh(legGeometry, vampireMaterial);
+            leftLeg.position.set(-0.3, 0.45, 0);
+            leftLeg.castShadow = true;
+            vampire.add(leftLeg);
+            vampire.leftLeg = leftLeg;
+            
+            const rightLeg = new THREE.Mesh(legGeometry, vampireMaterial);
+            rightLeg.position.set(0.3, 0.45, 0);
+            rightLeg.castShadow = true;
+            vampire.add(rightLeg);
+            vampire.rightLeg = rightLeg;
+            
+            const armGeometry = new THREE.CylinderGeometry(0.2, 0.22, 1.7, 12);
+            const leftArm = new THREE.Mesh(armGeometry, vampireMaterial);
+            leftArm.position.set(-0.85, 2.3, 0);
+            leftArm.rotation.z = 0.3;
+            leftArm.castShadow = true;
+            vampire.add(leftArm);
+            
+            const rightArm = new THREE.Mesh(armGeometry, vampireMaterial);
+            rightArm.position.set(0.85, 2.3, 0);
+            rightArm.rotation.z = -0.3;
+            rightArm.castShadow = true;
+            vampire.add(rightArm);
+            vampire.rightArm = rightArm;
+            
+            const headGeometry = new THREE.SphereGeometry(0.47, 16, 16);
+            const paleSkinMaterial = new THREE.MeshPhongMaterial({ color: 0xE8E8E8 });
+            const head = new THREE.Mesh(headGeometry, paleSkinMaterial);
+            head.position.y = 3.65;
+            head.castShadow = true;
+            vampire.add(head);
+            
+            const eyeGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+            const eyeMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xFF0000,
+                emissive: 0xFF0000
+            });
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.15, 3.75, 0.45);
+            vampire.add(leftEye);
+            
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.15, 3.75, 0.45);
+            vampire.add(rightEye);
+            
+            const capeGeometry = new THREE.BoxGeometry(1.2, 2.0, 0.08);
+            const capeMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x0a0a0a,
+                side: THREE.DoubleSide
+            });
+            const cape = new THREE.Mesh(capeGeometry, capeMaterial);
+            cape.position.set(0, 2.0, -0.4);
+            cape.castShadow = true;
+            vampire.add(cape);
+            
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 30 + Math.random() * 20;
+            vampire.position.set(
+                Math.cos(angle) * distance,
+                0,
+                Math.sin(angle) * distance
+            );
+            
+            vampire.health = 30;
+            vampire.speed = 0.08 + Math.random() * 0.04;
+            vampire.attackCooldown = 0;
+            vampire.isEnemy = true;
+            vampire.walkCycle = 0;
+            
+            return vampire;
+        }
+        
+        function createDraculaGeneral() {
+            const dracula = createVampire();
+            dracula.scale.set(1.4, 1.4, 1.4);
+            
+            const crownGeometry = new THREE.CylinderGeometry(0.4, 0.35, 0.45, 12);
+            const crownMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD700,
+                shininess: 130,
+                emissive: 0x332200
+            });
+            const crown = new THREE.Mesh(crownGeometry, crownMaterial);
+            crown.position.y = 3.0;
+            crown.castShadow = true;
+            dracula.add(crown);
+            
+            const auraGeometry = new THREE.RingGeometry(2, 3, 32);
+            const auraMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xAA0000,
+                transparent: true,
+                opacity: 0.5,
+                side: THREE.DoubleSide
+            });
+            const aura = new THREE.Mesh(auraGeometry, auraMaterial);
+            aura.rotation.x = -Math.PI / 2;
+            aura.position.y = 0.1;
+            dracula.add(aura);
+            dracula.aura = aura;
+            
+            dracula.health = 200;
+            dracula.maxHealth = 200;
+            dracula.isLeader = true;
+            
+            return dracula;
+        }
+
         function spawnEnemies() {
             if (gameState.enemies.length < 20) {
-                const enemy = createEnemy();
+                // Spawn vampires in Gun Mode, regular enemies otherwise
+                const enemy = (gameState.mode === 'gun') ? createVampire() : createEnemy();
                 gameState.enemies.push(enemy);
                 scene.add(enemy);
             }
         }
 
         function spawnLeader() {
-            const maxLeaders = gameState.mode === 'alexander' ? 2 : 2;
+            const maxLeaders = (gameState.mode === 'alexander' || gameState.mode === 'gun') ? 2 : 2;
             if (gameState.leaders.length < maxLeaders && gameState.leadersDefeated < gameState.totalLeaders) {
-                const leader = createEnemyLeader();
+                // Spawn Dracula in Gun Mode, regular leaders otherwise
+                const leader = (gameState.mode === 'gun') ? createDraculaGeneral() : createEnemyLeader();
                 gameState.leaders.push(leader);
                 gameState.enemies.push(leader);
                 scene.add(leader);
