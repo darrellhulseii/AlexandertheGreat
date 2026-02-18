@@ -44,13 +44,15 @@
             top: 10px;
             left: 10px;
             background: linear-gradient(135deg, rgba(139, 0, 0, 0.95), rgba(184, 134, 11, 0.95));
-            padding: 12px 18px;
-            border: 3px solid #FFD700;
-            border-radius: 8px;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+            padding: 3px 5px;
+            border: 1px solid #FFD700;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
             color: #FFD700;
-            text-shadow: 2px 2px 4px #000;
-            font-size: 13px;
+            text-shadow: 1px 1px 2px #000;
+            font-size: 8px;
+            transform: scale(0.375);
+            transform-origin: top left;
         }
         
         #hud h2 {
@@ -354,7 +356,7 @@
         
         #questLog {
             position: absolute;
-            top: 200px;
+            top: 60px;
             left: 10px;
             background: rgba(0, 0, 0, 0.85);
             padding: 15px 20px;
@@ -363,6 +365,8 @@
             max-width: 320px;
             color: #FFD700;
             text-shadow: 1px 1px 2px #000;
+            transform: scale(0.375);
+            transform-origin: top left;
         }
         
         #questLog h3 {
@@ -458,93 +462,190 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        'use strict';
-        
-        // Story Data
+        // Story Data - Joan of Arc Biographical Story Mode
         const storyChapters = [
             {
-                title: "Chapter 1: The Calling - 1428",
-                text: "At the age of 16, Joan of Arc hears divine voices calling her to save France from English invasion. She must convince the local garrison commander, Robert de Baudricourt, to grant her an escort to meet the Dauphin Charles.",
-                location: "Vaucouleurs",
+                title: "Chapter 1: Childhood in Domrémy - 1412-1424",
+                text: "Born in the village of Domrémy to Jacques d'Arc and Isabelle Romée, young Jeanne grows up during the Hundred Years' War. She tends sheep, learns to sew, and attends church regularly. At age 12, she begins hearing divine voices.",
+                location: "Domrémy, France",
+                gameplay: "church", // Special church prayer gameplay
                 dialogue: {
-                    speaker: "Robert de Baudricourt",
-                    text: "A peasant girl claiming to hear voices from God? This is madness! Why should I send you to the Dauphin?",
+                    speaker: "Isabelle Romée (Mother)",
+                    text: "Jeanne, you spend so much time in prayer at the church. What troubles your heart, my daughter?",
                     options: [
-                        { text: "God has chosen me to save France from the English.", response: "quest" },
-                        { text: "I can prove my divine mission through victory.", response: "quest" }
+                        { text: "I hear voices, Mother. They speak of France's suffering.", response: "quest" },
+                        { text: "I must pray for our kingdom. God has a purpose for me.", response: "quest" }
                     ]
                 },
-                quest: "Defeat 20 English soldiers to prove your divine calling",
-                objective: { type: "kills", count: 20 },
-                quote: "I am not afraid... I was born to do this. From the age of thirteen, I have heard voices from God commanding me to drive the English from France and see the Dauphin crowned at Reims. I fear nothing, for God is with me. The soldiers will fight, and God will give the victory.",
+                quest: "Visit the church and pray 5 times for France's salvation",
+                objective: { type: "prayers", count: 5 },
+                historicalQuote: "She was a good simple girl, pious, well-behaved... She went willingly and often to church and to the holy places... She was never idle, but rather worked at spinning and doing other things which daughters of her station do. — Testimony of Beatrice Estellin, neighbor, from the Trial of Rehabilitation, 1456",
+                scholarlyQuote: "Joan was born in 1412 in Domrémy, on the borders of Lorraine and Champagne, to a family of prosperous peasants. Her childhood was marked by profound piety; neighbors testified she attended Mass daily and confession frequently, distinguishing herself through exceptional devotion even in that intensely religious age. — Mark Twain, 'Personal Recollections of Joan of Arc', 1896",
                 nextChapter: 1
             },
             {
-                title: "Chapter 2: Journey to Chinon - 1429",
-                text: "After proving herself, Joan travels 11 days through enemy territory to reach the Dauphin at Chinon. She must protect her small escort from English patrols and Burgundian raiders.",
-                location: "Road to Chinon",
+                title: "Chapter 2: The Voices - 1424-1428",
+                text: "At age 13, Joan experiences her first vision in her father's garden. Saint Michael, Saint Catherine, and Saint Margaret appear to her, commanding her to save France and crown the Dauphin at Reims. For four years, she keeps this divine mission secret.",
+                location: "Domrémy Garden",
+                gameplay: "church",
                 dialogue: {
-                    speaker: "Jean de Metz (Escort Knight)",
-                    text: "The route ahead is dangerous. English patrols control this region. Are you certain God protects us?",
+                    speaker: "Saint Michael (Vision)",
+                    text: "Daughter of God, you must go to France and raise the siege of Orléans. You will lead the Dauphin to Reims for his coronation.",
                     options: [
-                        { text: "I have faith. We will reach Chinon safely.", response: "quest" },
-                        { text: "Prepare for battle. We fight through if necessary.", response: "quest" }
+                        { text: "But I am only a poor girl who knows nothing of war!", response: "quest" },
+                        { text: "If this is God's will, I will obey.", response: "quest" }
                     ]
                 },
-                quest: "Defeat 3 English patrol leaders without losing any allies",
-                objective: { type: "leaders", count: 3, protectAllies: true },
-                quote: "I have come to the king to tell him that I am sent by God to bring him aid and help. The King of Heaven commands me to tell the Dauphin to hold his kingdom firmly, and I will lead him to be crowned at Reims. Act bravely and God will act bravely.",
+                quest: "Pray at the church altar to receive divine guidance - Complete 3 prayers",
+                objective: { type: "prayers", count: 3 },
+                historicalQuote: "I was in my thirteenth year when I heard a voice from God to help me govern my conduct. And the first time I was very fearful. And came this voice, about the hour of noon, in the summer time, in my father's garden... I heard the voice on the right-hand side... and rarely do I hear it without a brightness. This brightness comes from the same side as the voice is heard. — Joan's testimony at her trial, February 22, 1431",
+                scholarlyQuote: "The voices first came to Joan when she was approximately thirteen years old. According to her trial testimony, she initially heard them in her father's garden during summer, accompanied by a great light. She identified the voices as belonging to St. Michael the Archangel, St. Catherine of Alexandria, and St. Margaret of Antioch. These saints commanded her to drive out the English and lead the Dauphin to his coronation at Reims. — Marina Warner, 'Joan of Arc: The Image of Female Heroism', Oxford University Press, 1981",
                 nextChapter: 2
             },
             {
-                title: "Chapter 3: The Siege of Orléans - May 1429",
-                text: "Joan arrives at Orléans, which has been besieged by English forces for months. She must break the siege and liberate the city, turning the tide of the Hundred Years' War.",
-                location: "Orléans",
+                title: "Chapter 3: The Journey Begins - 1428",
+                text: "At 16, Joan can no longer ignore her voices. She travels to Vaucouleurs to convince Captain Robert de Baudricourt to grant her an armed escort to the Dauphin. Initially dismissed, she persists and eventually convinces him of her divine mission.",
+                location: "Vaucouleurs",
                 dialogue: {
-                    speaker: "Jean d'Orléans (Duke Commander)",
-                    text: "The English have held us for seven months. Their fortifications are strong. How can one girl change our fate?",
+                    speaker: "Robert de Baudricourt",
+                    text: "You return again, girl? Do you still claim God sends you to save France? This is madness! I should send you back to your father with a good beating!",
                     options: [
-                        { text: "God is with us. We attack at dawn!", response: "quest" },
-                        { text: "Faith and courage will break their siege.", response: "quest" }
+                        { text: "Before mid-Lent, I must be with the King. No one else can save France.", response: "quest" },
+                        { text: "I tell you in God's name: the Dauphin will make me his commander!", response: "quest" }
                     ]
                 },
-                quest: "Defeat 5 English commanders and break the siege",
-                objective: { type: "leaders", count: 5 },
-                quote: "In God's name, the soldiers will fight and God will give the victory! You English who have no right in the Kingdom of France, the King of Heaven commands you through me, Joan the Maid, to abandon your fortresses and return to your own country. If you do not, I will make such war upon you as shall be remembered forever!",
+                quest: "Prove your faith - Defeat 15 bandits threatening the town",
+                objective: { type: "kills", count: 15 },
+                historicalQuote: "I went to Robert de Baudricourt in the town of Vaucouleurs, and I told him that I must go to France... He refused me twice. The third time he received me and gave me men. The voice had told me that so it would be. — Joan's testimony, Trial of Condemnation, 1431",
+                scholarlyQuote: "Joan made her first attempt to see Robert de Baudricourt in May 1428. She was initially rebuffed with mockery and told to return to her father. Undeterred, she remained in Vaucouleurs and tried again in January 1429. This time, her persistence, combined with her accurate prediction of a French military defeat near Orléans, convinced Baudricourt to grant her request. He provided her with a small armed escort, a horse, and male clothing for the dangerous journey. — Régine Pernoud, 'Joan of Arc: By Herself and Her Witnesses', Scarborough House, 1994",
                 nextChapter: 3
             },
             {
-                title: "Chapter 4: The March to Reims - Summer 1429",
-                text: "After the victory at Orléans, Joan leads the French army on a daring campaign to capture Reims, where French kings are traditionally crowned. Several cities must be liberated along the way.",
-                location: "Loire Valley",
+                title: "Chapter 4: Journey to Chinon - 1429",
+                text: "Joan travels 11 days and 300 miles through enemy territory to reach the Dauphin. Dressed in male clothing for protection, she rides day and night, passing through English-held lands. Her small escort includes Jean de Metz and Bertrand de Poulengy.",
+                location: "Road to Chinon",
                 dialogue: {
-                    speaker: "The Dauphin Charles",
-                    text: "Joan, you have brought us victory at Orléans. Now we must secure Reims for my coronation. Can you clear the path?",
+                    speaker: "Jean de Metz",
+                    text: "We must pass through Burgundian territory by nightfall. The English patrol these roads. Are you certain we should continue, Joan?",
                     options: [
-                        { text: "We march for Reims! No force can stop us!", response: "quest" },
-                        { text: "Your Highness, God wills your coronation.", response: "quest" }
+                        { text: "My voices assure me - we will reach the Dauphin safely.", response: "quest" },
+                        { text: "I fear nothing but wrongdoing. God protects us.", response: "quest" }
                     ]
                 },
-                quest: "Clear the route to Reims - Defeat 40 enemy soldiers",
-                objective: { type: "kills", count: 40 },
-                quote: "Be of good cheer. Before mid-summer, the Dauphin shall be crowned at Reims, and the English shall be driven from France. I am sent by God to recover the kingdom of France from the English, and I shall lead the King to his coronation, for such is the will of Heaven.",
+                quest: "Survive the journey - Defeat 3 English patrol leaders",
+                objective: { type: "leaders", count: 3 },
+                historicalQuote: "I knew the way to Chinon because my voices told me... I traveled both day and night. My companions sometimes wanted me to rest, but I pressed on, telling them, 'God will give me strength.' We passed through many dangers. — Joan's testimony, recorded by notary Guillaume Manchon, 1431",
+                scholarlyQuote: "The journey from Vaucouleurs to Chinon was approximately 300 miles through hostile territory. Joan and her six-man escort traveled primarily at night to avoid detection. Jean de Metz later testified that Joan's companions were initially doubtful, but her confidence and piety convinced them. She attended Mass whenever possible and constantly urged the men onward with declarations that God was leading them. Against all odds, they arrived at Chinon on February 23, 1429, having spent eleven days in transit. — Helen Castor, 'Joan of Arc: A History', Faber and Faber, 2014",
                 nextChapter: 4
             },
             {
-                title: "Chapter 5: The Coronation - July 17, 1429",
-                text: "Joan stands beside Charles VII as he is crowned King of France in Reims Cathedral. But the English still threaten Paris, and her mission is not yet complete.",
-                location: "Reims Cathedral",
+                title: "Chapter 5: Recognition at Chinon - March 1429",
+                text: "Joan meets the Dauphin Charles VII. In a test, he disguises himself among his courtiers, but Joan immediately identifies him. She reveals to him a secret prayer only he and God know, convincing him of her divine mission.",
+                location: "Chinon Castle",
                 dialogue: {
-                    speaker: "King Charles VII",
-                    text: "Joan, you have fulfilled your divine mission. France is reborn through your faith and courage. Will you continue to fight for us?",
+                    speaker: "Charles VII (Dauphin)",
+                    text: "You claim God sent you to me? How can I believe the words of a peasant girl when my own nobles doubt me?",
                     options: [
-                        { text: "I will fight until France is free, Your Majesty.", response: "quest" },
-                        { text: "My sword is yours until victory is complete.", response: "quest" }
+                        { text: "I tell you this in secret, as proof: God heard your prayer...", response: "quest" },
+                        { text: "Give me soldiers, and I will show you God's will through victory.", response: "quest" }
                     ]
                 },
-                quest: "Final battle - Defeat the English commanders at Paris",
+                quest: "Prove your divine mission - Protect the Dauphin from assassins",
+                objective: { type: "kills", count: 10 },
+                historicalQuote: "When the King saw me, he asked me my name. I told him: 'Gentle Dauphin, my name is Joan the Maid. The King of Heaven sends word through me that you shall be anointed and crowned in the city of Reims, and that you shall be lieutenant of the King of Heaven, who is King of France.' — Joan's testimony, Trial of Condemnation, 1431",
+                scholarlyQuote: "Upon arriving at Chinon, Joan was kept waiting for two days while the court debated whether to receive her. When finally admitted to the great hall on March 6, 1429, she was subjected to a test: Charles had disguised himself among three hundred courtiers. Nevertheless, Joan walked directly to him and made a deep reverence. When Charles attempted to redirect her to another noble, she persisted: 'In God's name, gentle prince, it is you and none other.' She then spoke privately with Charles for about an hour. What she revealed to him was never fully disclosed, but it convinced the previously hesitant Dauphin to support her mission. — Kelly DeVries, 'Joan of Arc: A Military Leader', The History Press, 1999",
+                nextChapter: 5
+            },
+            {
+                title: "Chapter 6: The Siege of Orléans - May 1429",
+                text: "Joan arrives at Orléans, besieged by the English for seven months. Against the advice of experienced commanders, she leads a direct assault. Wounded by an arrow between neck and shoulder, she returns to battle and achieves impossible victory.",
+                location: "Orléans",
+                dialogue: {
+                    speaker: "Jean d'Orléans (Duke)",
+                    text: "The English fortifications are impregnable. We have lost hundreds trying to break them. What can you do that we have not?",
+                    options: [
+                        { text: "I will enter the fortress before the sun sets. God wills it!", response: "quest" },
+                        { text: "The soldiers will fight with renewed faith. Victory is assured.", response: "quest" }
+                    ]
+                },
+                quest: "Break the siege - Defeat 5 English fortress commanders",
                 objective: { type: "leaders", count: 5 },
-                quote: "Everything I have done, I have done by command of the Lord. I would rather die than do anything that I know to be a sin, or against God's will. If I am not in God's grace, may God place me there. If I am, may God keep me there. I shall last a year, and little longer.",
+                historicalQuote: "In the name of God, the soldiers will fight and God will give victory... On Friday, May 6th, I was wounded by an arrow which entered between my neck and shoulder, to the depth of half a foot. But I did not leave the field, and my wound was dressed. And afterward I returned to the attack. The fortress was taken, and the English fled. — Joan's letter to the citizens of Tournai, June 1429",
+                scholarlyQuote: "The liberation of Orléans stands as Joan's most celebrated military achievement. When she arrived on April 29, 1429, the city had been under siege for seven months. The English held a ring of fortifications around the city, and previous French relief attempts had failed. Joan's strategy was remarkably direct: frontal assault on the English bastilles. On May 7, during the assault on Les Tourelles, an arrow pierced her shoulder. After having the wound dressed, she returned to lead the final charge. By May 8, the English had abandoned the siege. This victory, accomplished in just nine days, transformed Joan from an obscure peasant into a national symbol and military leader. — Deborah Fraioli, 'Joan of Arc: The Early Debate', The Boydell Press, 2000",
+                nextChapter: 6
+            },
+            {
+                title: "Chapter 7: The March to Reims - Summer 1429",
+                text: "Following her stunning victory at Orléans, Joan leads the French army on an audacious campaign to Reims. City after city falls or surrenders as word of 'The Maid' spreads. The impossible becomes reality.",
+                location: "Loire Valley",
+                gameplay: "church",
+                dialogue: {
+                    speaker: "Charles VII",
+                    text: "Joan, you have given France hope. But Reims lies deep in enemy territory. Can we truly reach it for my coronation?",
+                    options: [
+                        { text: "Before mid-summer, you WILL be crowned at Reims. This I promise.", response: "quest" },
+                        { text: "Your Majesty, my voices have shown me your coronation. It will come to pass.", response: "quest" }
+                    ]
+                },
+                quest: "Clear the path to Reims - Defeat 30 enemy soldiers, then pray at a liberated church",
+                objective: { type: "both", kills: 30, prayers: 1 },
+                historicalQuote: "The Dauphin is on his way to the city of Reims, where he will shortly receive his holy coronation... All the cities are surrendering to the King. I have seen such things as I never saw before; people come in crowds to meet him and cry for joy. — Joan's letter, July 1429, recorded by Jean Pasquerel, her chaplain",
+                scholarlyQuote: "The Loire Campaign and march to Reims constituted Joan's strategic masterpiece. Between May and July 1429, the French army captured Jargeau, Meung-sur-Loire, Beaugency, and won the Battle of Patay. This rapid success created a psychological momentum that proved as important as military victory. Towns that had resisted French control for years surrendered without a fight upon hearing that Joan approached. On July 16, 1429, after a campaign lasting just two months, Charles VII and his army entered Reims. The seemingly impossible had been achieved. — Malcolm Vale, 'Charles VII', University of California Press, 1974",
+                nextChapter: 7
+            },
+            {
+                title: "Chapter 8: The Coronation - July 17, 1429",
+                text: "Joan stands in Reims Cathedral as Charles VII is anointed and crowned King of France. She has fulfilled the primary mission given to her by her voices. Weeping with joy, she tells the King her task is complete.",
+                location: "Reims Cathedral",
+                gameplay: "church",
+                dialogue: {
+                    speaker: "King Charles VII",
+                    text: "Joan, you have given me my kingdom. All of France celebrates this day. What reward can I give you?",
+                    options: [
+                        { text: "I ask only that you govern well and defend your people, Your Majesty.", response: "quest" },
+                        { text: "My reward is seeing God's will fulfilled. France has her rightful King.", response: "quest" }
+                    ]
+                },
+                quest: "Attend the coronation ceremony - Pray and give thanks in the cathedral",
+                objective: { type: "prayers", count: 3 },
+                historicalQuote: "At the coronation at Reims, when the King was crowned and consecrated, I stood near him with my standard in my hand. It was right that my standard should be present at the honor, since it had shared in the hardship... And there were tears in my eyes. My mission from God was accomplished. — Joan's testimony, Trial of Condemnation, March 1431",
+                scholarlyQuote: "The coronation took place in Reims Cathedral on July 17, 1429, barely five months after Joan's arrival at Chinon. Contemporary chroniclers describe an emotional scene: Joan stood near the altar holding her battle standard while Charles was anointed with holy oil and crowned. After the ceremony, she knelt before him weeping, calling him 'gentle King.' Her mission, as commanded by her voices, was complete. She had driven the English from Orléans and brought the Dauphin to Reims for his sacred coronation. From this moment, Charles VII was the legitimate King of France in the eyes of God and man. — Colette Beaune, 'Joan of Arc: A Biography', Yale University Press, 2008",
+                nextChapter: 8
+            },
+            {
+                title: "Chapter 9: The Siege of Paris - September 1429",
+                text: "Despite fulfilling her divine mission, Joan continues fighting. She urges an assault on Paris to complete France's liberation. Against her advice, the attack is poorly supported. Joan is wounded by a crossbow bolt in the thigh.",
+                location: "Paris",
+                dialogue: {
+                    speaker: "Georges de La Trémoille (Royal Advisor)",
+                    text: "The King wishes to negotiate with the Burgundians. We should not risk another assault on Paris, Joan.",
+                    options: [
+                        { text: "Paris must be liberated! We have momentum - we must not stop now!", response: "quest" },
+                        { text: "My voices tell me we must press forward. Do not let politics defeat us.", response: "quest" }
+                    ]
+                },
+                quest: "Attempt to take Paris - Defeat 25 defenders (you will be wounded but survive)",
+                objective: { type: "kills", count: 25 },
+                historicalQuote: "I was wounded in the assault on Paris by a crossbow bolt in the thigh. I remained in the ditch until nightfall, but finally I was forced to withdraw. I cried out to the soldiers, 'Do not leave! The fortress will be yours!' But the King ordered a retreat... I wept bitterly that night. — Recorded by witnesses, September 8, 1429",
+                scholarlyQuote: "The assault on Paris, launched on September 8, 1429, marked the beginning of Joan's decline. Political factions at court, particularly led by Georges de La Trémoille, feared Joan's growing influence and advocated for negotiation rather than continued military action. The attack was undertaken with insufficient forces and was poorly coordinated. Joan was shot in the thigh with a crossbow bolt but refused to leave the field until nightfall. The next day, Charles VII ordered a complete withdrawal and disbanded much of the army. For Joan, who believed her voices urged her to continue fighting, this was a devastating betrayal. — Françoise Michaud-Fréjaville, 'Joan of Arc at the Court of Charles VII', Medieval Warfare Magazine, 2013",
+                nextChapter: 9
+            },
+            {
+                title: "Chapter 10: Capture at Compiègne - May 23, 1430",
+                text: "Nearly a year after her greatest triumph, Joan is captured during a skirmish at Compiègne. Pulled from her horse by Burgundian soldiers, she becomes a prisoner. King Charles VII makes no attempt to ransom her.",
+                location: "Compiègne",
+                dialogue: {
+                    speaker: "Burgundian Captain",
+                    text: "The famous Maid of Orléans, captured at last! The English will pay a fortune for you, witch!",
+                    options: [
+                        { text: "I am no witch! I serve God and France!", response: "quest" },
+                        { text: "Do what you will. My King will ransom me... he must...", response: "quest" }
+                    ]
+                },
+                quest: "Fight to the last - Defeat 20 Burgundian soldiers before capture (this chapter ends in capture - you cannot win)",
+                objective: { type: "kills", count: 20 },
+                historicalQuote: "On May 23rd, I was taken prisoner at Compiègne. I was in the rearguard protecting the retreat when I was pulled from my horse. The Burgundians held me... I asked my voices many times if I would be burned. They answered, 'Take everything in good part; do not be concerned about your martyrdom. From it you will come at last to the Kingdom of Paradise.' — Joan's testimony, Trial of Condemnation, May 1431",
+                scholarlyQuote: "Joan was captured on May 23, 1430, during a sortie from the besieged town of Compiègne. While covering a retreat, she was surrounded and pulled from her horse by archers in the service of Jean de Luxembourg, a Burgundian captain. She was immediately recognized and taken prisoner. The Burgundians knew her capture was valuable: the English were desperate to discredit her and would pay handsomely. Most devastating was that Charles VII, the king she had crowned, made no serious effort to ransom her, despite having successfully ransomed numerous lesser nobles. Joan was sold to the English for 10,000 livres. — Jules Michelet, 'Joan of Arc', University of Michigan Press, 1957 (translation of 1853 original)",
                 nextChapter: -1
             }
         ];
@@ -764,10 +865,156 @@
             return buffer;
         }
         
+        function createActionMovieMusic() {
+            const duration = 60; // 60 seconds metal rock
+            const sampleRate = audioContext.sampleRate;
+            const buffer = audioContext.createBuffer(2, duration * sampleRate, sampleRate);
+            
+            // Metal rock power chord progression - aggressive and heavy
+            const measures = [
+                // Intro riff (0-16s) - Heavy power chords
+                { time: 0, root: 110.00, intensity: 1.0 },    // A power chord
+                { time: 2, root: 98.00, intensity: 0.95 },    // G power chord
+                { time: 4, root: 87.31, intensity: 1.05 },    // F power chord
+                { time: 6, root: 110.00, intensity: 1.0 },    // A power chord
+                { time: 8, root: 116.54, intensity: 1.1 },    // A# power chord
+                { time: 10, root: 110.00, intensity: 1.05 },  // A power chord
+                { time: 12, root: 98.00, intensity: 1.0 },    // G power chord
+                { time: 14, root: 130.81, intensity: 1.15 },  // C power chord
+                
+                // Verse (16-32s) - Driving rhythm
+                { time: 16, root: 110.00, intensity: 1.1 },   // A
+                { time: 18, root: 110.00, intensity: 1.15 },  // A
+                { time: 20, root: 146.83, intensity: 1.1 },   // D
+                { time: 22, root: 130.81, intensity: 1.05 },  // C
+                { time: 24, root: 110.00, intensity: 1.2 },   // A
+                { time: 26, root: 98.00, intensity: 1.15 },   // G
+                { time: 28, root: 146.83, intensity: 1.1 },   // D
+                { time: 30, root: 110.00, intensity: 1.2 },   // A
+                
+                // Chorus (32-48s) - Maximum intensity
+                { time: 32, root: 164.81, intensity: 1.3 },   // E power chord - epic
+                { time: 34, root: 146.83, intensity: 1.25 },  // D
+                { time: 36, root: 110.00, intensity: 1.3 },   // A
+                { time: 38, root: 164.81, intensity: 1.35 },  // E
+                { time: 40, root: 146.83, intensity: 1.3 },   // D
+                { time: 42, root: 130.81, intensity: 1.25 },  // C
+                { time: 44, root: 110.00, intensity: 1.35 },  // A
+                { time: 46, root: 98.00, intensity: 1.3 },    // G
+                
+                // Outro (48-60s) - Return to main riff
+                { time: 48, root: 110.00, intensity: 1.2 },   // A
+                { time: 50, root: 98.00, intensity: 1.15 },   // G
+                { time: 52, root: 87.31, intensity: 1.1 },    // F
+                { time: 54, root: 110.00, intensity: 1.15 },  // A
+                { time: 56, root: 116.54, intensity: 1.2 },   // A#
+                { time: 58, root: 110.00, intensity: 1.1 }    // A
+            ];
+            
+            for (let channel = 0; channel < 2; channel++) {
+                const data = buffer.getChannelData(channel);
+                
+                for (let i = 0; i < data.length; i++) {
+                    const t = i / sampleRate;
+                    let sample = 0;
+                    
+                    // Find current measure
+                    let currentMeasure = measures[0];
+                    for (let m = 0; m < measures.length; m++) {
+                        if (t >= measures[m].time) {
+                            currentMeasure = measures[m];
+                        }
+                    }
+                    
+                    const root = currentMeasure.root;
+                    const intensity = currentMeasure.intensity;
+                    
+                    // === ELECTRIC GUITAR - Distorted power chords ===
+                    // Root note (fundamental)
+                    let guitar = Math.sin(2 * Math.PI * root * t);
+                    // Perfect fifth (power chord)
+                    guitar += Math.sin(2 * Math.PI * root * 1.5 * t) * 0.8;
+                    // Octave
+                    guitar += Math.sin(2 * Math.PI * root * 2 * t) * 0.6;
+                    
+                    // Distortion effect (clipping for metal sound)
+                    guitar *= 1.8;
+                    if (guitar > 1) guitar = 1;
+                    if (guitar < -1) guitar = -1;
+                    
+                    // Add harmonics for metallic guitar tone
+                    guitar += Math.sin(2 * Math.PI * root * 3 * t) * 0.15;
+                    guitar += Math.sin(2 * Math.PI * root * 4 * t) * 0.1;
+                    
+                    // Palm mute effect (rhythmic chugging)
+                    const palmMute = Math.abs(Math.sin(2 * Math.PI * 4 * t)); // 4 hits per second
+                    guitar *= (0.3 + palmMute * 0.7);
+                    
+                    sample += guitar * 0.35 * intensity;
+                    
+                    // === BASS GUITAR - Deep and punchy ===
+                    let bass = Math.sin(2 * Math.PI * root * 0.5 * t); // One octave down
+                    bass += Math.sin(2 * Math.PI * root * 0.5 * 2 * t) * 0.4; // Octave harmonic
+                    
+                    // Bass follows kick drum pattern
+                    const beatTime = t * 2.5; // 150 BPM
+                    const beatPhase = beatTime % 1;
+                    if (beatPhase < 0.1) {
+                        bass *= 1.5; // Accent on beat
+                    }
+                    
+                    sample += bass * 0.25 * intensity;
+                    
+                    // === NO DRUMS - Pure guitar and bass ===
+                    // Drums removed to eliminate metronome sound
+                    
+                    // === Overall mix and dynamics ===
+                    // Rock compression (make loud parts louder, maintain energy)
+                    let overallDynamics = intensity;
+                    if (t < 16) {
+                        overallDynamics *= 0.9; // Intro
+                    } else if (t >= 32 && t < 48) {
+                        overallDynamics *= 1.1; // Chorus boost
+                    }
+                    
+                    // Smooth chord transitions
+                    const timeInChord = t % 2;
+                    let transitionEnvelope = 1.0;
+                    if (timeInChord < 0.05) {
+                        transitionEnvelope = timeInChord / 0.05;
+                    }
+                    
+                    // Loop envelope for seamless repeat
+                    let loopEnvelope = 1.0;
+                    const fadeTime = 2.0;
+                    if (t < fadeTime) {
+                        loopEnvelope = t / fadeTime;
+                    } else if (t > duration - fadeTime) {
+                        loopEnvelope = (duration - t) / fadeTime;
+                    }
+                    
+                    // Stereo spread for guitar (wider on right channel)
+                    const stereoSpread = (channel === 1) ? 1.1 : 0.9;
+                    
+                    data[i] = sample * overallDynamics * transitionEnvelope * loopEnvelope * 0.32 * stereoSpread;
+                }
+            }
+            
+            return buffer;
+        }
+        
         function playBackgroundMusic() {
             if (backgroundMusic) return;
             
-            const buffer = createChurchMusic();
+            // Choose music based on game mode - default to church music if mode not set
+            let buffer;
+            try {
+                buffer = (gameState && gameState.mode === 'gun') ? createActionMovieMusic() : createChurchMusic();
+            } catch (e) {
+                console.error('Music creation error:', e);
+                buffer = createChurchMusic(); // Fallback to church music
+            }
+            
             const source = audioContext.createBufferSource();
             source.buffer = buffer;
             source.loop = true;
@@ -873,6 +1120,7 @@
             special: 100,
             maxSpecial: 100,
             kills: 0,
+            prayers: 0,
             combo: 0,
             comboTimer: null,
             comboHits: 0,
@@ -1670,16 +1918,21 @@
         let player;
         
         function selectMode(mode) {
+            console.log('selectMode called with mode:', mode);
             gameState.mode = mode;
             document.getElementById('modeSelection').classList.add('hidden');
             
             if (mode === 'story') {
+                console.log('Starting story mode');
                 showCutscene(0);
             } else if (mode === 'alexander') {
+                console.log('Starting alexander mode');
                 document.getElementById('characterName').textContent = '⚔️ ALEXANDER THE GREAT ⚔️';
+                console.log('Creating Alexander character');
                 player = createAlexander();
                 scene.add(player);
                 
+                console.log('Creating allies');
                 // Create 10 allied soldiers in formation
                 for (let i = 0; i < 10; i++) {
                     const ally = createAlly();
@@ -1690,13 +1943,17 @@
                 
                 gameState.totalLeaders = 8;
                 document.getElementById('totalLeaders').textContent = '8';
+                console.log('Showing Alexander intro');
                 showAlexanderIntro();
             } else if (mode === 'gun') {
+                console.log('Starting Gun mode');
                 // GUN MODE - Joan with dual pistols
-                document.getElementById('characterName').textContent = '🔫 JOAN OF ARC: GUN MODE 🔫';
+                document.getElementById('characterName').textContent = '🔫 JOAN OF ARC 🔫';
+                console.log('Creating Joan with guns');
                 player = createJoanWithGuns();
                 scene.add(player);
                 
+                console.log('Creating allies');
                 // Create 10 allied soldiers in formation
                 for (let i = 0; i < 10; i++) {
                     const ally = createAlly();
@@ -1705,20 +1962,24 @@
                 }
                 positionAlliesInFormation(gameState.allies);
                 
+                console.log('Starting music');
                 // Start background music
                 if (audioContext.state === 'suspended') {
                     audioContext.resume();
                 }
                 playBackgroundMusic();
                 
+                console.log('Starting game');
                 gameState.gameStarted = true;
                 animate();
             }
+            console.log('selectMode completed successfully');
         }
 
         function showAlexanderIntro() {
-            document.getElementById('cutsceneTitle').textContent = alexanderStory.title;
-            document.getElementById('cutsceneText').textContent = alexanderStory.text;
+            const firstChapter = alexanderChapters[0];
+            document.getElementById('cutsceneTitle').textContent = firstChapter.title;
+            document.getElementById('cutsceneText').textContent = firstChapter.text;
             document.getElementById('cutsceneScreen').classList.remove('hidden');
         }
 
@@ -1744,7 +2005,8 @@
                 gameState.gameStarted = true;
                 gameState.questActive = true;
                 document.getElementById('questLog').classList.remove('hidden');
-                document.getElementById('questObjective').textContent = alexanderStory.quest;
+                const firstChapter = alexanderChapters[0];
+                document.getElementById('questObjective').textContent = firstChapter.quest;
                 animate();
             }
         }
@@ -1818,20 +2080,44 @@
         function checkQuestComplete() {
             if (!gameState.questActive || gameState.questComplete) return;
             
-            const chapter = storyChapters[gameState.currentChapter];
             let complete = false;
             
             if (gameState.mode === 'alexander') {
-                if (gameState.kills >= 50 && gameState.leadersDefeated >= 8) {
-                    complete = true;
+                // Alexander mode - check first chapter objectives for now
+                const alexChapter = alexanderChapters[0];
+                if (alexChapter.objective.type === 'both') {
+                    if (gameState.kills >= alexChapter.objective.kills && gameState.leadersDefeated >= alexChapter.objective.leaders) {
+                        complete = true;
+                    }
                 }
-            } else if (chapter.objective.type === 'kills') {
-                if (gameState.kills >= chapter.objective.count) {
-                    complete = true;
-                }
-            } else if (chapter.objective.type === 'leaders') {
-                if (gameState.leadersDefeated >= chapter.objective.count) {
-                    complete = true;
+            } else if (gameState.mode === 'gun') {
+                // Gun Mode - endless mode, no completion
+                return;
+            } else {
+                // Story mode - now with prayer support
+                const chapter = storyChapters[gameState.currentChapter];
+                if (chapter.objective.type === 'kills') {
+                    if (gameState.kills >= chapter.objective.count) {
+                        complete = true;
+                    }
+                } else if (chapter.objective.type === 'leaders') {
+                    if (gameState.leadersDefeated >= chapter.objective.count) {
+                        complete = true;
+                    }
+                } else if (chapter.objective.type === 'prayers') {
+                    if (gameState.prayers >= chapter.objective.count) {
+                        complete = true;
+                    }
+                } else if (chapter.objective.type === 'both') {
+                    if (chapter.objective.kills && chapter.objective.leaders) {
+                        if (gameState.kills >= chapter.objective.kills && gameState.leadersDefeated >= chapter.objective.leaders) {
+                            complete = true;
+                        }
+                    } else if (chapter.objective.kills && chapter.objective.prayers) {
+                        if (gameState.kills >= chapter.objective.kills && gameState.prayers >= chapter.objective.prayers) {
+                            complete = true;
+                        }
+                    }
                 }
             }
             
@@ -1839,14 +2125,47 @@
                 gameState.questComplete = true;
                 gameState.questActive = false;
                 
-                if (gameState.mode === 'alexander' || chapter.nextChapter === -1) {
+                if (gameState.mode === 'alexander') {
                     showVictory();
                 } else {
-                    gameState.currentChapter = chapter.nextChapter;
-                    setTimeout(function() {
-                        showCutscene(gameState.currentChapter);
-                    }, 1000);
+                    const chapter = storyChapters[gameState.currentChapter];
+                    // Show historical quotes after completing chapter
+                    showHistoricalQuotes(gameState.currentChapter);
+                    
+                    if (chapter.nextChapter === -1) {
+                        setTimeout(function() {
+                            showVictory();
+                        }, 2000);
+                    } else {
+                        setTimeout(function() {
+                            gameState.currentChapter = chapter.nextChapter;
+                            showCutscene(gameState.currentChapter);
+                        }, 2000);
+                    }
                 }
+            }
+        }
+        
+        function showHistoricalQuotes(chapterIndex) {
+            const chapter = storyChapters[chapterIndex];
+            let quoteText = '';
+            
+            if (chapter.historicalQuote) {
+                quoteText += 'JOAN\'S WORDS:\n\n' + chapter.historicalQuote + '\n\n';
+            }
+            if (chapter.scholarlyQuote) {
+                quoteText += 'HISTORICAL ACCOUNT:\n\n' + chapter.scholarlyQuote;
+            }
+            
+            if (quoteText) {
+                document.getElementById('cutsceneTitle').textContent = 'Chapter ' + (chapterIndex + 1) + ' Complete';
+                document.getElementById('cutsceneText').textContent = quoteText;
+                document.getElementById('cutsceneScreen').classList.remove('hidden');
+                
+                // Auto-advance after reading
+                setTimeout(function() {
+                    document.getElementById('cutsceneScreen').classList.add('hidden');
+                }, 12000);
             }
         }
 
@@ -1929,6 +2248,15 @@
         function prayForLeader() {
             // Heal player by 15 HP
             gameState.health = Math.min(gameState.maxHealth, gameState.health + 15);
+            
+            // Count prayer for church chapters
+            const currentChapter = storyChapters[gameState.currentChapter];
+            if (currentChapter && currentChapter.gameplay === 'church') {
+                gameState.prayers++;
+                updateUI();
+                checkQuestComplete();
+            }
+            
             updateUI();
             
             // Play healing sound
@@ -1975,16 +2303,27 @@
             
             // GUN MODE - Fire bullets from dual pistols
             if (player.hasGuns) {
+                // Safety check for guns
+                if (!player.leftGun || !player.rightGun) {
+                    gameState.isAttacking = false;
+                    return;
+                }
+                
                 // Play gunshot sound
                 playGunSound();
                 
-                // Fire from left gun
-                fireBullet(player.leftGun.position.clone().add(player.position), player.rotation.y);
+                // Fire from left gun - get world position
+                const leftGunWorldPos = new THREE.Vector3();
+                player.leftGun.getWorldPosition(leftGunWorldPos);
+                fireBullet(leftGunWorldPos, player.rotation.y);
                 
                 // Slight delay for right gun
                 setTimeout(function() {
+                    if (!player || !player.rightGun) return;
                     playGunSound();
-                    fireBullet(player.rightGun.position.clone().add(player.position), player.rotation.y);
+                    const rightGunWorldPos = new THREE.Vector3();
+                    player.rightGun.getWorldPosition(rightGunWorldPos);
+                    fireBullet(rightGunWorldPos, player.rotation.y);
                 }, 100);
                 
                 // Gun recoil animation
@@ -1995,7 +2334,7 @@
                 player.rightGun.rotation.z = rightGunOriginal + 0.3;
                 
                 setTimeout(function() {
-                    if (player.leftGun && player.rightGun) {
+                    if (player && player.leftGun && player.rightGun) {
                         player.leftGun.rotation.z = leftGunOriginal;
                         player.rightGun.rotation.z = rightGunOriginal;
                     }
@@ -2006,6 +2345,11 @@
             }
             
             // SWORD MODE (story/alexander)
+            if (!player.sword) {
+                gameState.isAttacking = false;
+                return;
+            }
+            
             // Play sword slash sound
             playSwordSlashSound();
             
@@ -2080,44 +2424,73 @@
             scene.add(bullet);
             
             function updateBullet() {
-                if (!bullet || bullet.hasHit) return;
+                // Safety checks to prevent errors
+                if (!bullet || bullet.hasHit || !bullet.position) {
+                    if (bullet && scene) {
+                        try {
+                            scene.remove(bullet);
+                        } catch (e) {
+                            // Silently fail if already removed
+                        }
+                    }
+                    return;
+                }
                 
                 bullet.lifetime++;
-                bullet.position.x += bullet.velocity.x;
-                bullet.position.z += bullet.velocity.z;
+                
+                // Safely update position
+                try {
+                    bullet.position.x += bullet.velocity.x;
+                    bullet.position.z += bullet.velocity.z;
+                } catch (e) {
+                    scene.remove(bullet);
+                    return;
+                }
                 
                 // Check collision with all enemies
-                for (let i = 0; i < gameState.enemies.length; i++) {
-                    const enemy = gameState.enemies[i];
-                    const distance = bullet.position.distanceTo(enemy.position);
-                    
-                    if (distance < 3) { // Bigger collision radius
-                        bullet.hasHit = true;
+                if (gameState.enemies && gameState.enemies.length > 0) {
+                    for (let i = 0; i < gameState.enemies.length; i++) {
+                        const enemy = gameState.enemies[i];
+                        if (!enemy || !enemy.position) continue;
                         
-                        // Guaranteed damage
-                        const damage = enemy.isLeader ? 25 : 35;
-                        enemy.health -= damage;
-                        
-                        playHitSound();
-                        createSlashEffect(enemy.position, new THREE.Vector3());
-                        
-                        const knockbackDir = new THREE.Vector3()
-                            .subVectors(enemy.position, player.position)
-                            .normalize();
-                        enemy.position.add(knockbackDir.multiplyScalar(2.5));
-                        
-                        if (enemy.health <= 0) {
-                            killEnemy(enemy);
+                        try {
+                            const distance = bullet.position.distanceTo(enemy.position);
+                            
+                            if (distance < 3) {
+                                bullet.hasHit = true;
+                                
+                                const damage = enemy.isLeader ? 25 : 35;
+                                enemy.health -= damage;
+                                
+                                playHitSound();
+                                createSlashEffect(enemy.position, new THREE.Vector3());
+                                
+                                const knockbackDir = new THREE.Vector3()
+                                    .subVectors(enemy.position, player.position)
+                                    .normalize();
+                                enemy.position.add(knockbackDir.multiplyScalar(2.5));
+                                
+                                if (enemy.health <= 0) {
+                                    killEnemy(enemy);
+                                }
+                                
+                                updateCombo();
+                                scene.remove(bullet);
+                                return;
+                            }
+                        } catch (e) {
+                            // Skip this enemy if error
+                            continue;
                         }
-                        
-                        updateCombo();
-                        scene.remove(bullet);
-                        return;
                     }
                 }
                 
                 if (bullet.lifetime > 80) {
-                    scene.remove(bullet);
+                    try {
+                        scene.remove(bullet);
+                    } catch (e) {
+                        // Already removed
+                    }
                 } else {
                     requestAnimationFrame(updateBullet);
                 }
