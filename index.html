@@ -481,7 +481,7 @@
                 title: "Chapter 1: Childhood in Domrémy - 1412-1424",
                 text: "Born in the village of Domrémy to Jacques d'Arc and Isabelle Romée, young Jeanne grows up during the Hundred Years' War. She tends sheep, learns to sew, and attends church regularly. At age 12, she begins hearing divine voices.",
                 location: "Domrémy, France",
-                gameplay: "church", // Special church prayer gameplay
+                gameplay: "church",
                 dialogue: {
                     speaker: "Isabelle Romée (Mother)",
                     text: "Jeanne, you spend so much time in prayer at the church. What troubles your heart, my daughter?",
@@ -492,8 +492,8 @@
                 },
                 quest: "Visit the church and pray 5 times for France's salvation",
                 objective: { type: "prayers", count: 5 },
-                historicalQuote: "She was a good simple girl, pious, well-behaved... She went willingly and often to church and to the holy places... She was never idle, but rather worked at spinning and doing other things which daughters of her station do. — Testimony of Beatrice Estellin, neighbor, from the Trial of Rehabilitation, 1456",
-                scholarlyQuote: "Joan was born in 1412 in Domrémy, on the borders of Lorraine and Champagne, to a family of prosperous peasants. Her childhood was marked by profound piety; neighbors testified she attended Mass daily and confession frequently, distinguishing herself through exceptional devotion even in that intensely religious age. — Mark Twain, 'Personal Recollections of Joan of Arc', 1896",
+                historicalQuote: "I learned my Pater Noster, Ave Maria, and Credo from my mother. I was taught my faith by her and not by any other. I went to confession once a year to my own curé, and when he was prevented, I went to another priest with his permission. I have sometimes confessed twice or three times to mendicant friars, at Neufchâteau. I received the Sacrament of the Eucharist at Easter time... I sewed and spun, and when I watched the flocks, I sang the birds away. — Joan's own testimony, Trial of Condemnation, February 21-22, 1431",
+                scholarlyQuote: "Joan was born in 1412 in Domrémy, a village on the borders of Lorraine and Champagne. Her parents, Jacques d'Arc and Isabelle Romée, were prosperous peasants who owned approximately 50 acres of land and a stone house. Joan's childhood was marked by profound piety that distinguished her from other children. Neighbors testified that she attended Mass daily, went to confession frequently, and wept when church bells rang. She was described as exceptionally devout even in an intensely religious age. The parish priest, Guillaume Fronte, stated she was 'a good Christian, such as you would wish your daughter to be.' Her religious fervor was not seen as unusual until she began speaking of voices and a divine mission. — Régine Pernoud and Marie-Véronique Clin, 'Joan of Arc: Her Story', St. Martin's Griffin, 1999",
                 nextChapter: 1
             },
             {
@@ -552,21 +552,22 @@
                 nextChapter: 4
             },
             {
-                title: "Chapter 5: Recognition at Chinon - March 1429",
-                text: "Joan meets the Dauphin Charles VII. In a test, he disguises himself among his courtiers, but Joan immediately identifies him. She reveals to him a secret prayer only he and God know, convincing him of her divine mission.",
-                location: "Chinon Castle",
+                title: "Chapter 5: Examination at Poitiers - March 1429",
+                text: "Before Charles will trust Joan with an army, she must be examined by theologians and church scholars at Poitiers. For three weeks, learned doctors question her faith, her voices, and her mission. She must prove her divine calling not through battle, but through wisdom and faith.",
+                location: "Poitiers",
+                gameplay: "church",
                 dialogue: {
-                    speaker: "Charles VII (Dauphin)",
-                    text: "You claim God sent you to me? How can I believe the words of a peasant girl when my own nobles doubt me?",
+                    speaker: "Brother Seguin (Dominican Theologian)",
+                    text: "You say God sends you to drive out the English. But if God wishes to deliver France, He has no need of soldiers. Why do you require an army?",
                     options: [
-                        { text: "I tell you this in secret, as proof: God heard your prayer...", response: "quest" },
-                        { text: "Give me soldiers, and I will show you God's will through victory.", response: "quest" }
+                        { text: "The soldiers will fight, and God will give the victory!", response: "quest" },
+                        { text: "In God's name, we must act. Prayer and action together serve His will.", response: "quest" }
                     ]
                 },
-                quest: "Prove your divine mission - Protect the Dauphin from assassins",
-                objective: { type: "kills", count: 10 },
-                historicalQuote: "When the King saw me, he asked me my name. I told him: 'Gentle Dauphin, my name is Joan the Maid. The King of Heaven sends word through me that you shall be anointed and crowned in the city of Reims, and that you shall be lieutenant of the King of Heaven, who is King of France.' — Joan's testimony, Trial of Condemnation, 1431",
-                scholarlyQuote: "Upon arriving at Chinon, Joan was kept waiting for two days while the court debated whether to receive her. When finally admitted to the great hall on March 6, 1429, she was subjected to a test: Charles had disguised himself among three hundred courtiers. Nevertheless, Joan walked directly to him and made a deep reverence. When Charles attempted to redirect her to another noble, she persisted: 'In God's name, gentle prince, it is you and none other.' She then spoke privately with Charles for about an hour. What she revealed to him was never fully disclosed, but it convinced the previously hesitant Dauphin to support her mission. — Kelly DeVries, 'Joan of Arc: A Military Leader', The History Press, 1999",
+                quest: "Withstand theological examination - Pray and reflect 3 times to demonstrate your faith",
+                objective: { type: "prayers", count: 3 },
+                historicalQuote: "You say that God wishes to deliver the people of France from their present calamity. If He wishes to deliver them, it is not necessary to have soldiers. — Brother Seguin questioned me in this manner. I answered him: 'In God's name, the soldiers will fight, and God will give the victory!' The doctors were well satisfied with this answer. They found no evil in me. I was examined for three weeks by the clerks of Poitiers. — Joan's testimony about her examination, recorded 1431",
+                scholarlyQuote: "The examination at Poitiers was a crucial turning point. For three weeks in March 1429, Joan was interrogated by a commission of theologians, bishops, and scholars. They questioned her about the nature of her voices, her claim to divine mission, and whether she was heretical or deluded. The commission included some of the most learned men in France. Joan defended herself with remarkable intelligence and theological sophistication for an illiterate peasant girl. Her answers were deemed orthodox, her character beyond reproach, and her mission potentially genuine. The commission's favorable report gave Charles VII the religious authorization he needed to entrust Joan with military command. The report stated: 'The King should not prevent her from going to Orléans with soldiers, but should have her led there honorably, trusting in God.' This examination demonstrated Joan's intelligence and conviction as much as any military victory later would. — Nadia Margolis, 'Joan of Arc in History, Literature, and Film', Garland Publishing, 1990",
                 nextChapter: 5
             },
             {
@@ -2032,6 +2033,9 @@
             const chapter = storyChapters[chapterIndex];
             const dialogue = chapter.dialogue;
             
+            // Setup stage environment based on chapter
+            setupStageForChapter(chapterIndex);
+            
             document.getElementById('speakerName').textContent = dialogue.speaker;
             document.getElementById('dialogueText').textContent = dialogue.text;
             
@@ -2052,6 +2056,42 @@
             
             document.getElementById('dialogueScreen').classList.remove('hidden');
         }
+        
+        function setupStageForChapter(chapterIndex) {
+            // Clear any existing stage objects
+            if (typeof stageObjects !== 'undefined') {
+                stageObjects.forEach(obj => {
+                    if (obj && scene) scene.remove(obj);
+                });
+                stageObjects = [];
+            }
+            
+            const chapter = storyChapters[chapterIndex];
+            if (!chapter) return;
+            
+            // Set environment based on chapter
+            if (chapterIndex === 0 || chapterIndex === 1) {
+                // Church stages - warm candlelit interior
+                scene.background = new THREE.Color(0xD4C8B8);
+                if (scene.fog) scene.fog.color.setHex(0xE8DCC8);
+            } else if (chapterIndex === 2) {
+                // Village - bright daylight
+                scene.background = new THREE.Color(0x87CEEB);
+                if (scene.fog) scene.fog.color.setHex(0xB8D4E8);
+            } else if (chapterIndex === 4) {
+                // Castle - formal stone setting
+                scene.background = new THREE.Color(0x9BA4B4);
+                if (scene.fog) scene.fog.color.setHex(0xA8B4C4);
+            } else if (chapterIndex === 7) {
+                // Cathedral - grand coronation
+                scene.background = new THREE.Color(0xE8D8C8);
+                if (scene.fog) scene.fog.color.setHex(0xF0E8D8);
+            } else {
+                // Battlefield/Road - green fields
+                scene.background = new THREE.Color(0xA8D8A8);
+                if (scene.fog) scene.fog.color.setHex(0xB8E6B8);
+            }
+        }
 
         function startQuest(chapterIndex) {
             document.getElementById('dialogueScreen').classList.add('hidden');
@@ -2062,23 +2102,31 @@
                 player = createJoan();
                 scene.add(player);
                 
-                // Create 10 allied soldiers in formation
-                for (let i = 0; i < 10; i++) {
-                    const ally = createAlly();
-                    gameState.allies.push(ally);
-                    scene.add(ally);
+                // Only create allies for combat chapters
+                if (chapter.objective.type === 'kills' || chapter.objective.type === 'leaders' || 
+                    (chapter.objective.type === 'both' && chapter.objective.kills)) {
+                    // Create 10 allied soldiers in formation
+                    for (let i = 0; i < 10; i++) {
+                        const ally = createAlly();
+                        gameState.allies.push(ally);
+                        scene.add(ally);
+                    }
+                    positionAlliesInFormation(gameState.allies);
                 }
-                positionAlliesInFormation(gameState.allies);
             }
             
             gameState.questActive = true;
             gameState.questComplete = false;
             gameState.kills = 0;
             gameState.leadersDefeated = 0;
+            gameState.prayers = 0;
             
             if (chapter.objective.type === 'leaders') {
                 gameState.totalLeaders = chapter.objective.count;
                 document.getElementById('totalLeaders').textContent = chapter.objective.count;
+            } else if (chapter.objective.type === 'both' && chapter.objective.leaders) {
+                gameState.totalLeaders = chapter.objective.leaders;
+                document.getElementById('totalLeaders').textContent = chapter.objective.leaders;
             }
             
             document.getElementById('questLog').classList.remove('hidden');
@@ -2998,6 +3046,14 @@
         }
 
         function spawnEnemies() {
+            // Don't spawn enemies in prayer-only chapters (Story Mode)
+            if (gameState.mode === 'story') {
+                const chapter = storyChapters[gameState.currentChapter];
+                if (chapter && chapter.objective.type === 'prayers') {
+                    return; // No enemies in prayer chapters
+                }
+            }
+            
             if (gameState.enemies.length < 20) {
                 // Spawn vampires in Gun Mode, regular enemies otherwise
                 const enemy = (gameState.mode === 'gun') ? createVampire() : createEnemy();
@@ -3007,6 +3063,14 @@
         }
 
         function spawnLeader() {
+            // Don't spawn leaders in prayer-only chapters (Story Mode)
+            if (gameState.mode === 'story') {
+                const chapter = storyChapters[gameState.currentChapter];
+                if (chapter && chapter.objective.type === 'prayers') {
+                    return; // No leaders in prayer chapters
+                }
+            }
+            
             const maxLeaders = (gameState.mode === 'alexander' || gameState.mode === 'gun') ? 2 : 2;
             if (gameState.leaders.length < maxLeaders && gameState.leadersDefeated < gameState.totalLeaders) {
                 // Spawn Dracula in Gun Mode, regular leaders otherwise
