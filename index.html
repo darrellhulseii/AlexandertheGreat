@@ -1153,7 +1153,9 @@
             gameWon: false,
             currentChapter: 0,
             questActive: false,
-            questComplete: false
+            questComplete: false,
+            nextAction: null,
+            pendingChapter: null
         };
 
         const mobileControls = {
@@ -2011,6 +2013,19 @@
         function endCutscene() {
             document.getElementById('cutsceneScreen').classList.add('hidden');
             
+            // Check if we're coming from historical quotes completion
+            if (gameState.nextAction === 'victory') {
+                gameState.nextAction = null;
+                showVictory();
+                return;
+            } else if (gameState.nextAction === 'nextChapter') {
+                gameState.nextAction = null;
+                gameState.currentChapter = gameState.pendingChapter;
+                gameState.pendingChapter = null;
+                showCutscene(gameState.currentChapter);
+                return;
+            }
+            
             // Start background music
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
@@ -2470,18 +2485,14 @@
                 } else {
                     const chapter = storyChapters[gameState.currentChapter];
                     // Show historical quotes after completing chapter
-                    showHistoricalQuotes(gameState.currentChapter);
-                    
+                    // Store next action for Continue button
                     if (chapter.nextChapter === -1) {
-                        setTimeout(function() {
-                            showVictory();
-                        }, 2000);
+                        gameState.nextAction = 'victory';
                     } else {
-                        setTimeout(function() {
-                            gameState.currentChapter = chapter.nextChapter;
-                            showCutscene(gameState.currentChapter);
-                        }, 2000);
+                        gameState.nextAction = 'nextChapter';
+                        gameState.pendingChapter = chapter.nextChapter;
                     }
+                    showHistoricalQuotes(gameState.currentChapter);
                 }
             }
         }
@@ -2502,10 +2513,7 @@
                 document.getElementById('cutsceneText').textContent = quoteText;
                 document.getElementById('cutsceneScreen').classList.remove('hidden');
                 
-                // Auto-advance after reading
-                setTimeout(function() {
-                    document.getElementById('cutsceneScreen').classList.add('hidden');
-                }, 12000);
+                // No auto-advance - user must click Continue button to proceed
             }
         }
 
