@@ -2069,29 +2069,304 @@
             const chapter = storyChapters[chapterIndex];
             if (!chapter) return;
             
-            // Set environment based on chapter
-            if (chapterIndex === 0 || chapterIndex === 1) {
-                // Church stages - warm candlelit interior
-                scene.background = new THREE.Color(0xD4C8B8);
-                if (scene.fog) scene.fog.color.setHex(0xE8DCC8);
+            // Set environment and create detailed stages based on chapter
+            if (chapterIndex === 0) {
+                // Chapter 1: Small Catholic Church - Childhood prayers
+                createSmallCatholicChurch(false);
+            } else if (chapterIndex === 1) {
+                // Chapter 2: Small Catholic Church with altar - Receiving voices
+                createSmallCatholicChurch(true);
             } else if (chapterIndex === 2) {
                 // Village - bright daylight
                 scene.background = new THREE.Color(0x87CEEB);
                 if (scene.fog) scene.fog.color.setHex(0xB8D4E8);
             } else if (chapterIndex === 4) {
-                // Castle - formal stone setting
-                scene.background = new THREE.Color(0x9BA4B4);
-                if (scene.fog) scene.fog.color.setHex(0xA8B4C4);
+                // Chapter 5: Small Catholic Church with altar - Poitiers examination
+                createSmallCatholicChurch(true);
             } else if (chapterIndex === 7) {
-                // Cathedral - grand coronation
-                scene.background = new THREE.Color(0xE8D8C8);
-                if (scene.fog) scene.fog.color.setHex(0xF0E8D8);
+                // Chapter 8: Mass in small Catholic Church with priest
+                createSmallCatholicChurchWithMass();
             } else {
                 // Battlefield/Road - green fields
                 scene.background = new THREE.Color(0xA8D8A8);
                 if (scene.fog) scene.fog.color.setHex(0xB8E6B8);
             }
         }
+        
+        function createSmallCatholicChurch(showAltar) {
+            // Small medieval village church interior
+            scene.background = new THREE.Color(0xD4C8B8); // Warm stone color
+            if (scene.fog) {
+                scene.fog.color.setHex(0xE8DCC8);
+                scene.fog.near = 20;
+                scene.fog.far = 80;
+            }
+            
+            // Stone floor
+            const floorGeometry = new THREE.PlaneGeometry(40, 50);
+            const floorMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x9B8B7E,
+                roughness: 0.9
+            });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            stageObjects.push(floor);
+            scene.add(floor);
+            
+            // Church walls
+            const wallMaterial = new THREE.MeshPhongMaterial({ color: 0xB8A89A });
+            
+            // Left wall
+            const leftWall = new THREE.Mesh(new THREE.BoxGeometry(1, 12, 50), wallMaterial);
+            leftWall.position.set(-20, 6, 0);
+            leftWall.castShadow = true;
+            stageObjects.push(leftWall);
+            scene.add(leftWall);
+            
+            // Right wall
+            const rightWall = new THREE.Mesh(new THREE.BoxGeometry(1, 12, 50), wallMaterial);
+            rightWall.position.set(20, 6, 0);
+            rightWall.castShadow = true;
+            stageObjects.push(rightWall);
+            scene.add(rightWall);
+            
+            // Back wall with arch
+            const backWall = new THREE.Mesh(new THREE.BoxGeometry(40, 12, 1), wallMaterial);
+            backWall.position.set(0, 6, -25);
+            backWall.castShadow = true;
+            stageObjects.push(backWall);
+            scene.add(backWall);
+            
+            if (showAltar) {
+                // Main altar at front of church
+                const altarBase = new THREE.Mesh(
+                    new THREE.BoxGeometry(10, 1.5, 5),
+                    new THREE.MeshPhongMaterial({ color: 0xA0826D })
+                );
+                altarBase.position.set(0, 0.75, -20);
+                altarBase.castShadow = true;
+                stageObjects.push(altarBase);
+                scene.add(altarBase);
+                
+                // Altar top with cloth
+                const altarCloth = new THREE.Mesh(
+                    new THREE.BoxGeometry(10.5, 0.2, 5.5),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xF8F8F8, // White altar cloth
+                        shininess: 10
+                    })
+                );
+                altarCloth.position.set(0, 1.6, -20);
+                stageObjects.push(altarCloth);
+                scene.add(altarCloth);
+                
+                // Golden cross on altar
+                const crossVertical = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.4, 3, 0.4),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xFFD700,
+                        emissive: 0x886600,
+                        shininess: 100
+                    })
+                );
+                crossVertical.position.set(0, 3.2, -20);
+                stageObjects.push(crossVertical);
+                scene.add(crossVertical);
+                
+                const crossHorizontal = new THREE.Mesh(
+                    new THREE.BoxGeometry(2, 0.4, 0.4),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xFFD700,
+                        emissive: 0x886600,
+                        shininess: 100
+                    })
+                );
+                crossHorizontal.position.set(0, 3.5, -20);
+                stageObjects.push(crossHorizontal);
+                scene.add(crossHorizontal);
+                
+                // Candles on altar
+                for (let i = -1; i <= 1; i += 2) {
+                    // Candlestick
+                    const candlestick = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.15, 0.2, 0.8, 8),
+                        new THREE.MeshPhongMaterial({ color: 0xC9A961 })
+                    );
+                    candlestick.position.set(i * 4, 2.1, -20);
+                    stageObjects.push(candlestick);
+                    scene.add(candlestick);
+                    
+                    // Candle
+                    const candle = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.12, 0.12, 0.6, 8),
+                        new THREE.MeshPhongMaterial({ color: 0xFFF8DC })
+                    );
+                    candle.position.set(i * 4, 2.8, -20);
+                    stageObjects.push(candle);
+                    scene.add(candle);
+                    
+                    // Candle flame (glowing sphere)
+                    const flame = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.15, 8, 8),
+                        new THREE.MeshBasicMaterial({ 
+                            color: 0xFFAA44,
+                            transparent: true,
+                            opacity: 0.8
+                        })
+                    );
+                    flame.position.set(i * 4, 3.2, -20);
+                    stageObjects.push(flame);
+                    scene.add(flame);
+                    
+                    // Point light for flame
+                    const candleLight = new THREE.PointLight(0xFFAA44, 0.8, 15);
+                    candleLight.position.set(i * 4, 3.2, -20);
+                    stageObjects.push(candleLight);
+                    scene.add(candleLight);
+                }
+            }
+            
+            // Wooden pews (6 rows, 2 per row)
+            const pewMaterial = new THREE.MeshPhongMaterial({ color: 0x654321 });
+            for (let row = 0; row < 6; row++) {
+                // Left pew
+                const pewLeft = new THREE.Mesh(new THREE.BoxGeometry(3, 1.2, 1), pewMaterial);
+                pewLeft.position.set(-10, 0.6, -8 + row * 3);
+                pewLeft.castShadow = true;
+                stageObjects.push(pewLeft);
+                scene.add(pewLeft);
+                
+                // Pew back
+                const pewBackLeft = new THREE.Mesh(new THREE.BoxGeometry(3, 0.8, 0.2), pewMaterial);
+                pewBackLeft.position.set(-10, 1.6, -8.5 + row * 3);
+                stageObjects.push(pewBackLeft);
+                scene.add(pewBackLeft);
+                
+                // Right pew
+                const pewRight = new THREE.Mesh(new THREE.BoxGeometry(3, 1.2, 1), pewMaterial);
+                pewRight.position.set(10, 0.6, -8 + row * 3);
+                pewRight.castShadow = true;
+                stageObjects.push(pewRight);
+                scene.add(pewRight);
+                
+                // Pew back
+                const pewBackRight = new THREE.Mesh(new THREE.BoxGeometry(3, 0.8, 0.2), pewMaterial);
+                pewBackRight.position.set(10, 1.6, -8.5 + row * 3);
+                stageObjects.push(pewBackRight);
+                scene.add(pewBackRight);
+            }
+            
+            // Stained glass window effect (colored light from back)
+            const stainedGlassLight = new THREE.PointLight(0x6495ED, 1.2, 35);
+            stainedGlassLight.position.set(0, 8, -24);
+            stageObjects.push(stainedGlassLight);
+            scene.add(stainedGlassLight);
+            
+            // Warm ambient church lighting
+            const churchAmbient = new THREE.AmbientLight(0xFFE4B5, 0.6);
+            stageObjects.push(churchAmbient);
+            scene.add(churchAmbient);
+        }
+        
+        function createSmallCatholicChurchWithMass() {
+            // Create base church with altar
+            createSmallCatholicChurch(true);
+            
+            // Add priest figure at altar for Mass
+            const priestGroup = new THREE.Group();
+            
+            // Priest body (white alb with green chasuble)
+            const body = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.5, 0.6, 2, 12),
+                new THREE.MeshPhongMaterial({ color: 0x2D5016 }) // Green liturgical vestment
+            );
+            body.position.y = 2.5;
+            priestGroup.add(body);
+            
+            // White alb showing at bottom
+            const alb = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.6, 0.65, 0.5, 12),
+                new THREE.MeshPhongMaterial({ color: 0xF8F8F8 })
+            );
+            alb.position.y = 1.25;
+            priestGroup.add(alb);
+            
+            // Priest head
+            const head = new THREE.Mesh(
+                new THREE.SphereGeometry(0.4, 12, 12),
+                new THREE.MeshPhongMaterial({ color: 0xFFD1A3 })
+            );
+            head.position.y = 3.8;
+            priestGroup.add(head);
+            
+            // Priest arms (raised in blessing/consecration)
+            const armLeft = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.15, 0.15, 1.5, 8),
+                new THREE.MeshPhongMaterial({ color: 0xF8F8F8 })
+            );
+            armLeft.position.set(-0.7, 2.8, 0);
+            armLeft.rotation.z = Math.PI / 4;
+            priestGroup.add(armLeft);
+            
+            const armRight = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.15, 0.15, 1.5, 8),
+                new THREE.MeshPhongMaterial({ color: 0xF8F8F8 })
+            );
+            armRight.position.set(0.7, 2.8, 0);
+            armRight.rotation.z = -Math.PI / 4;
+            priestGroup.add(armRight);
+            
+            // Position priest behind altar
+            priestGroup.position.set(0, 0, -22);
+            priestGroup.castShadow = true;
+            stageObjects.push(priestGroup);
+            scene.add(priestGroup);
+            
+            // Chalice on altar
+            const chaliceBase = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.3, 0.25, 0.2, 12),
+                new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100 })
+            );
+            chaliceBase.position.set(-2, 1.8, -20);
+            stageObjects.push(chaliceBase);
+            scene.add(chaliceBase);
+            
+            const chaliceCup = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.25, 0.15, 0.4, 12),
+                new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100 })
+            );
+            chaliceCup.position.set(-2, 2.1, -20);
+            stageObjects.push(chaliceCup);
+            scene.add(chaliceCup);
+            
+            // Paten (plate) with Host
+            const paten = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.3, 0.3, 0.05, 16),
+                new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100 })
+            );
+            paten.position.set(2, 1.8, -20);
+            stageObjects.push(paten);
+            scene.add(paten);
+            
+            // Host (consecrated bread)
+            const host = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.2, 0.2, 0.02, 16),
+                new THREE.MeshPhongMaterial({ color: 0xFFFAF0, emissive: 0xFFFFAA, emissiveIntensity: 0.3 })
+            );
+            host.position.set(2, 1.88, -20);
+            stageObjects.push(host);
+            scene.add(host);
+            
+            // Holy light from above (representing divine presence)
+            const divineLight = new THREE.SpotLight(0xFFFFE0, 2, 30, Math.PI / 6);
+            divineLight.position.set(0, 12, -20);
+            divineLight.target.position.set(0, 1.8, -20);
+            stageObjects.push(divineLight);
+            scene.add(divineLight);
+            scene.add(divineLight.target);
+        }
+
 
         function startQuest(chapterIndex) {
             document.getElementById('dialogueScreen').classList.add('hidden');
