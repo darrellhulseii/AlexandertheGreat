@@ -1221,6 +1221,7 @@
             leaders: [],
             isAttacking: false,
             gameStarted: false,
+            readyToPlay: false,
             prayTarget: null,
             leadersDefeated: 0,
             totalLeaders: 5,
@@ -2049,7 +2050,11 @@
                 
                 console.log('Starting game');
                 gameState.gameStarted = true;
-                animate();
+                gameState.readyToPlay = true;
+                if (!gameState.animateStarted) {
+                    gameState.animateStarted = true;
+                    animate();
+                }
             }
             console.log('selectMode completed successfully');
         }
@@ -2169,8 +2174,13 @@
             }
             playBackgroundMusic();
             
+            // Now ready to play - start game loop
             gameState.gameStarted = true;
-            animate();
+            gameState.readyToPlay = true;
+            if (!gameState.animateStarted) {
+                gameState.animateStarted = true;
+                animate();
+            }
         }
 
         function showDialogue(chapterIndex) {
@@ -2576,8 +2586,13 @@
             }
             playBackgroundMusic();
             
+            // Now ready to play - start game loop
             gameState.gameStarted = true;
-            animate();
+            gameState.readyToPlay = true;
+            if (!gameState.animateStarted) {
+                gameState.animateStarted = true;
+                animate();
+            }
         }
 
         function checkQuestComplete() {
