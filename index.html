@@ -667,8 +667,25 @@
         // Alexander the Great Story Mode - Major historical battles
         const alexanderChapters = [
             {
-                title: "Chapter 1: The Battle of Granicus - 334 BC",
-                text: "After crossing into Asia Minor, Alexander faces his first major test against the Persian forces at the Granicus River. The Persian cavalry and Greek mercenaries await on the opposite bank.",
+                title: "Chapter 1: Ascension - 336 BC",
+                text: "At age 20, Alexander becomes king of Macedonia after his father Philip II's assassination. He must first secure his throne by crushing rebellions in Thebes and establishing his authority. The young king who studied under Aristotle now faces his first test of leadership.",
+                location: "Thebes, Greece",
+                dialogue: {
+                    speaker: "Parmenion (Senior General)",
+                    text: "The Thebans have revolted, my King. They believe you are too young and inexperienced. Many doubt you can hold your father's empire together.",
+                    options: [
+                        { text: "They will learn that Alexander is no mere boy!", response: "quest" },
+                        { text: "I will show them the same resolve my father had - and more!", response: "quest" }
+                    ]
+                },
+                quest: "Crush the Theban revolt - Defeat 25 Theban warriors and 3 leaders",
+                objective: { type: "both", kills: 25, leaders: 3 },
+                historicalNote: "Alexander razed Thebes to the ground, sparing only temples and the house of the poet Pindar. This brutal act sent a message to all of Greece: the young king was not to be trifled with.",
+                nextChapter: 1
+            },
+            {
+                title: "Chapter 2: The Battle of Granicus - 334 BC",
+                text: "Crossing into Asia Minor with 37,000 men, Alexander faces his first major test against the Persian forces at the Granicus River. Against his generals' advice, he orders a frontal assault across the river. During the battle, Alexander is saved from death when Cleitus the Black cuts down a Persian nobleman about to kill him.",
                 location: "Granicus River, Asia Minor",
                 dialogue: {
                     speaker: "Parmenion (Senior General)",
@@ -680,73 +697,130 @@
                 },
                 quest: "Charge across the river - Defeat 30 Persian soldiers and 3 commanders",
                 objective: { type: "both", kills: 30, leaders: 3 },
-                nextChapter: 1
+                historicalNote: "This victory opened all of Asia Minor to Alexander. He personally led the cavalry charge and nearly died in single combat. His conquest of the Persian Empire had begun.",
+                nextChapter: 2
             },
             {
-                title: "Chapter 2: The Battle of Issus - 333 BC",
-                text: "King Darius III of Persia himself takes the field with a massive army. At the narrow coastal plain of Issus, Alexander must face the Great King in direct combat.",
+                title: "Chapter 3: The Battle of Issus - 333 BC",
+                text: "King Darius III of Persia himself takes the field with over 100,000 men. At the narrow coastal plain of Issus, Alexander's smaller force of 40,000 faces the Great King. During the battle, Alexander charges directly at Darius, who flees the battlefield, abandoning his mother, wife, and children.",
                 location: "Issus, Cilicia",
                 dialogue: {
                     speaker: "Darius III (Persian King)",
-                    text: "I offer you peace, Alexander. Take Syria and Egypt as your own, marry my daughter, and be content with what you have conquered!",
+                    text: "I offer you peace, Alexander. Take all lands west of the Euphrates, marry my daughter, and be content with what you have conquered! Why risk everything?",
                     options: [
-                        { text: "I am already lord of all you offer, Darius.", response: "quest" },
+                        { text: "I am already lord of all you offer, Darius. Soon I shall have all you possess!", response: "quest" },
                         { text: "There cannot be two suns in the sky, nor two kings on earth!", response: "quest" }
                     ]
                 },
                 quest: "Break the Persian center - Defeat 40 Persian warriors and 4 commanders",
                 objective: { type: "both", kills: 40, leaders: 4 },
-                nextChapter: 2
-            },
-            {
-                title: "Chapter 3: The Siege of Tyre - 332 BC",
-                text: "The island city of Tyre, protected by its mighty walls and navy, refuses to submit. Alexander must accomplish what seems impossible - build a causeway across the sea.",
-                location: "Tyre, Phoenicia",
-                dialogue: {
-                    speaker: "Engineers Commander",
-                    text: "Sire, no army has ever taken Tyre by land. Their walls rise from the sea itself. How can we bridge half a mile of ocean?",
-                    options: [
-                        { text: "We shall make the sea our battlefield!", response: "quest" },
-                        { text: "What man has built, man can conquer!", response: "quest" }
-                    ]
-                },
-                quest: "Storm the walls of Tyre - Defeat 35 Tyrian defenders and 3 commanders",
-                objective: { type: "both", kills: 35, leaders: 3 },
+                historicalNote: "After the battle, Alexander treated Darius's captured family with respect and honor. Darius's mother, Sisygambis, was so impressed she later mourned Alexander more than her own son.",
                 nextChapter: 3
             },
             {
-                title: "Chapter 4: The Battle of Gaugamela - 331 BC",
-                text: "On the plains of Gaugamela, Darius assembles the greatest army ever seen - 250,000 men with war elephants and scythed chariots. This is the decisive battle for the Persian Empire.",
+                title: "Chapter 4: The Siege of Tyre - 332 BC",
+                text: "The island fortress-city of Tyre refuses to submit, trusting in its position half a mile offshore. Alexander accomplishes the impossible: building a causeway across the sea using the ruins of old Tyre. The siege lasts seven months. When the city finally falls, Alexander sells 30,000 Tyrians into slavery as punishment for their defiance.",
+                location: "Tyre, Phoenicia",
+                dialogue: {
+                    speaker: "Engineers Commander",
+                    text: "Sire, no army has ever taken Tyre by land. Their walls rise from the sea itself. The Tyrian navy dominates these waters. How can we possibly bridge half a mile of ocean?",
+                    options: [
+                        { text: "We shall make the sea our battlefield! Begin construction immediately!", response: "quest" },
+                        { text: "What man has built, man can conquer! I will not leave until Tyre is mine!", response: "quest" }
+                    ]
+                },
+                quest: "Storm the island fortress - Defeat 35 Tyrian defenders and 3 commanders",
+                objective: { type: "both", kills: 35, leaders: 3 },
+                historicalNote: "The causeway Alexander built still exists today, having permanently connected Tyre to the mainland. This engineering marvel demonstrated that Alexander would let nothing stand in his way.",
+                nextChapter: 4
+            },
+            {
+                title: "Chapter 5: Egypt and the Oracle - 332-331 BC",
+                text: "Egypt welcomes Alexander as a liberator from Persian rule. He founds the city of Alexandria, destined to become the greatest city of the ancient world. At the Oracle of Siwa, deep in the desert, Alexander is proclaimed the son of Zeus-Ammon, confirming his divine destiny.",
+                location: "Siwa Oasis, Egypt",
+                dialogue: {
+                    speaker: "Oracle of Siwa",
+                    text: "Hail, son of Zeus-Ammon! The gods recognize you as divine! What question do you bring to the oracle of the desert?",
+                    options: [
+                        { text: "Will I conquer the entire world?", response: "quest" },
+                        { text: "Am I truly the son of a god?", response: "quest" }
+                    ]
+                },
+                quest: "Defend the oracle from bandits - Defeat 20 desert raiders and 2 leaders",
+                objective: { type: "both", kills: 20, leaders: 2 },
+                historicalNote: "From this point forward, Alexander increasingly saw himself as divine. He founded over 20 cities named Alexandria across his empire, spreading Greek culture throughout the known world.",
+                nextChapter: 5
+            },
+            {
+                title: "Chapter 6: The Battle of Gaugamela - 331 BC",
+                text: "On the carefully prepared plains of Gaugamela, Darius assembles the greatest army ever seen - perhaps 250,000 men with war elephants, scythed chariots, and cavalry from across the Persian Empire. Alexander commands only 47,000. This is the decisive battle that will determine the fate of two empires.",
                 location: "Gaugamela, Mesopotamia",
                 dialogue: {
                     speaker: "Parmenion (Senior General)",
-                    text: "My King, their numbers are overwhelming. They outnumber us five to one. We are surrounded!",
+                    text: "My King, their numbers are overwhelming. They outnumber us five to one. We are completely surrounded! Should we attack at night when their numbers mean less?",
                     options: [
-                        { text: "Better to fight surrounded - they cannot escape us!", response: "quest" },
-                        { text: "One Macedonian is worth ten Persians! We attack!", response: "quest" }
+                        { text: "I will not steal victory like a thief! We fight at dawn!", response: "quest" },
+                        { text: "Better to fight surrounded - they cannot escape us! We attack!", response: "quest" }
                     ]
                 },
                 quest: "Shatter the Persian Empire - Defeat 50 Persian warriors and 5 commanders",
                 objective: { type: "both", kills: 50, leaders: 5 },
-                nextChapter: 4
+                historicalNote: "Alexander's brilliant tactics won the day. Darius fled again, and was later murdered by his own men. Alexander became Lord of Asia, ruler of the greatest empire the world had seen.",
+                nextChapter: 6
             },
             {
-                title: "Chapter 5: The Battle of Hydaspes - 326 BC",
-                text: "In India, Alexander faces King Porus and his war elephants. Crossing the rain-swollen Hydaspes River in a monsoon, Alexander fights his hardest battle yet.",
+                title: "Chapter 7: The Death of Cleitus - 328 BC",
+                text: "At a drunken banquet in Samarkand, Alexander quarrels with Cleitus the Black, the man who once saved his life. In a rage, Alexander kills his loyal friend with a spear. Overcome with remorse, Alexander locks himself in his tent for three days, refusing food and water, contemplating suicide.",
+                location: "Samarkand, Sogdiana",
+                dialogue: {
+                    speaker: "Cleitus the Black",
+                    text: "You call yourself son of Zeus-Ammon! You forget it was Philip who built this army! You forget it was I who saved your life at Granicus when you charged ahead like a fool!",
+                    options: [
+                        { text: "How dare you speak to me this way! I am your King!", response: "quest" },
+                        { text: "You were brave once, Cleitus, but now you are just a drunk!", response: "quest" }
+                    ]
+                },
+                quest: "Face assassination attempts from within - Defeat 15 conspirators and 2 traitorous officers",
+                objective: { type: "both", kills: 15, leaders: 2 },
+                historicalNote: "This tragedy marked a turning point. Alexander's adoption of Persian customs and claim to divinity alienated many of his Macedonian veterans. The seeds of mutiny were planted.",
+                nextChapter: 7
+            },
+            {
+                title: "Chapter 8: The Battle of Hydaspes - 326 BC",
+                text: "At the Hydaspes River in India, Alexander faces King Porus and his terrifying war elephants. In a monsoon, Alexander executes a brilliant night crossing of the swollen river. After the battle, impressed by Porus's courage, Alexander allows him to keep his kingdom and adds his territory to the empire.",
                 location: "Hydaspes River, India",
                 dialogue: {
                     speaker: "King Porus of India",
-                    text: "Alexander, I am a king, born of kings. How should I be treated?",
+                    text: "You have defeated me, Alexander. I am a king, born of kings. Tell me, how should a king be treated by another king?",
                     options: [
-                        { text: "Like a king, for you fought like one!", response: "quest" },
-                        { text: "Today, two great warriors meet in honorable combat!", response: "quest" }
+                        { text: "Like a king, for you fought like one! Rule your lands in my name!", response: "quest" },
+                        { text: "With honor and respect! The brave deserve mercy, not chains!", response: "quest" }
                     ]
                 },
-                quest: "Final conquest - Defeat Porus's army - 45 warriors and 5 commanders",
+                quest: "Defeat the war elephants - Defeat 45 warriors and 5 commanders",
                 objective: { type: "both", kills: 45, leaders: 5 },
+                historicalNote: "This was Alexander's last major battle. His exhausted army mutinied at the Hyphasis River, refusing to march further east. Alexander wept but turned back, his dream of reaching the edge of the world unfulfilled.",
+                nextChapter: 8
+            },
+            {
+                title: "Chapter 9: The Return - 325-323 BC",
+                text: "The march back through the Gedrosian Desert costs Alexander more men than all his battles combined. He returns to Babylon, planning new conquests of Arabia. But at age 32, after a prolonged banquet, Alexander falls ill with a fever. Within days, the greatest conqueror in history is dead, his empire fragmenting immediately.",
+                location: "Babylon",
+                dialogue: {
+                    speaker: "Perdiccas (General)",
+                    text: "Great King, you burn with fever. You must rest! Who will inherit your empire? To whom do you leave this vast realm you have built?",
+                    options: [
+                        { text: "To the strongest! Let them prove themselves worthy!", response: "quest" },
+                        { text: "My empire will not fall. I shall rise again and conquer more!", response: "quest" }
+                    ]
+                },
+                quest: "Final defense of Babylon - Hold the palace against 30 attackers and 3 enemy generals",
+                objective: { type: "both", kills: 30, leaders: 3 },
+                historicalNote: "Alexander died June 10 or 11, 323 BC. His empire immediately split among his generals (the Diadochi), leading to 40 years of war. He left no clear heir, having conquered the world but failed to secure succession.",
                 nextChapter: -1
             }
         ];
+        
         
         // Audio Setup
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1948,22 +2022,6 @@
             } else if (mode === 'alexander') {
                 console.log('Starting alexander mode');
                 document.getElementById('characterName').textContent = '⚔️ ALEXANDER THE GREAT ⚔️';
-                console.log('Creating Alexander character');
-                player = createAlexander();
-                scene.add(player);
-                
-                console.log('Creating allies');
-                // Create 10 allied soldiers in formation
-                for (let i = 0; i < 10; i++) {
-                    const ally = createAlly();
-                    gameState.allies.push(ally);
-                    scene.add(ally);
-                }
-                positionAlliesInFormation(gameState.allies);
-                
-                gameState.totalLeaders = 8;
-                document.getElementById('totalLeaders').textContent = '8';
-                console.log('Showing Alexander intro');
                 showAlexanderIntro();
             } else if (mode === 'gun') {
                 console.log('Starting Gun mode');
@@ -1997,10 +2055,7 @@
         }
 
         function showAlexanderIntro() {
-            const firstChapter = alexanderChapters[0];
-            document.getElementById('cutsceneTitle').textContent = firstChapter.title;
-            document.getElementById('cutsceneText').textContent = firstChapter.text;
-            document.getElementById('cutsceneScreen').classList.remove('hidden');
+            showAlexanderCutscene(0);
         }
 
         function showCutscene(chapterIndex) {
@@ -2013,7 +2068,7 @@
         function endCutscene() {
             document.getElementById('cutsceneScreen').classList.add('hidden');
             
-            // Check if we're coming from historical quotes completion
+            // Check if we're coming from historical quotes/notes completion
             if (gameState.nextAction === 'victory') {
                 gameState.nextAction = null;
                 showVictory();
@@ -2023,6 +2078,12 @@
                 gameState.currentChapter = gameState.pendingChapter;
                 gameState.pendingChapter = null;
                 showCutscene(gameState.currentChapter);
+                return;
+            } else if (gameState.nextAction === 'nextAlexanderChapter') {
+                gameState.nextAction = null;
+                gameState.currentChapter = gameState.pendingChapter;
+                gameState.pendingChapter = null;
+                showAlexanderCutscene(gameState.currentChapter);
                 return;
             }
             
@@ -2035,13 +2096,81 @@
             if (gameState.mode === 'story') {
                 showDialogue(gameState.currentChapter);
             } else if (gameState.mode === 'alexander') {
-                gameState.gameStarted = true;
-                gameState.questActive = true;
-                document.getElementById('questLog').classList.remove('hidden');
-                const firstChapter = alexanderChapters[0];
-                document.getElementById('questObjective').textContent = firstChapter.quest;
-                animate();
+                showAlexanderDialogue(gameState.currentChapter);
             }
+        }
+        
+        function showAlexanderCutscene(chapterIndex) {
+            const chapter = alexanderChapters[chapterIndex];
+            
+            document.getElementById('cutsceneTitle').textContent = chapter.title;
+            document.getElementById('cutsceneText').textContent = chapter.text + '\n\nLocation: ' + chapter.location;
+            document.getElementById('cutsceneScreen').classList.remove('hidden');
+        }
+        
+        function showAlexanderDialogue(chapterIndex) {
+            const chapter = alexanderChapters[chapterIndex];
+            const dialogue = chapter.dialogue;
+            
+            document.getElementById('speakerName').textContent = dialogue.speaker;
+            document.getElementById('dialogueText').textContent = dialogue.text;
+            
+            const optionsDiv = document.getElementById('dialogueOptions');
+            optionsDiv.innerHTML = '';
+            
+            dialogue.options.forEach(function(option) {
+                const button = document.createElement('div');
+                button.className = 'dialogue-option';
+                button.textContent = option.text;
+                button.onclick = function() {
+                    if (option.response === 'quest') {
+                        startAlexanderQuest(chapterIndex);
+                    }
+                };
+                optionsDiv.appendChild(button);
+            });
+            
+            document.getElementById('dialogueScreen').classList.remove('hidden');
+        }
+        
+        function startAlexanderQuest(chapterIndex) {
+            document.getElementById('dialogueScreen').classList.add('hidden');
+            
+            const chapter = alexanderChapters[chapterIndex];
+            
+            if (!player) {
+                player = createAlexander();
+                scene.add(player);
+                
+                // Create 10 allied soldiers in formation
+                for (let i = 0; i < 10; i++) {
+                    const ally = createAlly();
+                    gameState.allies.push(ally);
+                    scene.add(ally);
+                }
+                positionAlliesInFormation(gameState.allies);
+            }
+            
+            gameState.questActive = true;
+            gameState.questComplete = false;
+            gameState.kills = 0;
+            gameState.leadersDefeated = 0;
+            gameState.prayers = 0;
+            
+            gameState.totalLeaders = chapter.objective.leaders;
+            document.getElementById('totalLeaders').textContent = chapter.objective.leaders;
+            
+            document.getElementById('questLog').classList.remove('hidden');
+            document.getElementById('questObjective').textContent = chapter.quest;
+            
+            // Start background music
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            playBackgroundMusic();
+            
+            gameState.gameStarted = true;
+            animate();
         }
 
         function showDialogue(chapterIndex) {
@@ -2117,17 +2246,36 @@
                 scene.fog.far = 80;
             }
             
-            // Stone floor
+            // Golden marble floor with detailed texture
             const floorGeometry = new THREE.PlaneGeometry(40, 50);
             const floorMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x9B8B7E,
-                roughness: 0.9
+                color: 0xF5DEB3, // Golden wheat marble color
+                shininess: 80,
+                specular: 0xFFFFDD,
+                reflectivity: 0.3
             });
             const floor = new THREE.Mesh(floorGeometry, floorMaterial);
             floor.rotation.x = -Math.PI / 2;
             floor.receiveShadow = true;
             stageObjects.push(floor);
             scene.add(floor);
+            
+            // Marble veining pattern (darker gold streaks)
+            for (let i = 0; i < 8; i++) {
+                const veinGeometry = new THREE.PlaneGeometry(2 + Math.random() * 3, 45);
+                const veinMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0xD4AF37, // Darker gold veins
+                    transparent: true,
+                    opacity: 0.4,
+                    shininess: 90
+                });
+                const vein = new THREE.Mesh(veinGeometry, veinMaterial);
+                vein.rotation.x = -Math.PI / 2;
+                vein.rotation.z = Math.random() * Math.PI / 4;
+                vein.position.set((Math.random() - 0.5) * 35, 0.01, (Math.random() - 0.5) * 45);
+                stageObjects.push(vein);
+                scene.add(vein);
+            }
             
             // Church walls
             const wallMaterial = new THREE.MeshPhongMaterial({ color: 0xB8A89A });
@@ -2438,9 +2586,9 @@
             let complete = false;
             
             if (gameState.mode === 'alexander') {
-                // Alexander mode - check first chapter objectives for now
-                const alexChapter = alexanderChapters[0];
-                if (alexChapter.objective.type === 'both') {
+                // Alexander mode - check current chapter objectives
+                const alexChapter = alexanderChapters[gameState.currentChapter];
+                if (alexChapter && alexChapter.objective.type === 'both') {
                     if (gameState.kills >= alexChapter.objective.kills && gameState.leadersDefeated >= alexChapter.objective.leaders) {
                         complete = true;
                     }
@@ -2481,7 +2629,21 @@
                 gameState.questActive = false;
                 
                 if (gameState.mode === 'alexander') {
-                    showVictory();
+                    const alexChapter = alexanderChapters[gameState.currentChapter];
+                    // Show historical note if available
+                    if (alexChapter.historicalNote) {
+                        showAlexanderHistoricalNote(gameState.currentChapter);
+                    }
+                    
+                    // Progress to next chapter or victory
+                    if (alexChapter.nextChapter === -1) {
+                        // Final chapter - show victory
+                        gameState.nextAction = 'victory';
+                    } else {
+                        // Progress to next chapter
+                        gameState.nextAction = 'nextAlexanderChapter';
+                        gameState.pendingChapter = alexChapter.nextChapter;
+                    }
                 } else {
                     const chapter = storyChapters[gameState.currentChapter];
                     // Show historical quotes after completing chapter
@@ -2514,6 +2676,29 @@
                 document.getElementById('cutsceneScreen').classList.remove('hidden');
                 
                 // No auto-advance - user must click Continue button to proceed
+            }
+        }
+        
+        function showAlexanderHistoricalNote(chapterIndex) {
+            const chapter = alexanderChapters[chapterIndex];
+            
+            if (chapter.historicalNote) {
+                document.getElementById('cutsceneTitle').textContent = chapter.title + ' - Complete';
+                document.getElementById('cutsceneText').textContent = 'HISTORICAL NOTE:\n\n' + chapter.historicalNote;
+                document.getElementById('cutsceneScreen').classList.remove('hidden');
+                
+                // No auto-advance - user must click Continue button to proceed
+            } else {
+                // No historical note, proceed immediately
+                if (gameState.nextAction === 'victory') {
+                    gameState.nextAction = null;
+                    showVictory();
+                } else if (gameState.nextAction === 'nextAlexanderChapter') {
+                    gameState.nextAction = null;
+                    gameState.currentChapter = gameState.pendingChapter;
+                    gameState.pendingChapter = null;
+                    showAlexanderCutscene(gameState.currentChapter);
+                }
             }
         }
 
