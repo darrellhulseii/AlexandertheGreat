@@ -821,6 +821,25 @@
             }
         ];
         
+        // Gun Mode Stages - Joan with dual pistols
+        const gunModeStages = [
+            {
+                title: "Stage 1: Vampire Invasion",
+                text: "Hordes of vampires have overrun the countryside. Armed with your dual pistols and divine power, you must eliminate the vampire threat. Defeat the vampire generals leading the attack.",
+                quest: "Eliminate the vampire threat - Defeat 40 vampires and 5 vampire generals",
+                objective: { type: "both", kills: 40, leaders: 5 },
+                nextStage: 1
+            },
+            {
+                title: "Stage 2: Dracula's Castle",
+                text: "You've tracked the vampire army to its source - Dracula's Castle. The dark lord himself awaits with his five elite vampire generals. Dracula wields a powerful bazooka, and his generals carry devastating shotguns. This is the final battle.",
+                quest: "Final Battle - Defeat Dracula and his 5 elite generals",
+                objective: { type: "both", kills: 0, leaders: 6 }, // 5 generals + Dracula
+                bossStage: true,
+                nextStage: -1
+            }
+        ];
+        
         
         // Audio Setup
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1219,6 +1238,7 @@
             allies: [],
             enemies: [],
             leaders: [],
+            enemyProjectiles: [],
             isAttacking: false,
             gameStarted: false,
             readyToPlay: false,
@@ -1227,10 +1247,12 @@
             totalLeaders: 5,
             gameWon: false,
             currentChapter: 0,
+            currentStage: 0,
             questActive: false,
             questComplete: false,
             nextAction: null,
-            pendingChapter: null
+            pendingChapter: null,
+            pendingStage: null
         };
 
         const mobileControls = {
@@ -2026,13 +2048,28 @@
                 showAlexanderIntro();
             } else if (mode === 'gun') {
                 console.log('Starting Gun mode');
-                // GUN MODE - Joan with dual pistols
                 document.getElementById('characterName').textContent = '🔫 JOAN OF ARC 🔫';
-                console.log('Creating Joan with guns');
+                gameState.currentStage = 0;
+                showGunModeStage(0);
+            }
+            console.log('selectMode completed successfully');
+        }
+        
+        function showGunModeStage(stageIndex) {
+            const stage = gunModeStages[stageIndex];
+            
+            document.getElementById('cutsceneTitle').textContent = stage.title;
+            document.getElementById('cutsceneText').textContent = stage.text;
+            document.getElementById('cutsceneScreen').classList.remove('hidden');
+        }
+        
+        function startGunModeStage(stageIndex) {
+            const stage = gunModeStages[stageIndex];
+            
+            if (!player) {
                 player = createJoanWithGuns();
                 scene.add(player);
                 
-                console.log('Creating allies');
                 // Create 10 allied soldiers in formation
                 for (let i = 0; i < 10; i++) {
                     const ally = createAlly();
@@ -2040,23 +2077,31 @@
                     scene.add(ally);
                 }
                 positionAlliesInFormation(gameState.allies);
-                
-                console.log('Starting music');
-                // Start background music
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                playBackgroundMusic();
-                
-                console.log('Starting game');
-                gameState.gameStarted = true;
-                gameState.readyToPlay = true;
-                if (!gameState.animateStarted) {
-                    gameState.animateStarted = true;
-                    animate();
-                }
             }
-            console.log('selectMode completed successfully');
+            
+            gameState.questActive = true;
+            gameState.questComplete = false;
+            gameState.kills = 0;
+            gameState.leadersDefeated = 0;
+            
+            gameState.totalLeaders = stage.objective.leaders;
+            document.getElementById('totalLeaders').textContent = stage.objective.leaders;
+            
+            document.getElementById('questLog').classList.remove('hidden');
+            document.getElementById('questObjective').textContent = stage.quest;
+            
+            // Start background music
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            playBackgroundMusic();
+            
+            gameState.gameStarted = true;
+            gameState.readyToPlay = true;
+            if (!gameState.animateStarted) {
+                gameState.animateStarted = true;
+                animate();
+            }
         }
 
         function showAlexanderIntro() {
@@ -2090,6 +2135,12 @@
                 gameState.pendingChapter = null;
                 showAlexanderCutscene(gameState.currentChapter);
                 return;
+            } else if (gameState.nextAction === 'nextGunStage') {
+                gameState.nextAction = null;
+                gameState.currentStage = gameState.pendingStage;
+                gameState.pendingStage = null;
+                showGunModeStage(gameState.currentStage);
+                return;
             }
             
             // Start background music
@@ -2102,6 +2153,8 @@
                 showDialogue(gameState.currentChapter);
             } else if (gameState.mode === 'alexander') {
                 showAlexanderDialogue(gameState.currentChapter);
+            } else if (gameState.mode === 'gun') {
+                startGunModeStage(gameState.currentStage);
             }
         }
         
@@ -2609,8 +2662,13 @@
                     }
                 }
             } else if (gameState.mode === 'gun') {
-                // Gun Mode - endless mode, no completion
-                return;
+                // Gun Mode - now has 2 stages with progression
+                const stage = gunModeStages[gameState.currentStage];
+                if (stage && stage.objective.type === 'both') {
+                    if (gameState.kills >= stage.objective.kills && gameState.leadersDefeated >= stage.objective.leaders) {
+                        complete = true;
+                    }
+                }
             } else {
                 // Story mode - now with prayer support
                 const chapter = storyChapters[gameState.currentChapter];
@@ -2658,6 +2716,24 @@
                         // Progress to next chapter
                         gameState.nextAction = 'nextAlexanderChapter';
                         gameState.pendingChapter = alexChapter.nextChapter;
+                    }
+                } else if (gameState.mode === 'gun') {
+                    const stage = gunModeStages[gameState.currentStage];
+                    
+                    // Progress to next stage or victory
+                    if (stage.nextStage === -1) {
+                        // Final stage - show victory
+                        gameState.nextAction = 'victory';
+                        showVictory();
+                    } else {
+                        // Progress to next stage
+                        gameState.nextAction = 'nextGunStage';
+                        gameState.pendingStage = stage.nextStage;
+                        
+                        // Show completion message
+                        document.getElementById('cutsceneTitle').textContent = stage.title + ' - Complete!';
+                        document.getElementById('cutsceneText').textContent = 'Stage cleared! Prepare for the next challenge...';
+                        document.getElementById('cutsceneScreen').classList.remove('hidden');
                     }
                 } else {
                     const chapter = storyChapters[gameState.currentChapter];
@@ -3307,7 +3383,34 @@
         function updateEnemy(enemy) {
             const playerDistance = enemy.position.distanceTo(player.position);
             
-            if (playerDistance > 3) {
+            // Ranged attack for bosses with weapons (Dracula's bazooka and generals' shotguns)
+            if ((enemy.hasBazooka || enemy.hasShotgun) && playerDistance < 35 && playerDistance > 5) {
+                enemy.lookAt(player.position);
+                
+                if (!enemy.shootCooldown) enemy.shootCooldown = 0;
+                
+                if (enemy.shootCooldown <= 0) {
+                    if (enemy.hasBazooka) {
+                        // Dracula fires bazooka - slower, more damage
+                        shootBazooka(enemy);
+                        enemy.shootCooldown = 120; // 2 second cooldown
+                    } else if (enemy.hasShotgun) {
+                        // Generals fire shotgun - faster, spread
+                        shootShotgun(enemy);
+                        enemy.shootCooldown = 60; // 1 second cooldown
+                    }
+                } else {
+                    enemy.shootCooldown--;
+                }
+                
+                // Still move closer but slower
+                if (playerDistance > 10) {
+                    const direction = new THREE.Vector3()
+                        .subVectors(player.position, enemy.position)
+                        .normalize();
+                    applyCollisionAvoidance(enemy, direction, enemy.speed * 0.3);
+                }
+            } else if (playerDistance > 3) {
                 const direction = new THREE.Vector3()
                     .subVectors(player.position, enemy.position)
                     .normalize();
@@ -3340,6 +3443,91 @@
             
             if (enemy.attackCooldown > 0) {
                 enemy.attackCooldown--;
+            }
+            if (enemy.shootCooldown > 0) {
+                enemy.shootCooldown--;
+            }
+        }
+        
+        function shootBazooka(enemy) {
+            // Create bazooka rocket projectile
+            const projectile = new THREE.Group();
+            
+            // Rocket body
+            const body = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.15, 0.15, 0.8, 8),
+                new THREE.MeshPhongMaterial({ color: 0x333333 })
+            );
+            body.rotation.z = Math.PI / 2;
+            projectile.add(body);
+            
+            // Rocket tip
+            const tip = new THREE.Mesh(
+                new THREE.ConeGeometry(0.15, 0.3, 8),
+                new THREE.MeshPhongMaterial({ color: 0xFF4400 })
+            );
+            tip.rotation.z = -Math.PI / 2;
+            tip.position.x = 0.55;
+            projectile.add(tip);
+            
+            // Rocket flames
+            const flame = new THREE.Mesh(
+                new THREE.ConeGeometry(0.12, 0.4, 8),
+                new THREE.MeshBasicMaterial({ color: 0xFF6600 })
+            );
+            flame.rotation.z = Math.PI / 2;
+            flame.position.x = -0.5;
+            projectile.add(flame);
+            
+            projectile.position.copy(enemy.position);
+            projectile.position.y += 2.5;
+            
+            const direction = new THREE.Vector3()
+                .subVectors(player.position, enemy.position)
+                .normalize();
+            
+            projectile.userData = {
+                velocity: direction.multiplyScalar(0.4), // Slower rocket
+                damage: 20,
+                isBazookaRocket: true,
+                lifetime: 180 // 3 seconds
+            };
+            
+            scene.add(projectile);
+            if (!gameState.enemyProjectiles) gameState.enemyProjectiles = [];
+            gameState.enemyProjectiles.push(projectile);
+        }
+        
+        function shootShotgun(enemy) {
+            // Shotgun fires 5 pellets in a spread
+            const baseDirection = new THREE.Vector3()
+                .subVectors(player.position, enemy.position)
+                .normalize();
+            
+            for (let i = 0; i < 5; i++) {
+                const pellet = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.1, 6, 6),
+                    new THREE.MeshPhongMaterial({ color: 0xFFDD00 })
+                );
+                
+                pellet.position.copy(enemy.position);
+                pellet.position.y += 1.5;
+                
+                // Spread pattern
+                const spreadAngle = (i - 2) * 0.15; // -0.3 to +0.3 radians
+                const direction = baseDirection.clone();
+                direction.applyAxisAngle(new THREE.Vector3(0, 1, 0), spreadAngle);
+                
+                pellet.userData = {
+                    velocity: direction.multiplyScalar(0.6), // Fast pellets
+                    damage: 5,
+                    isShotgunPellet: true,
+                    lifetime: 60 // 1 second
+                };
+                
+                scene.add(pellet);
+                if (!gameState.enemyProjectiles) gameState.enemyProjectiles = [];
+                gameState.enemyProjectiles.push(pellet);
             }
         }
 
@@ -3497,6 +3685,19 @@
             const dracula = createVampire();
             dracula.scale.set(1.4, 1.4, 1.4);
             
+            // Check if this is stage 2 (boss fight) - give shotgun
+            if (gameState.currentStage === 1) {
+                // Shotgun for generals in stage 2
+                const shotgunBody = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.8, 0.2, 0.15),
+                    new THREE.MeshPhongMaterial({ color: 0x2C2C2C })
+                );
+                shotgunBody.position.set(0.6, 1.5, 0);
+                shotgunBody.rotation.y = Math.PI / 2;
+                dracula.add(shotgunBody);
+                dracula.hasShotgun = true;
+            }
+            
             const crownGeometry = new THREE.CylinderGeometry(0.4, 0.35, 0.45, 12);
             const crownMaterial = new THREE.MeshPhongMaterial({ 
                 color: 0xFFD700,
@@ -3524,6 +3725,73 @@
             dracula.health = 200;
             dracula.maxHealth = 200;
             dracula.isLeader = true;
+            
+            return dracula;
+        }
+        
+        function createDraculaBoss() {
+            // Dracula himself - larger and with bazooka
+            const dracula = createVampire();
+            dracula.scale.set(2.0, 2.0, 2.0); // Bigger than generals
+            
+            // Bazooka weapon
+            const bazookaBody = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.15, 0.12, 1.2, 8),
+                new THREE.MeshPhongMaterial({ color: 0x1A1A1A })
+            );
+            bazookaBody.rotation.z = Math.PI / 2;
+            bazookaBody.position.set(1.0, 2.5, 0);
+            dracula.add(bazookaBody);
+            
+            const bazookaTip = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.18, 0.15, 0.3, 8),
+                new THREE.MeshPhongMaterial({ color: 0xFF4400 })
+            );
+            bazookaTip.rotation.z = Math.PI / 2;
+            bazookaTip.position.set(1.6, 2.5, 0);
+            dracula.add(bazookaTip);
+            
+            // Massive crown
+            const crownGeometry = new THREE.CylinderGeometry(0.6, 0.5, 0.7, 12);
+            const crownMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xFFD700,
+                shininess: 150,
+                emissive: 0x443300
+            });
+            const crown = new THREE.Mesh(crownGeometry, crownMaterial);
+            crown.position.y = 4.5;
+            crown.castShadow = true;
+            dracula.add(crown);
+            
+            // Red cape
+            const capeGeometry = new THREE.BoxGeometry(2.5, 3, 0.1);
+            const capeMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x8B0000,
+                side: THREE.DoubleSide
+            });
+            const cape = new THREE.Mesh(capeGeometry, capeMaterial);
+            cape.position.set(0, 1.5, -1);
+            dracula.add(cape);
+            
+            // Massive red aura
+            const auraGeometry = new THREE.RingGeometry(3, 5, 32);
+            const auraMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xFF0000,
+                transparent: true,
+                opacity: 0.6,
+                side: THREE.DoubleSide
+            });
+            const aura = new THREE.Mesh(auraGeometry, auraMaterial);
+            aura.rotation.x = -Math.PI / 2;
+            aura.position.y = 0.2;
+            dracula.add(aura);
+            dracula.aura = aura;
+            
+            dracula.health = 500; // Boss health
+            dracula.maxHealth = 500;
+            dracula.isLeader = true;
+            dracula.isDracula = true; // Mark as boss
+            dracula.hasBazooka = true;
             
             return dracula;
         }
@@ -3556,8 +3824,19 @@
             
             const maxLeaders = (gameState.mode === 'alexander' || gameState.mode === 'gun') ? 2 : 2;
             if (gameState.leaders.length < maxLeaders && gameState.leadersDefeated < gameState.totalLeaders) {
-                // Spawn Dracula in Gun Mode, regular leaders otherwise
-                const leader = (gameState.mode === 'gun') ? createDraculaGeneral() : createEnemyLeader();
+                let leader;
+                
+                if (gameState.mode === 'gun') {
+                    // Gun Mode stage 2 - spawn Dracula boss first, then generals
+                    if (gameState.currentStage === 1 && gameState.leadersDefeated === 0) {
+                        leader = createDraculaBoss(); // Spawn Dracula first
+                    } else {
+                        leader = createDraculaGeneral(); // Then generals
+                    }
+                } else {
+                    leader = createEnemyLeader();
+                }
+                
                 gameState.leaders.push(leader);
                 gameState.enemies.push(leader);
                 scene.add(leader);
@@ -3669,6 +3948,52 @@
             if (leaderSpawnTimer > 1800) {
                 leaderSpawnTimer = 0;
                 spawnLeader();
+            }
+            
+            // Update enemy projectiles (bazooka rockets and shotgun pellets)
+            if (gameState.enemyProjectiles && gameState.enemyProjectiles.length > 0) {
+                for (let i = gameState.enemyProjectiles.length - 1; i >= 0; i--) {
+                    const projectile = gameState.enemyProjectiles[i];
+                    
+                    if (!projectile || !projectile.position) {
+                        gameState.enemyProjectiles.splice(i, 1);
+                        continue;
+                    }
+                    
+                    // Move projectile
+                    projectile.position.add(projectile.userData.velocity);
+                    projectile.userData.lifetime--;
+                    
+                    // Rotate rocket for visual effect
+                    if (projectile.userData.isBazookaRocket) {
+                        projectile.rotation.y += 0.1;
+                    }
+                    
+                    // Check collision with player
+                    const distanceToPlayer = projectile.position.distanceTo(player.position);
+                    if (distanceToPlayer < 2) {
+                        gameState.health -= projectile.userData.damage;
+                        updateUI();
+                        
+                        // Create impact effect
+                        createSlashEffect(projectile.position, new THREE.Vector3());
+                        
+                        scene.remove(projectile);
+                        gameState.enemyProjectiles.splice(i, 1);
+                        
+                        if (gameState.health <= 0) {
+                            alert('Defeated! You killed ' + gameState.kills + ' enemies.');
+                            location.reload();
+                        }
+                        continue;
+                    }
+                    
+                    // Remove if lifetime expired
+                    if (projectile.userData.lifetime <= 0) {
+                        scene.remove(projectile);
+                        gameState.enemyProjectiles.splice(i, 1);
+                    }
+                }
             }
 
             camera.position.x = player.position.x;
