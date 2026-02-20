@@ -828,13 +828,17 @@
                 text: "Hordes of vampires have overrun the countryside. Armed with your dual pistols and divine power, you must eliminate the vampire threat. Defeat the vampire generals leading the attack.",
                 quest: "Eliminate the vampire threat - Defeat 40 vampires and 5 vampire generals",
                 objective: { type: "both", kills: 40, leaders: 5 },
+                bibleVerse: "Put on the full armor of God, so that you can take your stand against the devil's schemes. For our struggle is not against flesh and blood, but against the rulers, against the authorities, against the powers of this dark world and against the spiritual forces of evil in the heavenly realms.",
+                bibleReference: "Ephesians 6:11-12",
                 nextStage: 1
             },
             {
                 title: "Stage 2: Dracula's Castle",
-                text: "You've tracked the vampire army to its source - Dracula's Castle. The dark lord himself awaits with his five elite vampire generals. Dracula wields a powerful bazooka, and his generals carry devastating shotguns. This is the final battle.",
+                text: "You've tracked the vampire army to its source - Dracula's Castle. The dark lord himself awaits with his five elite vampire generals. Dracula wields a powerful bazooka, and his generals carry devastating shotguns. This is the final battle between light and darkness.",
                 quest: "Final Battle - Defeat Dracula and his 5 elite generals",
                 objective: { type: "both", kills: 0, leaders: 6 }, // 5 generals + Dracula
+                bibleVerse: "The Lord is my light and my salvation—whom shall I fear? The Lord is the stronghold of my life—of whom shall I be afraid? When the wicked advance against me to devour me, it is my enemies and my foes who will stumble and fall. Though an army besiege me, my heart will not fear; though war break out against me, even then I will be confident.",
+                bibleReference: "Psalm 27:1-3",
                 bossStage: true,
                 nextStage: -1
             }
@@ -1269,26 +1273,31 @@
         const renderer = new THREE.WebGLRenderer({ 
             canvas: canvas,
             antialias: true,
-            powerPreference: "high-performance"
+            powerPreference: "high-performance",
+            alpha: true,
+            precision: "highp"
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(window.devicePixelRatio); // Full device resolution
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        renderer.outputEncoding = THREE.sRGBEncoding;
 
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 18, 28);
         camera.lookAt(0, 0, 0);
 
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xB8E6B8, 0.75); // Light green ambient
+        // Enhanced Lighting with HDR-like quality
+        const ambientLight = new THREE.AmbientLight(0xB8E6B8, 0.8);
         scene.add(ambientLight);
 
-        const sunLight = new THREE.DirectionalLight(0xFFFAE6, 1.2); // Warm sunlight
+        const sunLight = new THREE.DirectionalLight(0xFFFAE6, 1.4);
         sunLight.position.set(70, 60, 50);
         sunLight.castShadow = true;
-        sunLight.shadow.mapSize.width = 2048;
-        sunLight.shadow.mapSize.height = 2048;
+        sunLight.shadow.mapSize.width = 4096; // Ultra high resolution shadows
+        sunLight.shadow.mapSize.height = 4096;
         sunLight.shadow.camera.left = -100;
         sunLight.shadow.camera.right = 100;
         sunLight.shadow.camera.top = 100;
@@ -2058,13 +2067,42 @@
         function showGunModeStage(stageIndex) {
             const stage = gunModeStages[stageIndex];
             
+            let displayText = stage.text;
+            
+            // Add Bible verse if present
+            if (stage.bibleVerse) {
+                displayText += '\n\n━━━━━━━━━━━━━━━━━\n\n';
+                displayText += '"' + stage.bibleVerse + '"\n\n';
+                displayText += '— ' + stage.bibleReference;
+            }
+            
             document.getElementById('cutsceneTitle').textContent = stage.title;
-            document.getElementById('cutsceneText').textContent = stage.text;
+            document.getElementById('cutsceneText').textContent = displayText;
             document.getElementById('cutsceneScreen').classList.remove('hidden');
         }
         
         function startGunModeStage(stageIndex) {
             const stage = gunModeStages[stageIndex];
+            
+            // Clear existing enemies from previous stage
+            if (gameState.enemies.length > 0) {
+                gameState.enemies.forEach(function(enemy) {
+                    if (enemy && scene) scene.remove(enemy);
+                });
+                gameState.enemies = [];
+            }
+            if (gameState.leaders.length > 0) {
+                gameState.leaders.forEach(function(leader) {
+                    if (leader && scene) scene.remove(leader);
+                });
+                gameState.leaders = [];
+            }
+            if (gameState.enemyProjectiles.length > 0) {
+                gameState.enemyProjectiles.forEach(function(proj) {
+                    if (proj && scene) scene.remove(proj);
+                });
+                gameState.enemyProjectiles = [];
+            }
             
             if (!player) {
                 player = createJoanWithGuns();
@@ -2730,9 +2768,18 @@
                         gameState.nextAction = 'nextGunStage';
                         gameState.pendingStage = stage.nextStage;
                         
-                        // Show completion message
+                        // Show completion message with Bible verse
+                        const nextStage = gunModeStages[stage.nextStage];
+                        let completionText = 'Stage cleared! The first wave of darkness has been defeated.\n\nPrepare yourself for the final confrontation...';
+                        
+                        if (nextStage && nextStage.bibleVerse) {
+                            completionText += '\n\n━━━━━━━━━━━━━━━━━\n\n';
+                            completionText += '"' + nextStage.bibleVerse + '"\n\n';
+                            completionText += '— ' + nextStage.bibleReference;
+                        }
+                        
                         document.getElementById('cutsceneTitle').textContent = stage.title + ' - Complete!';
-                        document.getElementById('cutsceneText').textContent = 'Stage cleared! Prepare for the next challenge...';
+                        document.getElementById('cutsceneText').textContent = completionText;
                         document.getElementById('cutsceneScreen').classList.remove('hidden');
                     }
                 } else {
@@ -2794,10 +2841,17 @@
         }
 
         function showVictory() {
-            document.getElementById('victoryMessage').textContent = 
-                gameState.mode === 'alexander' ? 
-                'You have conquered the Persian Empire! History remembers Alexander the Great!' :
-                'France is saved! Joan of Arc has fulfilled her divine mission!';
+            let victoryText = '';
+            
+            if (gameState.mode === 'alexander') {
+                victoryText = 'You have conquered the Persian Empire! History remembers Alexander the Great!';
+            } else if (gameState.mode === 'gun') {
+                victoryText = 'Victory! The forces of darkness have been vanquished!\n\n━━━━━━━━━━━━━━━━━\n\n"The God of peace will soon crush Satan under your feet. The grace of our Lord Jesus be with you."\n\n— Romans 16:20';
+            } else {
+                victoryText = 'France is saved! Joan of Arc has fulfilled her divine mission!';
+            }
+            
+            document.getElementById('victoryMessage').textContent = victoryText;
             document.getElementById('victoryScreen').classList.remove('hidden');
         }
 
@@ -2980,6 +3034,20 @@
             const sword = player.sword;
             const originalRotation = sword.rotation.z;
             
+            // Calculate swing direction based on player facing
+            const facingAngle = player.rotation.y;
+            const swingDirection = new THREE.Vector3(
+                Math.sin(facingAngle),
+                0,
+                Math.cos(facingAngle)
+            );
+            
+            // Create directional slash effect at sword tip
+            const slashPosition = player.position.clone();
+            slashPosition.add(swingDirection.clone().multiplyScalar(2));
+            slashPosition.y += 1.5;
+            createSlashEffect(slashPosition, swingDirection);
+            
             let swingProgress = 0;
             function animateSwing() {
                 swingProgress += 0.15;
@@ -2996,25 +3064,34 @@
             let hitSomething = false;
             gameState.enemies.forEach(function(enemy) {
                 const distance = player.position.distanceTo(enemy.position);
+                
+                // Check if enemy is in front of player (cone detection)
                 if (distance < 5) {
-                    const damage = enemy.isLeader ? 15 : 25;
-                    enemy.health -= damage;
-                    hitSomething = true;
-                    
-                    // Play hit sound
-                    playHitSound();
-                    
-                    // Create slash effect
-                    createSlashEffect(enemy.position, new THREE.Vector3());
-                    
-                    // Knockback
-                    const direction = new THREE.Vector3()
+                    const toEnemy = new THREE.Vector3()
                         .subVectors(enemy.position, player.position)
                         .normalize();
-                    enemy.position.add(direction.multiplyScalar(3.5));
                     
-                    if (enemy.health <= 0) {
-                        killEnemy(enemy);
+                    // Calculate dot product to see if enemy is in front
+                    const dotProduct = swingDirection.dot(toEnemy);
+                    
+                    // Only hit if enemy is roughly in front (dot > 0.3 means within ~70 degree cone)
+                    if (dotProduct > 0.3) {
+                        const damage = enemy.isLeader ? 15 : 25;
+                        enemy.health -= damage;
+                        hitSomething = true;
+                        
+                        // Play hit sound
+                        playHitSound();
+                        
+                        // Create slash effect at enemy
+                        createSlashEffect(enemy.position, swingDirection);
+                        
+                        // Knockback in facing direction
+                        enemy.position.add(swingDirection.clone().multiplyScalar(3.5));
+                        
+                        if (enemy.health <= 0) {
+                            killEnemy(enemy);
+                        }
                     }
                 }
             });
